@@ -1,1 +1,2 @@
-Contains files for the web app.
+# source
+Contains the Angular and Firebase infrastructure for the Web Application.
