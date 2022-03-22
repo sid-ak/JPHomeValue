@@ -9,7 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NeighborhoodFilterComponent } from './neighborhood-dashboard/neighborhood-filter/neighborhood-filter.component';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
+import { MatInputModule } from '@angular/material/input';
+import { AddressFilterComponent } from './address-dashboard/address-filter/address-filter.component'
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MatInputModule } from '@angular/material/input'
     NeighborhoodDashboardComponent,
     AddressDashboardComponent,
     NeighborhoodFilterComponent,
+    AddressFilterComponent,
   ],
   imports: [
     BrowserModule,
