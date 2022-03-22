@@ -5,6 +5,10 @@ import { NeighborhoodDashboardComponent } from './neighborhood-dashboard/neighbo
 
 const routes: Routes = [
   {
+    path: "",
+    component: NeighborhoodDashboardComponent
+  },
+  {
     path: "neighborhood-dashboard",
     pathMatch: "full",
     component: NeighborhoodDashboardComponent
