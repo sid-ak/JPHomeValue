@@ -3,22 +3,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NeighborhoodDashboardComponent } from './neighborhood-dashboard/neighborhood-dashboard.component';
-import { AddressDashboardComponent } from './address-dashboard/address-dashboard.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NeighborhoodFilterComponent } from './neighborhood-dashboard/neighborhood-filter/neighborhood-filter.component';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input';
-import { AddressFilterComponent } from './address-dashboard/address-filter/address-filter.component'
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ForecastModelComponent } from './forecast-model/forecast-model.component';
+import { NeighborhoodFilterComponent } from './neighborhood-filter/neighborhood-filter.component';
+import { AddressFilterComponent } from './address-filter/address-filter.component';
+import { FirebaseDbService } from './services/firebase-db.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NeighborhoodDashboardComponent,
-    AddressDashboardComponent,
+    DashboardComponent,
+    ForecastModelComponent,
     NeighborhoodFilterComponent,
-    AddressFilterComponent,
+    AddressFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +30,7 @@ import { AddressFilterComponent } from './address-dashboard/address-filter/addre
     MatSelectModule,
     MatInputModule
   ],
-  providers: [],
+  providers: [FirebaseDbService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
