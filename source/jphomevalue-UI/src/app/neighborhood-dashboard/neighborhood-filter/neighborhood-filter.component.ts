@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable, retry } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { NeighborhoodEnum } from '../../enums/neighborhood-enum';
 import { NeighborhoodFilterViewModel } from '../../view-models/neighborhood-filter-view-model';
 
@@ -17,8 +17,6 @@ export class NeighborhoodFilterComponent implements OnInit {
   @Output()
   public readonly neighborhoodFilterChanged$: Observable<NeighborhoodFilterViewModel> = this._neighborhoodFilterChanged$;
   
-  selectedTimeframe: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-
   neighborhoodFilter = new FormGroup({
     neighborhood: new FormControl(),
     timeframe: new FormControl(),
