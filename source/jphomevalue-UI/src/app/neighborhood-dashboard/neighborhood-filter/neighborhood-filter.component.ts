@@ -15,7 +15,7 @@ export class NeighborhoodFilterComponent implements OnInit {
 
   private readonly _neighborhoodFilterChanged$ = new EventEmitter<NeighborhoodFilterViewModel>();
   @Output()
-  public readonly neighborhoodFilterChanged$ = new Observable<NeighborhoodFilterViewModel>();
+  public readonly neighborhoodFilterChanged$: Observable<NeighborhoodFilterViewModel> = this._neighborhoodFilterChanged$;
   
   selectedTimeframe: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
