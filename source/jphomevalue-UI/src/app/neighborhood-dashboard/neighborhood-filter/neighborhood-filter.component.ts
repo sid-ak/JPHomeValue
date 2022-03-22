@@ -1,8 +1,8 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NeighborhoodEnum } from '../enums/neighborhood-enum';
-import { NeighborhoodFilterViewModel } from '../view-models/neighborhood-filter-view-model';
+import { NeighborhoodEnum } from '../../enums/neighborhood-enum';
+import { NeighborhoodFilterViewModel } from '../../view-models/neighborhood-filter-view-model';
 
 @Component({
   selector: 'app-neighborhood-filter',
@@ -46,8 +46,7 @@ export class NeighborhoodFilterComponent implements OnInit {
     this.neighborhoodVm.timeframe = neighborhoodFilter.get('timeframe')?.value ?? -1;
     this.neighborhoodVm.walkScore = neighborhoodFilter.get('walkScore')?.value ?? -1;
     this.neighborhoodVm.transitScore = neighborhoodFilter.get('transitScore')?.value ?? -1;
-    this.neighborhoodVm.bikeScore = neighborhoodFilter.get('bikeScore')?.value ?? -1;
-    
+    this.neighborhoodVm.bikeScore = neighborhoodFilter.get('bikeScore')?.value ?? -1;    
     return this.neighborhoodVm;
   }
 }

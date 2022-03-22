@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NeighborhoodDashboardComponent } from './neighborhood-dashboard/neighborhood-dashboard.component';
 import { AddressDashboardComponent } from './address-dashboard/address-dashboard.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NeighborhoodFilterComponent } from './neighborhood-filter/neighborhood-filter.component';
+import { NeighborhoodFilterComponent } from './neighborhood-dashboard/neighborhood-filter/neighborhood-filter.component';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input'

@@ -8,7 +8,7 @@
             <div id="neighborhood" class="col-6 my-auto">
                 <mat-form-field appearance="fill">
                     <mat-label>Neighborhood</mat-label>
-                        <mat-select formControlName="neighborhood" 
+                        <mat-select formControlName="neighborhood"
                             (ngModelChange)="onNeighborhoodFilterChanged()">
                             <mat-option value="Tampa">Tampa</mat-option>
                             <mat-option value="St.Petersburg">St. Petersburg</mat-option>
@@ -23,8 +23,7 @@
                     <div id="timeframe" class="col">
                         <mat-form-field appearance="fill">
                             <mat-label>Timeframe</mat-label>
-                                <mat-select formControlName="timeframe" 
-                                    (ngModelChange)="onNeighborhoodFilterChanged()">
+                                <mat-select formControlName="timeframe">
                                     <mat-option value="3">3 Months</mat-option>
                                     <mat-option value="6">6 Months</mat-option>
                                     <mat-option value="12">12 Months</mat-option>
@@ -35,26 +34,27 @@
                     <div id="walk-score" class="col">
                         <mat-form-field appearance="fill">
                             <mat-label>Walk Score</mat-label>
-                                <input type="number" matInput formControlName="walkScore" placeholder="0-100"
-                                (ngModelChange)="onNeighborhoodFilterChanged()">
+                                <input type="number" matInput formControlName="walkScore" placeholder="0-100">
                         </mat-form-field>
                     </div>
                     <!-- Transit Score -->
                     <div id="transit-score" class="col">
                         <mat-form-field appearance="fill">
                             <mat-label>Transit Score</mat-label>
-                                <input type="number" matInput formControlName="transitScore" placeholder="0-100"
-                                (ngModelChange)="onNeighborhoodFilterChanged()">
+                                <input type="number" matInput formControlName="transitScore" placeholder="0-100">
                         </mat-form-field>
                     </div>
                     <!-- Bike Score -->
                     <div id="timeframe" class="col">
                         <mat-form-field appearance="fill">
                             <mat-label>Bike Score</mat-label>
-                                <input type="number" matInput formControlName="bikeScore" placeholder="0-100"
-                                (ngModelChange)="onNeighborhoodFilterChanged()">
+                                <input type="number" matInput formControlName="bikeScore" placeholder="0-100">
                         </mat-form-field>
                     </div>
+                    <button type="button" class="btn btn-outline-dark btn-sm" 
+                        (click)="onNeighborhoodFilterChanged()">
+                        Filter
+                    </button>
                 </div>
             </div>
         </form>
