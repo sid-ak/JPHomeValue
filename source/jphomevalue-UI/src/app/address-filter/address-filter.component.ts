@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { AddressFilterViewModel } from '../../view-models/address-filter-view-model';
+import { AddressFilterViewModel } from '../view-models/address-filter-view-model';
 
 @Component({
   selector: 'app-address-filter',
@@ -29,7 +29,7 @@ export class AddressFilterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public onaddressFilterChanged(): void {
+  public onAddressFilterChanged(): void {
     this.addressVm = this.constructAddressVm(this.addressFilter);
     this._addressFilterChanged$.next(this.addressVm);
   }

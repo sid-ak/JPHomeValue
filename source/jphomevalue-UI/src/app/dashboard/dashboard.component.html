@@ -1,0 +1,10 @@
+<!-- Neighborhood Filter -->
+<app-neighborhood-filter *ngIf="isNeighborhoodDashboard$ | async; 
+    else addressFilter"></app-neighborhood-filter>
+<!-- Address Filter -->
+<ng-template #addressFilter>
+    <div id="address-filter shadow">
+        <app-address-filter></app-address-filter>
+    </div>
+</ng-template>
+<app-forecast-model></app-forecast-model>
