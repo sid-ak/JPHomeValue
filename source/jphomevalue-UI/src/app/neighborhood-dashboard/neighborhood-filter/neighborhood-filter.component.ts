@@ -32,7 +32,6 @@ export class NeighborhoodFilterComponent implements OnInit {
 
   public onNeighborhoodFilterChanged(): void {
     this.neighborhoodVm = this.constructNeighborhoodVm(this.neighborhoodFilter);
-    console.log(this.neighborhoodVm);
     this._neighborhoodFilterChanged$.next(this.neighborhoodVm);
   }
 

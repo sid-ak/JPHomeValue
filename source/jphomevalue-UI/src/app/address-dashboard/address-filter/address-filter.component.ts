@@ -31,7 +31,6 @@ export class AddressFilterComponent implements OnInit {
 
   public onaddressFilterChanged(): void {
     this.addressVm = this.constructAddressVm(this.addressFilter);
-    console.log(this.addressVm);
     this._addressFilterChanged$.next(this.addressVm);
   }
 
