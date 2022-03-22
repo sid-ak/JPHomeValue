@@ -2,11 +2,25 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .navbar-light .navbar-nav .nav-link {
+    padding: 1em;
     color: rgb(83, 44, 19);
+}
+
+.nav-item.nav-link:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.active {
+    font-weight: 500;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 #filter-row {
     #filter {
         text-align: center;
     }
+}
+
+.shadow {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
