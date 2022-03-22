@@ -1,22 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddressDashboardComponent } from './address-dashboard/address-dashboard.component';
-import { NeighborhoodDashboardComponent } from './neighborhood-dashboard/neighborhood-dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
     path: "",
-    component: NeighborhoodDashboardComponent
+    component: DashboardComponent
   },
   {
     path: "neighborhood-dashboard",
-    pathMatch: "full",
-    component: NeighborhoodDashboardComponent
+    component: DashboardComponent
   },
   {
     path: "address-dashboard",
-    pathMatch: "full",
-    component: AddressDashboardComponent
+    component: DashboardComponent
   },
 ];
 
