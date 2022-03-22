@@ -9,13 +9,17 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ForecastModelComponent } from './forecast-model/forecast-model.component';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { NeighborhoodFilterComponent } from './neighborhood-filter/neighborhood-filter.component';
+import { AddressFilterComponent } from './address-filter/address-filter.component';
+import { FirebaseDbService } from './services/firebase-db.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    ForecastModelComponent
+    ForecastModelComponent,
+    NeighborhoodFilterComponent,
+    AddressFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -24,10 +28,9 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule,
-    AngularFirestoreModule
+    MatInputModule
   ],
-  providers: [],
+  providers: [FirebaseDbService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
