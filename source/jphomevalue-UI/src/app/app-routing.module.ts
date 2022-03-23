@@ -6,10 +6,8 @@ import { MapResolver } from './resolvers/map-resolver';
 const routes: Routes = [
   {
     path: "",
-    component: DashboardComponent,
-    resolve: {
-      map: MapResolver
-    }
+    redirectTo: "/neighborhood-dashboard",
+    pathMatch: "full"
   },
   {
     path: "neighborhood-dashboard",
@@ -25,6 +23,10 @@ const routes: Routes = [
       map: MapResolver
     }
   },
+  {
+    path: "**",
+    redirectTo: "/neighborhood-dashboard",
+  }
 ];
 
 @NgModule({
