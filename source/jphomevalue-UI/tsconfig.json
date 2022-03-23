@@ -22,10 +22,6 @@
       "es2020",
       "dom"
     ],
-    "types": ["google.maps"],
-    "typeRoots": [
-      "node_modules/@types",
-    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
