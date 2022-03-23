@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ChartDataset, ChartOptions } from 'chart.js';
+import { Component } from '@angular/core';
+import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-forecast-model',
   templateUrl: './forecast-model.component.html',
   styleUrls: ['./forecast-model.component.scss']
 })
-export class ForecastModelComponent {
+export class ChartComponent {
   data = {
     datasets: [{
       label: 'My First Dataset',
