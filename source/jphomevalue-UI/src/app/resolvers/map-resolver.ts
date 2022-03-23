@@ -8,11 +8,9 @@ export class MapResolver {
   constructor() {}
 
   resolve() {
-    console.log("resolve()")
     // Please get your own API key for this here: https://developers.google.com/maps/documentation/javascript/get-api-key#console
     const googleMapsUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyClCtv5n_qk-u3ZdDUomolWQixIw0sxQ8E&callback"
     if (!document.querySelectorAll(`[src="${googleMapsUrl}"]`).length) { 
-      console.log("first condition")
       document.body.appendChild(Object.assign(
         document.createElement('script'), {
           type: 'text/javascript',
