@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import { Database, DatabaseReference, getDatabase, ref, get, child } from 'firebase/database';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseDbService {
+  test$ = new BehaviorSubject<boolean>(false);
   app: FirebaseApp;
   database: Database;
   databaseReference: DatabaseReference;
