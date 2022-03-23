@@ -38,11 +38,61 @@ h2 {
     width: 800px;
 }
 
-#forecast-model {
+#chart {
     height: 350px !important; 
-    width: 750px !important;
+    width: 650px !important;
 }
 
 #additional-details > table {
     width: 75%;
 }
+
+@media (max-width: 1660px) {
+    #map {
+        height: 500px;
+        width: 600px;
+    }
+    
+    #chart {
+        height: 350px !important; 
+        width: 550px !important;
+    }
+}
+
+@media (max-width: 1342px) {
+    #map {
+        height: 500px;
+        width: 500px;
+    }
+    
+    #chart {
+        height: 350px !important; 
+        width: 550px !important;
+    }
+}
+
+@media (max-width: 1162px) {
+    #map {
+        height: 500px;
+        width: 450px;
+    }
+    
+    #chart {
+        height: 250px !important; 
+        width: 450px !important;
+    }
+}
+
+@media (max-width: 992px) {
+    #map {
+        height: 500px;
+        width: 800px;
+    }
+    
+    #chart {
+        margin-top: 10px !important;
+        height: inherit !important; 
+        width: inherit !important;
+    }
+}
+
