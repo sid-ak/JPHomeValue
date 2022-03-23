@@ -3,11 +3,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "skipLibCheck": true,
-    "outDir": "./out-tsc/app",
-    "types": ["google.maps"],
-    "typeRoots": [
-      "node_modules/@types",
-  ]
+    "outDir": "./out-tsc/app"
   },
   "files": [
     "src/main.ts",

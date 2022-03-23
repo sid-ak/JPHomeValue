@@ -1,8 +1,8 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { NeighborhoodEnum } from '../enums/neighborhood-enum';
-import { NeighborhoodFilterViewModel } from '../view-models/neighborhood-filter-view-model';
+import { NeighborhoodEnum } from '../../enums/neighborhood-enum';
+import { NeighborhoodFilterViewModel } from '../../view-models/neighborhood-filter-view-model';
 
 @Component({
   selector: 'app-neighborhood-filter',

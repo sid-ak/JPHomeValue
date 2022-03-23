@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MapResolver } from './resolvers/map-resolver';
 
 const routes: Routes = [
   {
     path: "",
-    component: DashboardComponent,
-    resolve: {
-      map: MapResolver
-    }
+    redirectTo: "/neighborhood-dashboard",
+    pathMatch: "full"
   },
   {
     path: "neighborhood-dashboard",
@@ -25,6 +23,10 @@ const routes: Routes = [
       map: MapResolver
     }
   },
+  {
+    path: "**",
+    redirectTo: "/neighborhood-dashboard",
+  }
 ];
 
 @NgModule({
