@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, noop, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, noop, shareReplay, Subject, take, takeUntil } from 'rxjs';
+import { MapService } from '../services/map.service';
 
 @Component({
   selector: 'app-dashboard',
