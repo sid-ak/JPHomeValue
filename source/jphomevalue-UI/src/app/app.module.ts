@@ -7,13 +7,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ForecastModelComponent } from './forecast-model/forecast-model.component';
-import { NeighborhoodFilterComponent } from './neighborhood-filter/neighborhood-filter.component';
-import { AddressFilterComponent } from './address-filter/address-filter.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ForecastModelComponent } from './components/forecast-model/forecast-model.component';
+import { NeighborhoodFilterComponent } from './components/neighborhood-filter/neighborhood-filter.component';
+import { AddressFilterComponent } from './components/address-filter/address-filter.component';
 import { FirebaseDbService } from './services/firebase-db.service';
 import { NgChartsModule } from 'ng2-charts';
-import { MapComponent } from './map/map.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
