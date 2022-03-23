@@ -1,6 +1,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+h2 {
+    color: rgb(83, 47, 25);
+}
+
 .navbar-light .navbar-nav .nav-link {
     padding: 1em;
     color: rgb(83, 44, 19);

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
-import { Auth, getAuth, signInAnonymously } from "firebase/auth";
 import { Database, DatabaseReference, getDatabase, ref, get, child } from 'firebase/database';
 import { environment } from 'src/environments/environment';
 

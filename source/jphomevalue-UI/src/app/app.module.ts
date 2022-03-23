@@ -12,6 +12,7 @@ import { ForecastModelComponent } from './forecast-model/forecast-model.componen
 import { NeighborhoodFilterComponent } from './neighborhood-filter/neighborhood-filter.component';
 import { AddressFilterComponent } from './address-filter/address-filter.component';
 import { FirebaseDbService } from './services/firebase-db.service';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { FirebaseDbService } from './services/firebase-db.service';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    NgChartsModule
   ],
   providers: [FirebaseDbService],
   bootstrap: [AppComponent]
