@@ -14,6 +14,7 @@ import { AddressFilterComponent } from './components/address-filter/address-filt
 import { FirebaseDbService } from './services/firebase-db.service';
 import { NgChartsModule } from 'ng2-charts';
 import { MapComponent } from './components/map/map.component';
+import { AdditionalDetailsComponent } from './components/additional-details/additional-details.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MapComponent } from './components/map/map.component';
     ForecastModelComponent,
     NeighborhoodFilterComponent,
     AddressFilterComponent,
-    MapComponent
+    MapComponent,
+    AdditionalDetailsComponent
   ],
   imports: [
     BrowserModule,

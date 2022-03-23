@@ -28,7 +28,7 @@ export class MapHelper {
   private static initializeMap(): void {
     let map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
       center: {lat: 27.964157, lng: -82.452606}, // Tampa, FL lat and lng.
-      zoom: 8,
+      zoom: 10,
       streetViewControl: false
     });
     console.log(map); // Do something with this.

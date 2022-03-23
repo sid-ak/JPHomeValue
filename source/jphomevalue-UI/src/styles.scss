@@ -14,15 +14,13 @@ h2 {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+#dashboard {
+    margin-left: 0px;
+}
+
 .active {
     font-weight: 500;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-}
-
-#filter-row {
-    #filter {
-        text-align: center;
-    }
 }
 
 .shadow {
@@ -37,5 +35,14 @@ h2 {
 
 #map {
     height: 500px;
-    width: 600px;
+    width: 800px;
+}
+
+#forecast-model {
+    height: 350px !important; 
+    width: 750px !important;
+}
+
+#additional-details > table {
+    width: 75%;
 }
