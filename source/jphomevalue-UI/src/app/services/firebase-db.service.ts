@@ -28,7 +28,7 @@ export class FirebaseDbService {
     * @param shillerId 
     */
    public getShillerIndex(shillerId: number): void {
-    get(child(this.databaseReference, `/${shillerId}`)).then((snapshot) => {
+    get(child(this.databaseReference, `/tampaShiller/${shillerId}`)).then((snapshot) => {
       if (snapshot.exists()) {
         console.log(snapshot.val());
       } else {
