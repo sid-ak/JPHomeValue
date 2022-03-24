@@ -16,6 +16,7 @@ import { MapComponent } from './components/map/map.component';
 import { AdditionalDetailsComponent } from './components/additional-details/additional-details.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgChartsModule } from 'ng2-charts';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { NgChartsModule } from 'ng2-charts';
     MatSelectModule,
     MatInputModule,
     HttpClientModule,
-    NgChartsModule
+    NgChartsModule,
+    HighchartsChartModule
   ],
   providers: [FirebaseDbService],
   bootstrap: [AppComponent]
