@@ -6,4 +6,9 @@ export class Constants {
     static readonly getTampaThreeMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/TampaThreeMonths/shiller.json?print=pretty`;
     static readonly getTampaSixMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/TampaSixMonths/shiller.json?print=pretty`;
     static readonly getTampaTwelveMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/TampaTwelveMonths/shiller.json?print=pretty`;
+
+    //St. Pete
+    static readonly getStPeteThreeMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/StPeteThreeMonths/shiller.json?print=pretty`;
+    static readonly getStPeteSixMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/StPeteSixMonths/shiller.json?print=pretty`;
+    static readonly getStPeteTwelveMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/StPeteTwelveMonths/shiller.json?print=pretty`;
 }

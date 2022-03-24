@@ -7,6 +7,7 @@ import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Shiller } from '../common/shiller';
 import { Constants } from '../constants';
+import { NeighborhoodEnum } from '../enums/neighborhood-enum';
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +27,12 @@ export class FirebaseDbService {
     this.databaseReference = ref(getDatabase(this.app));
    }
   
-   // Tampa
-
+  // Tampa
   getTampaThreeMonths(): Observable<Shiller> {
     return this.http.get(
       Constants.getTampaThreeMonthsUrl).pipe(
-        map(e => new Shiller(e as any)));
+        map(e => new Shiller(e as any, NeighborhoodEnum.Tampa)));
    }
-
    async getTampaThreeMonthsAsync(): Promise<Shiller> {
      return firstValueFrom(this.getTampaThreeMonths());
   }
@@ -41,9 +40,8 @@ export class FirebaseDbService {
   getTampaSixMonths(): Observable<Shiller> {
     return this.http.get(
       Constants.getTampaSixMonthsUrl).pipe(
-        map(e => new Shiller(e as any)));
+        map(e => new Shiller(e as any, NeighborhoodEnum.Tampa)));
    }
-
    async getTampaSixMonthsAsync(): Promise<Shiller> {
      return firstValueFrom(this.getTampaSixMonths());
   }
@@ -51,10 +49,37 @@ export class FirebaseDbService {
   getTampaTwelveMonths(): Observable<Shiller> {
     return this.http.get(
       Constants.getTampaTwelveMonthsUrl).pipe(
-        map(e => new Shiller(e as any)));
+        map(e => new Shiller(e as any, NeighborhoodEnum.Tampa)));
    }
-
    async getTampaTwelveMonthsAsync(): Promise<Shiller> {
      return firstValueFrom(this.getTampaTwelveMonths());
   }
+
+    // StPete
+    getStPeteThreeMonths(): Observable<Shiller> {
+      return this.http.get(
+        Constants.getStPeteThreeMonthsUrl).pipe(
+          map(e => new Shiller(e as any, NeighborhoodEnum.StPetersburg)));
+     }
+     async getStPeteThreeMonthsAsync(): Promise<Shiller> {
+       return firstValueFrom(this.getStPeteThreeMonths());
+    }
+  
+    getStPeteSixMonths(): Observable<Shiller> {
+      return this.http.get(
+        Constants.getStPeteSixMonthsUrl).pipe(
+          map(e => new Shiller(e as any, NeighborhoodEnum.StPetersburg)));
+     }
+     async getStPeteSixMonthsAsync(): Promise<Shiller> {
+       return firstValueFrom(this.getStPeteSixMonths());
+    }
+  
+    getStPeteTwelveMonths(): Observable<Shiller> {
+      return this.http.get(
+        Constants.getStPeteTwelveMonthsUrl).pipe(
+          map(e => new Shiller(e as any, NeighborhoodEnum.StPetersburg)));
+     }
+     async getStPeteTwelveMonthsAsync(): Promise<Shiller> {
+       return firstValueFrom(this.getStPeteTwelveMonths());
+    }
 }

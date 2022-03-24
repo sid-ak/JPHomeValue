@@ -1,6 +1,6 @@
 export enum NeighborhoodEnum {
     None = "None",
     Tampa = "Tampa",
-    StPetersburg = "StPetersburg",
+    StPetersburg = "St Petersburg",
     Clearwater = "Clearwater"
 }

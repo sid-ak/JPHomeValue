@@ -17,7 +17,7 @@ export class NeighborhoodFilterViewModel {
      */
     constructor() {
         this.neighborhood = NeighborhoodEnum.None;
-        this.timeframe = -1;
+        this.timeframe = 0;
         this.walkScore = -1;
         this.transitScore = -1;
         this.bikeScore = -1;

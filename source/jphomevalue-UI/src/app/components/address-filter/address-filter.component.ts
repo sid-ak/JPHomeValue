@@ -35,7 +35,7 @@ export class AddressFilterComponent implements OnInit {
   }
 
   private constructAddressVm(neighborhoodFilter: FormGroup): AddressFilterViewModel {
-    if (neighborhoodFilter === (null || undefined)) return new AddressFilterViewModel();
+  if (neighborhoodFilter === (null || undefined)) return new AddressFilterViewModel();
     
     this.addressVm.address = neighborhoodFilter.get('address')?.value ?? "";
     this.addressVm.timeframe = neighborhoodFilter.get('timeframe')?.value ?? -1;

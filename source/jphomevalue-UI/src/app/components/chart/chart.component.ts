@@ -12,15 +12,17 @@ import { NeighborhoodEnum } from 'src/app/enums/neighborhood-enum';
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit {
-  tampaShiller: Shiller = new Shiller(null);
-  
+
+  tampaShiller: Shiller = new Shiller(null, NeighborhoodEnum.None);
+  public neighborhoodVm = new NeighborhoodFilterViewModel();
+
   public Highcharts: typeof Highcharts = Highcharts;
   chartOptions!: Highcharts.Options;
-  
+
   constructor (
     private readonly dbService: FirebaseDbService,
     private readonly chartService: ChartService) { }
-  
+
   async ngOnInit(): Promise<void> {
     this.chartService.neighborhoodChanged$.subscribe(
       e => this.getChartData(e as NeighborhoodFilterViewModel)
@@ -29,30 +31,51 @@ export class ChartComponent implements OnInit {
 
   private async getChartData(
     neighborhoodVm: NeighborhoodFilterViewModel): Promise<void> {
+      this.neighborhoodVm = neighborhoodVm;
       switch (neighborhoodVm.neighborhood) {
         // Tampa
         case NeighborhoodEnum.Tampa:
           if (neighborhoodVm.timeframe == 3) {
             await this.dbService.getTampaThreeMonthsAsync()
-            .then(e => this.createChartOptions(e.indices));
+            .then(e => this.createChartOptions([e.dates, e.indices]));
           }
           if (neighborhoodVm.timeframe == 6) {
             await this.dbService.getTampaSixMonthsAsync()
-            .then(e => this.createChartOptions(e.indices));
+            .then(e => this.createChartOptions([e.dates, e.indices]));
           }
           if (neighborhoodVm.timeframe == 12) {
             await this.dbService.getTampaTwelveMonthsAsync()
-            .then(e => this.createChartOptions(e.indices));
+            .then(e => this.createChartOptions([e.dates, e.indices]));
           }
           else {
-            console.log('Did not match timeframe')
+            console.log("Did not match timeframe")
+          }
+        break;
+
+        // St. Pete
+        case NeighborhoodEnum.StPetersburg:
+          if (neighborhoodVm.timeframe == 3) {
+            await this.dbService.getStPeteThreeMonthsAsync()
+            .then(e => this.createChartOptions([e.dates, e.indices]));
+          }
+          if (neighborhoodVm.timeframe == 6) {
+            await this.dbService.getStPeteSixMonthsAsync()
+            .then(e => this.createChartOptions([e.dates, e.indices]));
+          }
+          if (neighborhoodVm.timeframe == 12) {
+            await this.dbService.getStPeteTwelveMonthsAsync()
+            .then(e => this.createChartOptions([e.dates, e.indices]));
+          }
+          else {
+            console.log("Did not match timeframe")
           }
         break;
         default: console.log("Did not match enum")
       }
   }
 
-  private createChartOptions(data: number[]) {  
+  private createChartOptions(data: [string[], number[]]) {
+    console.log(data);
     this.chartOptions = {
       title: {
         text: ""
@@ -62,8 +85,11 @@ export class ChartComponent implements OnInit {
       },
       series: [{
         type: "line",
-        data: data
-      }]
+        data: data[1]
+      }],
+      xAxis: {
+        visible: false
+      },
     };
   }
 }

@@ -36,7 +36,7 @@ export class NeighborhoodFilterComponent implements OnInit {
     
     this.neighborhoodVm.neighborhood = this.getNeighborhoodEnum(neighborhoodFilter.get('neighborhood')?.value)
       ?? NeighborhoodEnum.None;
-    this.neighborhoodVm.timeframe = neighborhoodFilter.get('timeframe')?.value as number ?? -1;
+    this.neighborhoodVm.timeframe = neighborhoodFilter.get('timeframe')?.value as number ?? 0;
     this.neighborhoodVm.walkScore = neighborhoodFilter.get('walkScore')?.value as number ?? -1;
     this.neighborhoodVm.transitScore = neighborhoodFilter.get('transitScore')?.value as number ?? -1;
     this.neighborhoodVm.bikeScore = neighborhoodFilter.get('bikeScore')?.value as number ?? -1;
