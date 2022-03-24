@@ -70,12 +70,30 @@ export class ChartComponent implements OnInit {
             console.log("Did not match timeframe")
           }
         break;
+
+        // Clearwater 
+        case NeighborhoodEnum.Clearwater:
+          if (neighborhoodVm.timeframe == 3) {
+            await this.dbService.getClearwaterThreeMonthsAsync()
+            .then(e => this.createChartOptions([e.dates, e.indices]));
+          }
+          if (neighborhoodVm.timeframe == 6) {
+            await this.dbService.getClearwaterSixMonthsAsync()
+            .then(e => this.createChartOptions([e.dates, e.indices]));
+          }
+          if (neighborhoodVm.timeframe == 12) {
+            await this.dbService.getClearwaterTwelveMonthsAsync()
+            .then(e => this.createChartOptions([e.dates, e.indices]));
+          }
+          else {
+            console.log("Did not match timeframe")
+          }
+        break;
         default: console.log("Did not match enum")
       }
   }
 
   private createChartOptions(data: [string[], number[]]) {
-    console.log(data);
     this.chartOptions = {
       title: {
         text: ""
@@ -88,7 +106,7 @@ export class ChartComponent implements OnInit {
         data: data[1]
       }],
       xAxis: {
-        visible: false
+        visible: false // Hidden until I can figure out adding dates to the x axis.
       },
     };
   }

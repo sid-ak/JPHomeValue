@@ -12,6 +12,7 @@ import { NeighborhoodEnum } from '../enums/neighborhood-enum';
 @Injectable({
   providedIn: 'root'
 })
+// TODO: Must refactor this class once data is more structured.
 export class FirebaseDbService {
   test$ = new BehaviorSubject<boolean>(false);
   app: FirebaseApp;
@@ -81,5 +82,33 @@ export class FirebaseDbService {
      }
      async getStPeteTwelveMonthsAsync(): Promise<Shiller> {
        return firstValueFrom(this.getStPeteTwelveMonths());
+    }
+
+    // Clearwater
+    getClearwaterThreeMonths(): Observable<Shiller> {
+      return this.http.get(
+        Constants.getClearwaterThreeMonthsUrl).pipe(
+          map(e => new Shiller(e as any, NeighborhoodEnum.Clearwater)));
+      }
+      async getClearwaterThreeMonthsAsync(): Promise<Shiller> {
+        return firstValueFrom(this.getClearwaterThreeMonths());
+    }
+  
+    getClearwaterSixMonths(): Observable<Shiller> {
+      return this.http.get(
+        Constants.getClearwaterSixMonthsUrl).pipe(
+          map(e => new Shiller(e as any, NeighborhoodEnum.Clearwater)));
+      }
+      async getClearwaterSixMonthsAsync(): Promise<Shiller> {
+        return firstValueFrom(this.getClearwaterSixMonths());
+    }
+  
+    getClearwaterTwelveMonths(): Observable<Shiller> {
+      return this.http.get(
+        Constants.getClearwaterTwelveMonthsUrl).pipe(
+          map(e => new Shiller(e as any, NeighborhoodEnum.Clearwater)));
+      }
+      async getClearwaterTwelveMonthsAsync(): Promise<Shiller> {
+        return firstValueFrom(this.getClearwaterTwelveMonths());
     }
 }

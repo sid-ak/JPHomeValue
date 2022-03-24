@@ -7,8 +7,13 @@ export class Constants {
     static readonly getTampaSixMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/TampaSixMonths/shiller.json?print=pretty`;
     static readonly getTampaTwelveMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/TampaTwelveMonths/shiller.json?print=pretty`;
 
-    //St. Pete
+    // St. Pete
     static readonly getStPeteThreeMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/StPeteThreeMonths/shiller.json?print=pretty`;
     static readonly getStPeteSixMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/StPeteSixMonths/shiller.json?print=pretty`;
     static readonly getStPeteTwelveMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/StPeteTwelveMonths/shiller.json?print=pretty`;
+
+    // Clearwater
+    static readonly getClearwaterThreeMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/ClearwaterThreeMonths/shiller.json?print=pretty`;
+    static readonly getClearwaterSixMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/ClearwaterSixMonths/shiller.json?print=pretty`;
+    static readonly getClearwaterTwelveMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/ClearwaterTwelveMonths/shiller.json?print=pretty`;
 }
