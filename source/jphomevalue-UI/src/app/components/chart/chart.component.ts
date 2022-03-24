@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartOptions } from 'chart.js';
+import { TampaShillerIndex } from 'src/app/collections/tampa-shiller-index';
 import { FirebaseDbService } from 'src/app/services/firebase-db.service';
 
 @Component({
@@ -8,6 +9,7 @@ import { FirebaseDbService } from 'src/app/services/firebase-db.service';
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit {
+  tampaShiller: TampaShillerIndex = new TampaShillerIndex(null);
 
   // Chart data.
   readonly data = {
@@ -24,7 +26,8 @@ export class ChartComponent implements OnInit {
 
   constructor (private readonly dbService: FirebaseDbService) {}
   
-  ngOnInit(): void {
-    this.dbService.getShillerIndex(0)
+  async ngOnInit(): Promise<void> {
+    this.tampaShiller = await this.dbService.getTampaShillerIndexAsync();
+    console.log(this.tampaShiller.indices)
   }
 }

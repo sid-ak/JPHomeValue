@@ -15,6 +15,8 @@ import { FirebaseDbService } from './services/firebase-db.service';
 import { NgChartsModule } from 'ng2-charts';
 import { MapComponent } from './components/map/map.component';
 import { AdditionalDetailsComponent } from './components/additional-details/additional-details.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { AdditionalDetailsComponent } from './components/additional-details/addi
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    NgChartsModule
+    NgChartsModule,
+    HttpClientModule
   ],
   providers: [FirebaseDbService],
   bootstrap: [AppComponent]
