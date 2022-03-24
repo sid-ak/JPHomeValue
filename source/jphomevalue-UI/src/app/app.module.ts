@@ -12,11 +12,10 @@ import { ChartComponent } from './components/chart/chart.component';
 import { NeighborhoodFilterComponent } from './components/neighborhood-filter/neighborhood-filter.component';
 import { AddressFilterComponent } from './components/address-filter/address-filter.component';
 import { FirebaseDbService } from './services/firebase-db.service';
-import { NgChartsModule } from 'ng2-charts';
 import { MapComponent } from './components/map/map.component';
 import { AdditionalDetailsComponent } from './components/additional-details/additional-details.component';
 import { HttpClientModule } from '@angular/common/http';
-
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -36,8 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    NgChartsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgChartsModule
   ],
   providers: [FirebaseDbService],
   bootstrap: [AppComponent]

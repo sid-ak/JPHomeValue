@@ -7,6 +7,7 @@ export class TampaShillerIndex {
             this.dates = [];
             this.indices = [];
             console.log("Response was null or undefined.")
+            return;
         }
         // Map collection object to TampaShillerIndex.
         this.dates = response?.map(e => e.DATE as string) ?? [];
