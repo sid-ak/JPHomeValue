@@ -1,4 +1,4 @@
-export class TampaShillerIndex {
+export class Shiller {
     dates: string[];
     indices: number[];
 

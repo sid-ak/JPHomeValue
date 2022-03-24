@@ -5,7 +5,8 @@ import { Database, DatabaseReference, getDatabase, ref, get, child } from 'fireb
 import { map } from 'rxjs';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TampaShillerIndex } from '../collections/tampa-shiller-index';
+import { Shiller } from '../common/shiller';
+import { Constants } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -24,19 +25,36 @@ export class FirebaseDbService {
     this.database = getDatabase(this.app);
     this.databaseReference = ref(getDatabase(this.app));
    }
+  
+   // Tampa
 
-   getTampaShillerIndex(): Observable<TampaShillerIndex> {
+  getTampaThreeMonths(): Observable<Shiller> {
     return this.http.get(
-      'https://jphomevalue-default-rtdb.firebaseio.com/tampaShiller.json?print=pretty').pipe(
-        map(e => new TampaShillerIndex(e as any)));
+      Constants.getTampaThreeMonthsUrl).pipe(
+        map(e => new Shiller(e as any)));
    }
 
-   /**
-    * This method only logs data in the console and performs no other action currently.
-    * This is only to test the read access to the firebase real time DB.
-    * @param shillerId 
-    */
-   async getTampaShillerIndexAsync(): Promise<TampaShillerIndex> {
-     return firstValueFrom(this.getTampaShillerIndex());
+   async getTampaThreeMonthsAsync(): Promise<Shiller> {
+     return firstValueFrom(this.getTampaThreeMonths());
+  }
+
+  getTampaSixMonths(): Observable<Shiller> {
+    return this.http.get(
+      Constants.getTampaSixMonthsUrl).pipe(
+        map(e => new Shiller(e as any)));
+   }
+
+   async getTampaSixMonthsAsync(): Promise<Shiller> {
+     return firstValueFrom(this.getTampaSixMonths());
+  }
+
+  getTampaTwelveMonths(): Observable<Shiller> {
+    return this.http.get(
+      Constants.getTampaTwelveMonthsUrl).pipe(
+        map(e => new Shiller(e as any)));
+   }
+
+   async getTampaTwelveMonthsAsync(): Promise<Shiller> {
+     return firstValueFrom(this.getTampaTwelveMonths());
   }
 }

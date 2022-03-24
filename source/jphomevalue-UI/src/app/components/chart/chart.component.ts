@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-// import { Chart, ChartOptions, Point } from 'chart.js';
-import { TampaShillerIndex } from 'src/app/collections/tampa-shiller-index';
+import { Component, OnInit } from '@angular/core';
+import { Shiller } from 'src/app/common/shiller';
 import { FirebaseDbService } from 'src/app/services/firebase-db.service';
 import * as Highcharts from 'highcharts';
+import { ChartService } from 'src/app/services/chart-service';
+import { NeighborhoodFilterViewModel } from 'src/app/view-models/neighborhood-filter-view-model';
+import { NeighborhoodEnum } from 'src/app/enums/neighborhood-enum';
 
 @Component({
   selector: 'app-chart',
@@ -10,23 +12,47 @@ import * as Highcharts from 'highcharts';
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit {
-  tampaShiller: TampaShillerIndex = new TampaShillerIndex(null);
+  tampaShiller: Shiller = new Shiller(null);
   
   public Highcharts: typeof Highcharts = Highcharts;
   chartOptions!: Highcharts.Options;
   
-  constructor (private readonly dbService: FirebaseDbService) { }
+  constructor (
+    private readonly dbService: FirebaseDbService,
+    private readonly chartService: ChartService) { }
   
   async ngOnInit(): Promise<void> {
-    await this.generateTampaShillerChart();
+    this.chartService.neighborhoodChanged$.subscribe(
+      e => this.getChartData(e as NeighborhoodFilterViewModel)
+    );
   }
 
-  private async generateTampaShillerChart(): Promise<void> {
-    await this.dbService.getTampaShillerIndexAsync()
-      .then(e => this.createChartOptions(e.indices));
+  private async getChartData(
+    neighborhoodVm: NeighborhoodFilterViewModel): Promise<void> {
+      switch (neighborhoodVm.neighborhood) {
+        // Tampa
+        case NeighborhoodEnum.Tampa:
+          if (neighborhoodVm.timeframe == 3) {
+            await this.dbService.getTampaThreeMonthsAsync()
+            .then(e => this.createChartOptions(e.indices));
+          }
+          if (neighborhoodVm.timeframe == 6) {
+            await this.dbService.getTampaSixMonthsAsync()
+            .then(e => this.createChartOptions(e.indices));
+          }
+          if (neighborhoodVm.timeframe == 12) {
+            await this.dbService.getTampaTwelveMonthsAsync()
+            .then(e => this.createChartOptions(e.indices));
+          }
+          else {
+            console.log('Did not match timeframe')
+          }
+        break;
+        default: console.log("Did not match enum")
+      }
   }
 
-  private createChartOptions(data: number[]) {
+  private createChartOptions(data: number[]) {  
     this.chartOptions = {
       title: {
         text: ""

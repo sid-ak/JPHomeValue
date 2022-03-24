@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { ChartService } from 'src/app/services/chart-service';
 import { NeighborhoodEnum } from '../../enums/neighborhood-enum';
 import { NeighborhoodFilterViewModel } from '../../view-models/neighborhood-filter-view-model';
 
@@ -12,10 +12,6 @@ import { NeighborhoodFilterViewModel } from '../../view-models/neighborhood-filt
 export class NeighborhoodFilterComponent implements OnInit {
   @Input()
   neighborhoodVm = new NeighborhoodFilterViewModel()
-
-  private readonly _neighborhoodFilterChanged$ = new EventEmitter<NeighborhoodFilterViewModel>();
-  @Output()
-  public readonly neighborhoodFilterChanged$: Observable<NeighborhoodFilterViewModel> = this._neighborhoodFilterChanged$;
   
   neighborhoodFilter = new FormGroup({
     neighborhood: new FormControl(),
@@ -25,14 +21,14 @@ export class NeighborhoodFilterComponent implements OnInit {
     bikeScore: new FormControl()
   })
 
-  constructor() { }
+  constructor(private readonly chartService: ChartService) { }
 
   ngOnInit(): void {
   }
 
   public onNeighborhoodFilterChanged(): void {
     this.neighborhoodVm = this.constructNeighborhoodVm(this.neighborhoodFilter);
-    this._neighborhoodFilterChanged$.next(this.neighborhoodVm);
+    this.chartService.neighborhoodChanged$.next(this.neighborhoodVm);
   }
 
   private constructNeighborhoodVm(neighborhoodFilter: FormGroup): NeighborhoodFilterViewModel {
@@ -40,10 +36,10 @@ export class NeighborhoodFilterComponent implements OnInit {
     
     this.neighborhoodVm.neighborhood = this.getNeighborhoodEnum(neighborhoodFilter.get('neighborhood')?.value)
       ?? NeighborhoodEnum.None;
-    this.neighborhoodVm.timeframe = neighborhoodFilter.get('timeframe')?.value ?? -1;
-    this.neighborhoodVm.walkScore = neighborhoodFilter.get('walkScore')?.value ?? -1;
-    this.neighborhoodVm.transitScore = neighborhoodFilter.get('transitScore')?.value ?? -1;
-    this.neighborhoodVm.bikeScore = neighborhoodFilter.get('bikeScore')?.value ?? -1;    
+    this.neighborhoodVm.timeframe = neighborhoodFilter.get('timeframe')?.value as number ?? -1;
+    this.neighborhoodVm.walkScore = neighborhoodFilter.get('walkScore')?.value as number ?? -1;
+    this.neighborhoodVm.transitScore = neighborhoodFilter.get('transitScore')?.value as number ?? -1;
+    this.neighborhoodVm.bikeScore = neighborhoodFilter.get('bikeScore')?.value as number ?? -1;
     return this.neighborhoodVm;
   }
 

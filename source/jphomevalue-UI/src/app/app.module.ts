@@ -16,6 +16,7 @@ import { MapComponent } from './components/map/map.component';
 import { AdditionalDetailsComponent } from './components/additional-details/additional-details.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { ChartService } from './services/chart-service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     HttpClientModule,
     HighchartsChartModule
   ],
-  providers: [FirebaseDbService],
+  providers: [FirebaseDbService, ChartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
