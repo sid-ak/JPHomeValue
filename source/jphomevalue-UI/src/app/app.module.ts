@@ -8,19 +8,21 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ForecastModelComponent } from './components/forecast-model/forecast-model.component';
+import { ChartComponent } from './components/chart/chart.component';
 import { NeighborhoodFilterComponent } from './components/neighborhood-filter/neighborhood-filter.component';
 import { AddressFilterComponent } from './components/address-filter/address-filter.component';
 import { FirebaseDbService } from './services/firebase-db.service';
-import { NgChartsModule } from 'ng2-charts';
 import { MapComponent } from './components/map/map.component';
 import { AdditionalDetailsComponent } from './components/additional-details/additional-details.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { ChartService } from './services/chart-service';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    ForecastModelComponent,
+    ChartComponent,
     NeighborhoodFilterComponent,
     AddressFilterComponent,
     MapComponent,
@@ -34,9 +36,10 @@ import { AdditionalDetailsComponent } from './components/additional-details/addi
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    NgChartsModule
+    HttpClientModule,
+    HighchartsChartModule
   ],
-  providers: [FirebaseDbService],
+  providers: [FirebaseDbService, ChartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

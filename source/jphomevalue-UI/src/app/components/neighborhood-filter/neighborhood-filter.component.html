@@ -21,7 +21,8 @@
                 <div id="timeframe" class="col">
                     <mat-form-field appearance="fill">
                         <mat-label>Timeframe</mat-label>
-                            <mat-select formControlName="timeframe">
+                            <mat-select formControlName="timeframe"
+                                (ngModelChange)="onNeighborhoodFilterChanged()">
                                 <mat-option value="3">3 Months</mat-option>
                                 <mat-option value="6">6 Months</mat-option>
                                 <mat-option value="12">12 Months</mat-option>
@@ -51,7 +52,10 @@
                 </div>
                 <div class="w-100"></div>
                 <div class="col-12">
-                    <button type="button filter-button" class="btn btn-outline-dark w-25" 
+                    <button
+                        disabled="true" 
+                        type="button filter-button" 
+                        class="btn btn-outline-dark w-25" 
                         (click)="onNeighborhoodFilterChanged()">
                         Filter
                     </button>
