@@ -11,7 +11,7 @@ export class Shiller {
             console.log("Response was null or undefined.")
             return;
         }
-        // Map collection object to TampaShillerIndex.
+        // Map index based on city.
         this.dates = response?.map(e => e.DATE as string) ?? [];
         switch (city) {
             case CityEnum.Tampa:
@@ -20,8 +20,9 @@ export class Shiller {
             case CityEnum.StPetersburg:
                 this.indices = response?.map(e => e.ATNHPIUS45300Q as number) ?? [];
             break;
+            // StPete and Clearwater identifiers are identical but leaving this case here.
             case CityEnum.Clearwater:
-                this.indices = response?.map(e => e.ATNHPIUS45300Q as number) ?? []; // StPete and Clearwater are identical.
+                this.indices = response?.map(e => e.ATNHPIUS45300Q as number) ?? [];
             break;
             case CityEnum.None:
                 this.indices = [];
