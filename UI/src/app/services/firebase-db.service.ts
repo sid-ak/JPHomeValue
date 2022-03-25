@@ -19,9 +19,6 @@ export class FirebaseDbService {
   database: Database;
   databaseReference: DatabaseReference;
 
-  /**
-   * WARNING: Authorization has not been implemented.
-   */
   constructor(private http: HttpClient) {
     this.app = initializeApp(environment.firebaseConfig);
     this.database = getDatabase(this.app);
