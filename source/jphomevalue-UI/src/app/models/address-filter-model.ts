@@ -1,7 +1,7 @@
 /**
  * AddressFIlter Object Model.
  */
-export class AddressFilterViewModel {
+export class AddressFilterModel {
     address: string;
     timeframe: number;
     walkScore: number;

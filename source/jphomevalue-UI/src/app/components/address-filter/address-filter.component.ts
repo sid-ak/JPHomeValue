@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { AddressFilterViewModel } from '../../view-models/address-filter-view-model';
+import { AddressFilterModel } from '../../models/address-filter-model';
 
 @Component({
   selector: 'app-address-filter',
@@ -10,11 +10,11 @@ import { AddressFilterViewModel } from '../../view-models/address-filter-view-mo
 })
 export class AddressFilterComponent implements OnInit {
   @Input()
-  addressVm = new AddressFilterViewModel()
+  addressVm = new AddressFilterModel()
 
-  private readonly _addressFilterChanged$ = new EventEmitter<AddressFilterViewModel>();
+  private readonly _addressFilterChanged$ = new EventEmitter<AddressFilterModel>();
   @Output()
-  public readonly addressFilterChanged$: Observable<AddressFilterViewModel> = this._addressFilterChanged$;
+  public readonly addressFilterChanged$: Observable<AddressFilterModel> = this._addressFilterChanged$;
   
   addressFilter = new FormGroup({
     address: new FormControl(),
@@ -34,8 +34,8 @@ export class AddressFilterComponent implements OnInit {
     this._addressFilterChanged$.next(this.addressVm);
   }
 
-  private constructAddressVm(cityFilter: FormGroup): AddressFilterViewModel {
-  if (cityFilter === (null || undefined)) return new AddressFilterViewModel();
+  private constructAddressVm(cityFilter: FormGroup): AddressFilterModel {
+  if (cityFilter === (null || undefined)) return new AddressFilterModel();
     
     this.addressVm.address = cityFilter.get('address')?.value ?? "";
     this.addressVm.timeframe = cityFilter.get('timeframe')?.value ?? -1;

@@ -3,7 +3,7 @@ import { CityEnum } from "../enums/city-enum";
 /**
  * CityFilter Object Model
  */
-export class CityFilterViewModel {
+export class CityFilterModel {
     city: CityEnum;
     timeframe: number;
     walkScore: number;

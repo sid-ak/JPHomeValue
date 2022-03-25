@@ -1,8 +1,9 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { CityHelper } from 'src/app/helpers/city-helper';
 import { ChartService } from 'src/app/services/chart-service';
 import { CityEnum } from '../../enums/city-enum';
-import { CityFilterViewModel } from '../../view-models/city-filter-view-model';
+import { CityFilterModel } from '../../models/city-filter-model';
 
 @Component({
   selector: 'app-city-filter',
@@ -11,7 +12,7 @@ import { CityFilterViewModel } from '../../view-models/city-filter-view-model';
 })
 export class CityFilterComponent implements OnInit {
   @Input()
-  cityVm = new CityFilterViewModel()
+  cityVm = new CityFilterModel()
   
   cityFilter = new FormGroup({
     city: new FormControl(),
@@ -31,24 +32,15 @@ export class CityFilterComponent implements OnInit {
     this.chartService.cityChanged$.next(this.cityVm);
   }
 
-  private constructCityVm(cityFilter: FormGroup): CityFilterViewModel {
-    if (cityFilter === (null || undefined)) return new CityFilterViewModel();
+  private constructCityVm(cityFilter: FormGroup): CityFilterModel {
+    if (cityFilter === (null || undefined)) return new CityFilterModel();
     
-    this.cityVm.city = this.getCityEnum(cityFilter.get('city')?.value)
+    this.cityVm.city = CityHelper.getCityEnum(cityFilter.get('city')?.value)
       ?? CityEnum.None;
     this.cityVm.timeframe = cityFilter.get('timeframe')?.value as number ?? 0;
     this.cityVm.walkScore = cityFilter.get('walkScore')?.value as number ?? -1;
     this.cityVm.transitScore = cityFilter.get('transitScore')?.value as number ?? -1;
     this.cityVm.bikeScore = cityFilter.get('bikeScore')?.value as number ?? -1;
     return this.cityVm;
-  }
-
-  private getCityEnum(city: string): CityEnum {
-    switch (city) {
-      case "Tampa": return CityEnum.Tampa;
-      case "StPetersburg": return CityEnum.StPetersburg;
-      case "Clearwater": return CityEnum.Clearwater;
-      default: return CityEnum.None;
-    }
   }
 }
