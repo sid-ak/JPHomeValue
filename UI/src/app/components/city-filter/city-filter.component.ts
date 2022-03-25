@@ -11,7 +11,6 @@ import { CityFilterModel } from '../../models/city-filter-model';
   styleUrls: ['./city-filter.component.scss']
 })
 export class CityFilterComponent implements OnInit {
-  @Input()
   cityVm = new CityFilterModel()
   
   cityFilter = new FormGroup({

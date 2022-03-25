@@ -1,10 +1,13 @@
 <h2>Seasonality Forecast</h2>
-  <h3 *ngIf="cityVm.timeframe !== 0 
-    && cityVm.city != 'None'; else select">
-    <strong>{{ cityVm.city }}</strong> in <strong>{{cityVm.timeframe}}</strong> Months</h3>
-  <ng-template #select>
-    <h3>Select a <strong>city</strong> and <strong>timeframe</strong> to view or update the forecast</h3>
-  </ng-template>
+
+<h3 *ngIf="cityVm.timeframe !== 0 
+  && cityVm.city != 'None'; else selectHeader">
+  <strong>{{ cityVm.city }}</strong> in <strong>{{cityVm.timeframe}}</strong> Months</h3>
+
+<ng-template #selectHeader>
+  <h3>Select a <strong>city</strong> and <strong>timeframe</strong> to view or update the forecast</h3>
+</ng-template>
+
 <highcharts-chart id="chart" 
   [Highcharts]="Highcharts"
   [options]="chartOptions"

@@ -8,7 +8,7 @@ import { BehaviorSubject, noop, takeUntil } from 'rxjs';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  private destroyed$ = new EventEmitter<boolean>();
+  private destroyed$ = new EventEmitter<void>();
 
   public isCityDashboard$ = new BehaviorSubject<boolean>(false)
   
@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.destroyed$.next(true);
+      this.destroyed$.next();
   }
 
   private checkNavigation(): void {
