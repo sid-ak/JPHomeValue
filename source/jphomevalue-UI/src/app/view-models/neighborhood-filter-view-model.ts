@@ -1,10 +1,10 @@
-import { NeighborhoodEnum } from "../enums/neighborhood-enum";
+import { CityEnum } from "../enums/city-enum";
 
 /**
  * The query structure for the backend.
  */
 export class NeighborhoodFilterViewModel {
-    neighborhood: NeighborhoodEnum;
+    neighborhood: CityEnum;
     timeframe: number;
     walkScore: number;
     transitScore: number;
@@ -16,7 +16,7 @@ export class NeighborhoodFilterViewModel {
      * walkScore, transitScore and bikeScore have range: 0-100.
      */
     constructor() {
-        this.neighborhood = NeighborhoodEnum.None;
+        this.neighborhood = CityEnum.None;
         this.timeframe = 0;
         this.walkScore = -1;
         this.transitScore = -1;

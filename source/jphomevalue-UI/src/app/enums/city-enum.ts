@@ -1,4 +1,4 @@
-export enum NeighborhoodEnum {
+export enum CityEnum {
     None = "None",
     Tampa = "Tampa",
     StPetersburg = "St Petersburg",

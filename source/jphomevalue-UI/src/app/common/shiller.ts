@@ -1,10 +1,10 @@
-import { NeighborhoodEnum } from "../enums/neighborhood-enum";
+import { CityEnum } from "../enums/city-enum";
 
 export class Shiller {
     dates: string[];
     indices: number[];
 
-    constructor(response: Array<any> | null, neighborhood: NeighborhoodEnum) {
+    constructor(response: Array<any> | null, neighborhood: CityEnum) {
         if (response === (null || undefined)) {
             this.dates = [];
             this.indices = [];
@@ -14,16 +14,16 @@ export class Shiller {
         // Map collection object to TampaShillerIndex.
         this.dates = response?.map(e => e.DATE as string) ?? [];
         switch (neighborhood) {
-            case NeighborhoodEnum.Tampa:
+            case CityEnum.Tampa:
                 this.indices = response?.map(e => e.TPXRSA as number) ?? [];
             break;
-            case NeighborhoodEnum.StPetersburg:
+            case CityEnum.StPetersburg:
                 this.indices = response?.map(e => e.ATNHPIUS45300Q as number) ?? [];
             break;
-            case NeighborhoodEnum.Clearwater:
+            case CityEnum.Clearwater:
                 this.indices = response?.map(e => e.ATNHPIUS45300Q as number) ?? []; // StPete and Clearwater are identical.
             break;
-            case NeighborhoodEnum.None:
+            case CityEnum.None:
                 this.indices = [];
             break;
             default: this.indices = [];

@@ -4,7 +4,7 @@ import { FirebaseDbService } from 'src/app/services/firebase-db.service';
 import * as Highcharts from 'highcharts';
 import { ChartService } from 'src/app/services/chart-service';
 import { NeighborhoodFilterViewModel } from 'src/app/view-models/neighborhood-filter-view-model';
-import { NeighborhoodEnum } from 'src/app/enums/neighborhood-enum';
+import { CityEnum } from 'src/app/enums/city-enum';
 
 @Component({
   selector: 'app-chart',
@@ -13,7 +13,7 @@ import { NeighborhoodEnum } from 'src/app/enums/neighborhood-enum';
 })
 export class ChartComponent implements OnInit {
 
-  tampaShiller: Shiller = new Shiller(null, NeighborhoodEnum.None);
+  tampaShiller: Shiller = new Shiller(null, CityEnum.None);
   public neighborhoodVm = new NeighborhoodFilterViewModel();
 
   public Highcharts: typeof Highcharts = Highcharts;
@@ -34,7 +34,7 @@ export class ChartComponent implements OnInit {
       this.neighborhoodVm = neighborhoodVm;
       switch (neighborhoodVm.neighborhood) {
         // Tampa
-        case NeighborhoodEnum.Tampa:
+        case CityEnum.Tampa:
           if (neighborhoodVm.timeframe == 3) {
             await this.dbService.getTampaThreeMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
@@ -53,7 +53,7 @@ export class ChartComponent implements OnInit {
         break;
 
         // St. Pete
-        case NeighborhoodEnum.StPetersburg:
+        case CityEnum.StPetersburg:
           if (neighborhoodVm.timeframe == 3) {
             await this.dbService.getStPeteThreeMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
@@ -72,7 +72,7 @@ export class ChartComponent implements OnInit {
         break;
 
         // Clearwater 
-        case NeighborhoodEnum.Clearwater:
+        case CityEnum.Clearwater:
           if (neighborhoodVm.timeframe == 3) {
             await this.dbService.getClearwaterThreeMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
