@@ -3,7 +3,7 @@ import { Shiller } from 'src/app/common/shiller';
 import { FirebaseDbService } from 'src/app/services/firebase-db.service';
 import * as Highcharts from 'highcharts';
 import { ChartService } from 'src/app/services/chart-service';
-import { NeighborhoodFilterViewModel } from 'src/app/view-models/neighborhood-filter-view-model';
+import { CityFilterViewModel } from 'src/app/view-models/city-filter-view-model';
 import { CityEnum } from 'src/app/enums/city-enum';
 
 @Component({
@@ -14,7 +14,7 @@ import { CityEnum } from 'src/app/enums/city-enum';
 export class ChartComponent implements OnInit {
 
   tampaShiller: Shiller = new Shiller(null, CityEnum.None);
-  public neighborhoodVm = new NeighborhoodFilterViewModel();
+  public cityVm = new CityFilterViewModel();
 
   public Highcharts: typeof Highcharts = Highcharts;
   chartOptions!: Highcharts.Options;
@@ -23,27 +23,27 @@ export class ChartComponent implements OnInit {
     private readonly dbService: FirebaseDbService,
     private readonly chartService: ChartService) { }
 
-  async ngOnInit(): Promise<void> {
-    this.chartService.neighborhoodChanged$.subscribe(
-      e => this.getChartData(e as NeighborhoodFilterViewModel)
+  ngOnInit(): void {
+    this.chartService.cityChanged$.subscribe(
+      async (e: any) => await this.getChartData(e as CityFilterViewModel)
     );
   }
 
   private async getChartData(
-    neighborhoodVm: NeighborhoodFilterViewModel): Promise<void> {
-      this.neighborhoodVm = neighborhoodVm;
-      switch (neighborhoodVm.neighborhood) {
+    cityVm: CityFilterViewModel): Promise<void> {
+      this.cityVm = cityVm;
+      switch (cityVm.city) {
         // Tampa
         case CityEnum.Tampa:
-          if (neighborhoodVm.timeframe == 3) {
+          if (cityVm.timeframe == 3) {
             await this.dbService.getTampaThreeMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
           }
-          if (neighborhoodVm.timeframe == 6) {
+          if (cityVm.timeframe == 6) {
             await this.dbService.getTampaSixMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
           }
-          if (neighborhoodVm.timeframe == 12) {
+          if (cityVm.timeframe == 12) {
             await this.dbService.getTampaTwelveMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
           }
@@ -54,15 +54,15 @@ export class ChartComponent implements OnInit {
 
         // St. Pete
         case CityEnum.StPetersburg:
-          if (neighborhoodVm.timeframe == 3) {
+          if (cityVm.timeframe == 3) {
             await this.dbService.getStPeteThreeMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
           }
-          if (neighborhoodVm.timeframe == 6) {
+          if (cityVm.timeframe == 6) {
             await this.dbService.getStPeteSixMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
           }
-          if (neighborhoodVm.timeframe == 12) {
+          if (cityVm.timeframe == 12) {
             await this.dbService.getStPeteTwelveMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
           }
@@ -73,15 +73,15 @@ export class ChartComponent implements OnInit {
 
         // Clearwater 
         case CityEnum.Clearwater:
-          if (neighborhoodVm.timeframe == 3) {
+          if (cityVm.timeframe == 3) {
             await this.dbService.getClearwaterThreeMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
           }
-          if (neighborhoodVm.timeframe == 6) {
+          if (cityVm.timeframe == 6) {
             await this.dbService.getClearwaterSixMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
           }
-          if (neighborhoodVm.timeframe == 12) {
+          if (cityVm.timeframe == 12) {
             await this.dbService.getClearwaterTwelveMonthsAsync()
             .then(e => this.createChartOptions([e.dates, e.indices]));
           }

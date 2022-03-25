@@ -4,7 +4,7 @@ export class Shiller {
     dates: string[];
     indices: number[];
 
-    constructor(response: Array<any> | null, neighborhood: CityEnum) {
+    constructor(response: Array<any> | null, city: CityEnum) {
         if (response === (null || undefined)) {
             this.dates = [];
             this.indices = [];
@@ -13,7 +13,7 @@ export class Shiller {
         }
         // Map collection object to TampaShillerIndex.
         this.dates = response?.map(e => e.DATE as string) ?? [];
-        switch (neighborhood) {
+        switch (city) {
             case CityEnum.Tampa:
                 this.indices = response?.map(e => e.TPXRSA as number) ?? [];
             break;

@@ -1,5 +1,5 @@
 /**
- * The query structure for the backend.
+ * AddressFIlter Object Model.
  */
 export class AddressFilterViewModel {
     address: string;

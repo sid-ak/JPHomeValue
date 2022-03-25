@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { NeighborhoodFilterViewModel } from "../view-models/neighborhood-filter-view-model";
+import { CityFilterViewModel } from "../view-models/city-filter-view-model";
 
 @Injectable({
     providedIn: 'root'
   })
   export class ChartService {
 
-      readonly neighborhoodChanged$ = new BehaviorSubject<
-        NeighborhoodFilterViewModel>(new NeighborhoodFilterViewModel());
+      readonly cityChanged$ = new BehaviorSubject<
+        CityFilterViewModel>(new CityFilterViewModel());
   }

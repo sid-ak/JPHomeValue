@@ -10,7 +10,7 @@ import { BehaviorSubject, noop, takeUntil } from 'rxjs';
 export class DashboardComponent implements OnInit, OnDestroy {
   private destroyed$ = new EventEmitter<boolean>();
 
-  public isNeighborhoodDashboard$ = new BehaviorSubject<boolean>(false)
+  public isCityDashboard$ = new BehaviorSubject<boolean>(false)
   
   constructor(private readonly router: Router) { }
 
@@ -23,16 +23,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private checkNavigation(): void {
-    this.isNeighborhoodDashboard(this.router.url);
+    this.isCityDashboard(this.router.url);
     this.router.events.pipe(takeUntil(this.destroyed$)).subscribe(
       e => e instanceof NavigationEnd
-        ? this.isNeighborhoodDashboard(e.url)
+        ? this.isCityDashboard(e.url)
         : noop()
     )
   }
 
-  public isNeighborhoodDashboard(url: string): void {
-    if (url == '/neighborhood-dashboard') this.isNeighborhoodDashboard$.next(true);
-    else this.isNeighborhoodDashboard$.next(false);
+  public isCityDashboard(url: string): void {
+    if (url == '/city-dashboard') this.isCityDashboard$.next(true);
+    else this.isCityDashboard$.next(false);
   }
 }

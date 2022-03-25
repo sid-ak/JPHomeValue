@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ChartComponent } from './components/chart/chart.component';
-import { NeighborhoodFilterComponent } from './components/neighborhood-filter/neighborhood-filter.component';
+import { CityFilterComponent } from './components/city-filter/city-filter.component';
 import { AddressFilterComponent } from './components/address-filter/address-filter.component';
 import { FirebaseDbService } from './services/firebase-db.service';
 import { MapComponent } from './components/map/map.component';
@@ -23,7 +23,7 @@ import { ChartService } from './services/chart-service';
     AppComponent,
     DashboardComponent,
     ChartComponent,
-    NeighborhoodFilterComponent,
+    CityFilterComponent,
     AddressFilterComponent,
     MapComponent,
     AdditionalDetailsComponent

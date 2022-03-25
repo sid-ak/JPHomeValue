@@ -34,14 +34,14 @@ export class AddressFilterComponent implements OnInit {
     this._addressFilterChanged$.next(this.addressVm);
   }
 
-  private constructAddressVm(neighborhoodFilter: FormGroup): AddressFilterViewModel {
-  if (neighborhoodFilter === (null || undefined)) return new AddressFilterViewModel();
+  private constructAddressVm(cityFilter: FormGroup): AddressFilterViewModel {
+  if (cityFilter === (null || undefined)) return new AddressFilterViewModel();
     
-    this.addressVm.address = neighborhoodFilter.get('address')?.value ?? "";
-    this.addressVm.timeframe = neighborhoodFilter.get('timeframe')?.value ?? -1;
-    this.addressVm.walkScore = neighborhoodFilter.get('walkScore')?.value ?? -1;
-    this.addressVm.transitScore = neighborhoodFilter.get('transitScore')?.value ?? -1;
-    this.addressVm.bikeScore = neighborhoodFilter.get('bikeScore')?.value ?? -1;    
+    this.addressVm.address = cityFilter.get('address')?.value ?? "";
+    this.addressVm.timeframe = cityFilter.get('timeframe')?.value ?? -1;
+    this.addressVm.walkScore = cityFilter.get('walkScore')?.value ?? -1;
+    this.addressVm.transitScore = cityFilter.get('transitScore')?.value ?? -1;
+    this.addressVm.bikeScore = cityFilter.get('bikeScore')?.value ?? -1;    
     return this.addressVm;
   }
 }

@@ -6,11 +6,11 @@ import { MapResolver } from './resolvers/map-resolver';
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "/neighborhood-dashboard",
+    redirectTo: "/city-dashboard",
     pathMatch: "full"
   },
   {
-    path: "neighborhood-dashboard",
+    path: "city-dashboard",
     component: DashboardComponent,
     resolve: {
       map: MapResolver
@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: "**",
-    redirectTo: "/neighborhood-dashboard",
+    redirectTo: "/city-dashboard",
   }
 ];
 
