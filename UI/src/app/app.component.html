@@ -1,0 +1,18 @@
+<div class="container-fluid">
+    <nav class="navbar my-2 py-2 navbar-expand-lg navbar-light">
+        <div class="navbar-nav mx-auto">
+            <a [routerLinkActive]="['active']"
+                class="nav-item nav-link mx-auto" 
+                routerLink="city-dashboard">
+                City
+            </a>
+            <h2 class="mx-5 my-auto">Home Value Prediction</h2>
+            <a [routerLinkActive]="['active']" 
+                class="nav-item nav-link mx-auto" 
+                routerLink="address-dashboard">
+                Address
+            </a>
+        </div>
+    </nav>
+    <div class="tab-content"><router-outlet></router-outlet></div>
+</div>

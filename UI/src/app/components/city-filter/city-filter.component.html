@@ -1,0 +1,66 @@
+<div class="container">
+    <!-- City Filter -->
+    <div id="filter-row">
+        <form [formGroup]="cityFilter" class="row p-1">
+            <div class="w-100"></div>
+            <div id="filter" class="row">
+                <h2 class="my-2">City</h2>
+                <!-- City Dropdown -->
+                <div id="city" class="col-12">
+                    <mat-form-field style="width: 75%;" appearance="fill">
+                        <mat-label>City</mat-label>
+                            <mat-select formControlName="city"
+                                (ngModelChange)="onCityFilterChanged()">
+                                <mat-option value="Tampa">Tampa</mat-option>
+                                <mat-option value="StPetersburg">St. Petersburg</mat-option>
+                                <mat-option value="Clearwater">Clearwater</mat-option>
+                            </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- Timeframe Dropdown -->
+                <div id="timeframe" class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Timeframe</mat-label>
+                            <mat-select formControlName="timeframe"
+                                (ngModelChange)="onCityFilterChanged()">
+                                <mat-option value="3">3 Months</mat-option>
+                                <mat-option value="6">6 Months</mat-option>
+                                <mat-option value="12">12 Months</mat-option>
+                            </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- Walk Score -->
+                <div id="walk-score" class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Walk Score</mat-label>
+                            <input type="number" matInput formControlName="walkScore" placeholder="0-100">
+                    </mat-form-field>
+                </div>
+                <!-- Transit Score -->
+                <div id="transit-score" class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Transit Score</mat-label>
+                            <input type="number" matInput formControlName="transitScore" placeholder="0-100">
+                    </mat-form-field>
+                </div>
+                <!-- Bike Score -->
+                <div id="timeframe" class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Bike Score</mat-label>
+                            <input type="number" matInput formControlName="bikeScore" placeholder="0-100">
+                    </mat-form-field>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-12">
+                    <button
+                        disabled="true" 
+                        type="button filter-button" 
+                        class="btn btn-outline-dark w-25" 
+                        (click)="onCityFilterChanged()">
+                        Filter
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
