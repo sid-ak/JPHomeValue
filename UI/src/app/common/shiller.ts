@@ -4,11 +4,11 @@ export class Shiller {
     dates: string[];
     indices: number[];
 
-    constructor(response: Array<any> | null, city: CityEnum) {
+    constructor(city: CityEnum, response: Array<any> | null = null) {
         if (response === (null || undefined)) {
             this.dates = [];
             this.indices = [];
-            console.log("Response was null or undefined.")
+            console.log("Shiller data was null or undefined.")
             return;
         }
         // Map index based on city.
