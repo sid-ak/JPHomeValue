@@ -5,7 +5,6 @@ import { ChartService } from 'src/app/services/chart-service';
 import { CityFilterModel } from 'src/app/models/city-filter-model';
 import { CityEnum } from 'src/app/enums/city-enum';
 import { takeUntil } from 'rxjs';
-import { Constants } from 'src/app/constants';
 
 @Component({
   selector: 'app-chart',
@@ -13,7 +12,7 @@ import { Constants } from 'src/app/constants';
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit, OnDestroy {
-  private destroyed$ = new EventEmitter<void>();
+  private readonly destroyed$ = new EventEmitter<void>();
 
   public cityVm = new CityFilterModel();
 
@@ -42,15 +41,15 @@ export class ChartComponent implements OnInit, OnDestroy {
         // Tampa
         case CityEnum.Tampa:
           if (cityVm.timeframe == 3) {
-            await this.dbService.getModelAsync(Constants.getTampaThreeMonthsUrl)
+            await this.dbService.getModelAsync(CityEnum.Tampa, 3)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 6) {
-            await this.dbService.getModelAsync(Constants.getTampaSixMonthsUrl)
+            await this.dbService.getModelAsync(CityEnum.Tampa, 6)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 12) {
-            await this.dbService.getModelAsync(Constants.getTampaTwelveMonthsUrl)
+            await this.dbService.getModelAsync(CityEnum.Tampa, 12)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           else {
@@ -61,15 +60,15 @@ export class ChartComponent implements OnInit, OnDestroy {
         // St. Pete
         case CityEnum.StPetersburg:
           if (cityVm.timeframe == 3) {
-            await this.dbService.getModelAsync(Constants.getStPeteThreeMonthsUrl)
+            await this.dbService.getModelAsync(CityEnum.StPetersburg, 3)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 6) {
-            await this.dbService.getModelAsync(Constants.getStPeteSixMonthsUrl)
+            await this.dbService.getModelAsync(CityEnum.StPetersburg, 6)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 12) {
-            await this.dbService.getModelAsync(Constants.getStPeteTwelveMonthsUrl)
+            await this.dbService.getModelAsync(CityEnum.StPetersburg, 12)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           else {
@@ -80,15 +79,15 @@ export class ChartComponent implements OnInit, OnDestroy {
         // Clearwater 
         case CityEnum.Clearwater:
           if (cityVm.timeframe == 3) {
-            await this.dbService.getModelAsync(Constants.getClearwaterThreeMonthsUrl)
+            await this.dbService.getModelAsync(CityEnum.Clearwater, 3)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 6) {
-            await this.dbService.getModelAsync(Constants.getClearwaterSixMonthsUrl)
+            await this.dbService.getModelAsync(CityEnum.Clearwater, 6)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 12) {
-            await this.dbService.getModelAsync(Constants.getClearwaterTwelveMonthsUrl)
+            await this.dbService.getModelAsync(CityEnum.Clearwater, 12)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           else {

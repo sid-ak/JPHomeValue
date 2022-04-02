@@ -1,8 +1,13 @@
 import { CityEnum } from "../enums/city-enum";
 
+/**
+ * The Shiller index.
+ * CSUSHPINSA: https://fred.stlouisfed.org/series/CSUSHPINSA
+ * TPXRSA: https://fred.stlouisfed.org/series/TPXRSA
+ */
 export class Shiller {
-    dates: string[];
-    indices: number[];
+    readonly dates: string[];
+    readonly indices: number[];
 
     constructor(city: CityEnum, response: Array<any> | null = null) {
         if (response === (null || undefined)) {

@@ -3,9 +3,9 @@ import { CityHelper } from "../helpers/city-helper";
 import { Shiller } from "./shiller";
 
 export class SeasonalityModel {
-    city: CityEnum;
-    shiller: Shiller;
-    timeframe: number;
+    readonly city: CityEnum;
+    readonly shiller: Shiller;
+    readonly timeframe: number;
 
     constructor(response: any | null) {
         if (response === (null || undefined)) {
