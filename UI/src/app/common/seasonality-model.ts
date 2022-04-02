@@ -7,16 +7,9 @@ export class SeasonalityModel {
     readonly shiller: Shiller;
     readonly timeframe: number;
 
-    constructor(response: any | null) {
-        if (response === (null || undefined)) {
-            this.city = CityEnum.None;
-            this.shiller = new Shiller(CityEnum.None);
-            this.timeframe = -1;
-            console.log("The requested model was null or undefined.")
-            return;
-        }
-        this.city = CityHelper.getCityEnum(response?.city as string) ?? CityEnum.None;
-        this.shiller = new Shiller(this.city, response?.shiller) ?? new Shiller(CityEnum.None);
+    constructor(response: any) {
+        this.city = CityHelper.getCityEnum(response?.city as string);
+        this.shiller = new Shiller(this.city, response?.shiller);
         this.timeframe = response?.timeframe ?? -1;
     }
 }

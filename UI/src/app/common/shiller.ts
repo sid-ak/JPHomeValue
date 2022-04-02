@@ -10,13 +10,6 @@ export class Shiller {
     readonly indices: number[];
 
     constructor(city: CityEnum, response: Array<any> | null = null) {
-        if (response === (null || undefined)) {
-            this.dates = [];
-            this.indices = [];
-            console.log("Shiller data was null or undefined.")
-            return;
-        }
-        // Map index based on city.
         this.dates = response?.map(e => e.DATE as string) ?? [];
         switch (city) {
             case CityEnum.Tampa:
