@@ -62,8 +62,3 @@ export class AddressInfo {
         this.bikeScore = zippedAddressItem[5]
     }
 }
-
-export interface AddressGroup {
-    readonly city: CityEnum;
-    readonly addresses: string[]
-}
