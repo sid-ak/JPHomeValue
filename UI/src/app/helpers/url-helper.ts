@@ -10,6 +10,9 @@ export class UrlHelper {
      * @param timeframe 
      * @returns 
      */
+
+    // TODO: There has to be a better way to get a tuple key match without converting
+    // to string on every instance.
     public static getModelUrl(city: CityEnum, timeframe: number): string {
         return new Map<string, string>([
             [[CityEnum.Tampa, 3].toString(), Constants.getTampaThreeMonthsUrl],

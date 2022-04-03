@@ -2,8 +2,8 @@ import { CityEnum } from "../enums/city-enum";
 import { CityHelper } from "../helpers/city-helper";
 
 export class AddressData {
-    readonly city: CityEnum;
-    readonly addressInfoLists: AddressInfoLists;
+    readonly city: CityEnum = CityEnum.None;
+    readonly addressInfoLists: AddressInfoLists = new AddressInfoLists();
 
     /**
      * Constructor that maps the address data from the DB.
@@ -29,15 +29,15 @@ export class AddressInfoLists {
      * @param response 
      * @returns 
      */
-    constructor(response: any) {
-        this.addresses = response?.map((e: { Address: string; }) => e.Address as string);
-        this.bikeScores = response?.map((e: { BikeScore: number; }) => e.BikeScore as number);
+    constructor(response: any = null) {
+        if (response === null) return;
         this.lats = response?.map((e: { Lat: number; }) => e.Lat as number);
         this.lngs = response?.map((e: { Lng: number; }) => e.Lng as number);
-        this.transitScores = response?.map((e: { TransitScore: number; }) => e.TransitScore as number);
+        this.addresses = response?.map((e: { Address: string; }) => e.Address as string);
         this.walkScores = response?.map((e: { WalkScore: number; }) => e.WalkScore as number);
+        this.transitScores = response?.map((e: { TransitScore: number; }) => e.TransitScore as number);
+        this.bikeScores = response?.map((e: { BikeScore: number; }) => e.BikeScore as number);
     }
-
 }
 
 export class AddressInfo {
@@ -50,6 +50,7 @@ export class AddressInfo {
 
     /**
      * Constructor that maps the address info from from its zipped lists.
+     * 
      * @param zippedAddressItem 
      */
     constructor (zippedAddressItem: any) {
@@ -60,4 +61,9 @@ export class AddressInfo {
         this.transitScore = zippedAddressItem[4],
         this.bikeScore = zippedAddressItem[5]
     }
+}
+
+export interface AddressGroup {
+    readonly city: CityEnum;
+    readonly addresses: string[]
 }

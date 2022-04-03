@@ -11,7 +11,7 @@ import { CityFilterModel } from '../../models/city-filter-model';
   styleUrls: ['./city-filter.component.scss']
 })
 export class CityFilterComponent implements OnInit {
-  cityVm = new CityFilterModel()
+  cityVm = new CityFilterModel();
   
   cityFilter = new FormGroup({
     city: new FormControl(),
@@ -19,7 +19,7 @@ export class CityFilterComponent implements OnInit {
     walkScore: new FormControl(),
     transitScore: new FormControl(),
     bikeScore: new FormControl()
-  })
+  });
 
   constructor(private readonly chartService: ChartService) { }
 
@@ -40,6 +40,7 @@ export class CityFilterComponent implements OnInit {
     this.cityVm.walkScore = cityFilter.get('walkScore')?.value as number ?? -1;
     this.cityVm.transitScore = cityFilter.get('transitScore')?.value as number ?? -1;
     this.cityVm.bikeScore = cityFilter.get('bikeScore')?.value as number ?? -1;
+    
     return this.cityVm;
   }
 }
