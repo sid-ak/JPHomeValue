@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CityHelper } from 'src/app/helpers/city-helper';
-import { ChartService } from 'src/app/services/chart-service';
+import { CityService } from 'src/app/services/city-service';
 import { CityEnum } from '../../enums/city-enum';
 import { CityFilterModel } from '../../models/city-filter-model';
 
@@ -21,14 +21,14 @@ export class CityFilterComponent implements OnInit {
     bikeScore: new FormControl()
   });
 
-  constructor(private readonly chartService: ChartService) { }
+  constructor(private readonly cityService: CityService) { }
 
   ngOnInit(): void {
   }
 
   public onCityFilterChanged(): void {
     this.cityVm = this.constructCityVm(this.cityFilter);
-    this.chartService.cityChanged$.next(this.cityVm);
+    this.cityService.cityChanged$.next(this.cityVm);
   }
 
   private constructCityVm(cityFilter: FormGroup): CityFilterModel {

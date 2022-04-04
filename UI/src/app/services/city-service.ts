@@ -5,7 +5,7 @@ import { CityFilterModel } from "../models/city-filter-model";
 @Injectable({
     providedIn: 'root'
 })
-export class ChartService {
+export class CityService {
 
     readonly cityChanged$ = new BehaviorSubject<CityFilterModel>(
       new CityFilterModel());

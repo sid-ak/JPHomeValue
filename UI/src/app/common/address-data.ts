@@ -31,6 +31,7 @@ export class AddressInfoLists {
      */
     constructor(response: any = null) {
         if (response === null) return;
+        
         this.lats = response?.map((e: { Lat: number; }) => e.Lat as number);
         this.lngs = response?.map((e: { Lng: number; }) => e.Lng as number);
         this.addresses = response?.map((e: { Address: string; }) => e.Address as string);

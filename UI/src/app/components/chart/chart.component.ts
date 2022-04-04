@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FirebaseDbService } from 'src/app/services/firebase-db.service';
 import * as Highcharts from 'highcharts';
-import { ChartService } from 'src/app/services/chart-service';
+import { CityService } from 'src/app/services/city-service';
 import { CityFilterModel } from 'src/app/models/city-filter-model';
 import { CityEnum } from 'src/app/enums/city-enum';
 import { takeUntil } from 'rxjs';
@@ -21,10 +21,10 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   constructor (
     private readonly dbService: FirebaseDbService,
-    private readonly chartService: ChartService) { }
+    private readonly cityService: CityService) { }
 
   ngOnInit(): void {
-    this.chartService.cityChanged$
+    this.cityService.cityChanged$
       .pipe(takeUntil(this.destroyed$)).subscribe(
         async (e: any) => await this.getChartData(e as CityFilterModel)
     );
