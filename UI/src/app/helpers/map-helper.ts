@@ -33,7 +33,9 @@ export class MapHelper {
 
   /**
    * Initializes the map with the city or lat/lng by accessing the DOM.
+   * 
    * TODO: Make branching logic more efficient and usable.
+   * The address markers require an input address before they can display, they shouldn't.
    */
   private static initializeMap(
     city: CityEnum, 
@@ -71,7 +73,7 @@ export class MapHelper {
       } else if (addressFilter.showAddressMarkers) {
         const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
           center: this.getLatLngFromCity(city),
-          zoom: 12,
+          zoom: 11,
           streetViewControl: false,
           mapTypeId: 'roadmap'
         });

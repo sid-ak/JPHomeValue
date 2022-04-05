@@ -82,7 +82,7 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
       CityHelper.getCityFromString(this.addressFilterGroup.get('city')?.value),
       this.addressFilterGroup.get('showSurroundings')?.value,
       this.addressFilterGroup.get('showAddressMarkers')?.value,
-      latLngArray,
+      latLngArray, // TODO: May be better to pass this around using a different method.
       filteredAddressInfo?.lat ?? 0,
       filteredAddressInfo?.lng ?? 0,
       this.addressFilterGroup.get('address')?.value,
