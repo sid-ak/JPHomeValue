@@ -24,23 +24,26 @@ export class FirebaseDbService {
     this.databaseReference = ref(getDatabase(this.app));
   }
   
-  // TODO: Wrap database calls in try catches.
+  /**
+   * Gets the seasonality forecast model if provided the city and timeframe.
+   * @param city is the CityEnum for the desired model.
+   * @param timeframe can be 3, 6 or 12 for the desired model.
+   * @returns an Promise of type SeasonalityModel.
+   */
+  getModel(city: CityEnum, timeframe: number): Promise<SeasonalityModel> {
+    return firstValueFrom(this.http.get(
+      UrlHelper.getModelUrl(city, timeframe)).pipe(
+        map(e => new SeasonalityModel(e as Array<any>))));
+  }
 
-  // Seasonality Forecast Model
-  getModel(city: CityEnum, timeframe: number): Observable<SeasonalityModel> {
-    return this.http.get(
-      UrlHelper.getModelUrl(city, timeframe)).pipe(map(e => new SeasonalityModel(e as any)));
-  }
-  async getModelAsync(city: CityEnum, timeframe: number): Promise<SeasonalityModel> {
-    return await firstValueFrom(this.getModel(city, timeframe));
-  }
-
-  // AddressData
-  getAddressData(city: CityEnum): Observable<AddressData> {
-    return this.http.get(
-      UrlHelper.getAddressDataUrl(city)).pipe(map(e => new AddressData(e as any)));
-  }
-  async getAddressDataAsync(city: CityEnum): Promise<AddressData> {
-    return await firstValueFrom(this.getAddressData(city));
+  /**
+   * Gets the address data based on the city.
+   * @param city is the CityEnum for the desired address data.
+   * @returns an Promise of type AddressData.
+   */
+  getAddressData(city: CityEnum): Promise<AddressData> {
+    return firstValueFrom(this.http.get(
+      UrlHelper.getAddressDataUrl(city)).pipe(
+        map(e => new AddressData(e as Array<any>))));
   }
 }
