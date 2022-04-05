@@ -33,9 +33,17 @@ h2 {
     margin-right: auto !important;
 }
 
-#map {
-    height: 500px;
-    width: 800px;
+app-map {
+    box-sizing: border-box;
+    *, *::before, *::after {
+        box-sizing: inherit;
+      }
+    #map-container {
+        #map {
+            height: 500px;
+            width: 800px;
+        }
+    }
 }
 
 #chart {

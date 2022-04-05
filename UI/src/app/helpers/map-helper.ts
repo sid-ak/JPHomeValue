@@ -1,8 +1,6 @@
-import { AddressInfo } from '../common/address-data';
 import { Constants } from '../constants';
 import { CityEnum } from '../enums/city-enum';
 import { AddressFilterModel } from '../models/address-filter-model';
-import { FirebaseDbService } from '../services/firebase-db.service';
 
 export class MapHelper {
   private static readonly mapElement: HTMLElement | null
@@ -41,10 +39,18 @@ export class MapHelper {
         streetViewControl: false
       });
     } else {
-      new google.maps.Map(document.getElementById('map') as HTMLElement, {
-        center: this.getLatLngFromAddressFilter(addressFilter),
-        zoom: 18,
-        streetViewControl: false
+      const addressLatLng = this.getLatLngFromAddressFilter(addressFilter);
+      const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+        center: addressLatLng,
+        zoom: 20,
+        streetViewControl: false,
+        mapTypeId: 'satellite'
+      });
+
+      new google.maps.Marker({
+        position: addressLatLng,
+        map,
+        title: addressFilter.address
       });
     }
   }
