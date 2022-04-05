@@ -5,6 +5,7 @@ import { CityService } from 'src/app/services/city-service';
 import { CityFilterModel } from 'src/app/models/city-filter-model';
 import { CityEnum } from 'src/app/enums/city-enum';
 import { takeUntil } from 'rxjs';
+import { AddressService } from 'src/app/services/address-service';
 
 @Component({
   selector: 'app-chart',
@@ -21,12 +22,18 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   constructor (
     private readonly dbService: FirebaseDbService,
-    private readonly cityService: CityService) { }
+    private readonly cityService: CityService,
+    private readonly addressService: AddressService) { }
 
   ngOnInit(): void {
     this.cityService.cityFilterChanged$
       .pipe(takeUntil(this.destroyed$)).subscribe(
         async (e: any) => await this.getChartData(e as CityFilterModel)
+    );
+
+    this.addressService.addressFilterChanged$
+        .pipe(takeUntil(this.destroyed$)).subscribe(
+          async (e: any) => await this.getChartData(e as CityFilterModel) // TODO: Replace with app model.
     );
   }
 
@@ -114,5 +121,10 @@ export class ChartComponent implements OnInit, OnDestroy {
         visible: false // Hidden until I can figure out adding dates to the x axis.
       },
     };
+  }
+
+  public splitCamelCase(city?: string): string {
+    if (city) return city.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
+    return "";
   }
 }

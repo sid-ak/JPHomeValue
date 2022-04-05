@@ -1,20 +1,25 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { filter, map, Observable, startWith } from 'rxjs';
+import { map, Observable, startWith, takeUntil } from 'rxjs';
 import { AddressFilterModel } from '../../models/address-filter-model';
-import { AddressInfo } from 'src/app/common/address-data';
+import { AddressData, AddressInfo } from 'src/app/common/address-data';
 import { CityEnum } from 'src/app/enums/city-enum';
 import { AddressDataHelper } from 'src/app/helpers/address-data-helper';
 import { FirebaseDbService } from 'src/app/services/firebase-db.service';
 import { AddressService } from 'src/app/services/address-service';
+import { CityService } from 'src/app/services/city-service';
+import { CityHelper } from 'src/app/helpers/city-helper';
 
 @Component({
   selector: 'app-address-filter',
   templateUrl: './address-filter.component.html',
   styleUrls: ['./address-filter.component.scss']
 })
-export class AddressFilterComponent implements OnInit {
+export class AddressFilterComponent implements OnInit, OnDestroy {
+  private readonly destroyed$ = new EventEmitter<boolean>(false);
+
   readonly addressFilterGroup = new FormGroup({
+    city: new FormControl(),
     address: new FormControl(),
     timeframe: new FormControl(),
     walkScore: new FormControl(),
@@ -24,23 +29,34 @@ export class AddressFilterComponent implements OnInit {
   addressInfoOptions: AddressInfo[] = [];
   filteredAddresses$ = new Observable<AddressInfo[]>();
 
+  addressData: AddressData = new AddressData();
+
   constructor(
     private readonly dbService: FirebaseDbService,
-    private readonly addressService: AddressService) { }
+    private readonly addressService: AddressService,
+    private readonly cityService: CityService) { }
 
   async ngOnInit(): Promise<void> {
-    const addressData = await this.dbService.getAddressData(CityEnum.Tampa);
-    this.addressInfoOptions = AddressDataHelper.getAddressInfoArray(addressData);
-    
-    this.setUpAddressFilter();
+    this.cityService.cityChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
+      async e => await this.setUpAddressFilter(e)
+    );
+  }
+
+  ngOnDestroy(): void {
+      this.destroyed$.next(true);
+  }
+
+  public onCityChanged(city: CityEnum): void {
+    this.cityService.cityChanged$.next(city);
   }
 
   public onAddressFilterChanged(): void {
     const filteredAddressInfo = this.addressInfoOptions.find(
-      e => e.address === this.addressFilterGroup.get('address')?.value
-    )
+      e => e.address === this.addressFilterGroup.get('address')?.value ?? ""
+    );
 
     this.addressService.addressFilterChanged$.next(new AddressFilterModel(
+      CityHelper.getCityFromString(this.addressFilterGroup.get('city')?.value),
       filteredAddressInfo?.lat ?? 0,
       filteredAddressInfo?.lng ?? 0,
       this.addressFilterGroup.get('address')?.value,
@@ -50,8 +66,11 @@ export class AddressFilterComponent implements OnInit {
       this.addressFilterGroup.get('bikeScore')?.value,
     ));
   }
+  
+  private async setUpAddressFilter(city: CityEnum): Promise<void> {
+    this.addressData = await this.dbService.getAddressData(city);
+    this.addressInfoOptions = AddressDataHelper.getAddressInfoArray(this.addressData);
 
-  private setUpAddressFilter(): void {
     this.filteredAddresses$ = this.addressFilterGroup.get('address')!.valueChanges.pipe(
       startWith(''),
       map(e => this.filterAddress(e))

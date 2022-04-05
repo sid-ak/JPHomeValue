@@ -16,7 +16,7 @@ export class MapHelper {
    */
   public static addMapScript(
     city: CityEnum = CityEnum.None, 
-    addressFilter: AddressFilterModel = new AddressFilterModel()): void {
+    addressFilter: AddressFilterModel = new AddressFilterModel(CityEnum.None)): void {
 
       if(!MapHelper.mapElement) {
         document.body.appendChild(Object.assign(

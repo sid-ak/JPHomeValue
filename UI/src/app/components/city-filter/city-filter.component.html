@@ -10,6 +10,7 @@
                     <mat-form-field style="width: 75%;" appearance="fill">
                         <mat-label>City</mat-label>
                             <mat-select formControlName="city"
+                                required
                                 (ngModelChange)="onCityChanged($event)">
                                 <mat-option value="Tampa">Tampa</mat-option>
                                 <mat-option value="StPetersburg">St. Petersburg</mat-option>
@@ -22,6 +23,7 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Timeframe</mat-label>
                             <mat-select formControlName="timeframe"
+                                required
                                 (ngModelChange)="onCityFilterChanged()">
                                 <mat-option value="3">3 Months</mat-option>
                                 <mat-option value="6">6 Months</mat-option>

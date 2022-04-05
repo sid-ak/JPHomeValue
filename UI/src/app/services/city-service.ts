@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { CityEnum } from "../enums/city-enum";
 import { CityFilterModel } from "../models/city-filter-model";
 
@@ -8,6 +8,6 @@ import { CityFilterModel } from "../models/city-filter-model";
 })
 export class CityService {
 
-    readonly cityChanged$ = new Subject<CityEnum>();
+    readonly cityChanged$ = new BehaviorSubject<CityEnum>(CityEnum.Tampa);
     readonly cityFilterChanged$ = new Subject<CityFilterModel>();
 }

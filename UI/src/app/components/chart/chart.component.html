@@ -2,7 +2,9 @@
 
 <h3 *ngIf="cityVm.timeframe !== 0 
   && cityVm.city != 'None'; else selectHeader">
-  <strong>{{ cityVm.city }}</strong> in <strong>{{cityVm.timeframe}}</strong> Months</h3>
+  <strong>
+    {{ splitCamelCase(cityVm.city) }}
+  </strong> in <strong>{{cityVm.timeframe}}</strong> Months</h3>
 
 <ng-template #selectHeader>
   <h3>Select a <strong>city</strong> and <strong>timeframe</strong> to view or update the forecast</h3>

@@ -1,7 +1,10 @@
+import { CityEnum } from "../enums/city-enum";
+
 /**
  * AddressFIlter Object Model.
  */
 export class AddressFilterModel {
+    city: CityEnum = CityEnum.None;
     lat?: number;
     lng?: number;
     address?: string;
@@ -15,6 +18,7 @@ export class AddressFilterModel {
      * walkScore, transitScore and bikeScore have range: 0-100.
      */
     constructor(
+        city: CityEnum,
         lat?: number,
         lng?: number,
         address?: string,
@@ -25,6 +29,7 @@ export class AddressFilterModel {
     ) {
         this.lat = lat ?? 0;
         this.lng = lng ?? 0;
+        this.city = city;
         this.address = address ?? "";
         this.timeframe = timeframe ?? 0;
         this.walkScore = walkScore ?? -1;

@@ -25,7 +25,7 @@ export class MapComponent implements OnInit, OnDestroy {
     
     this.addressService.addressFilterChanged$.pipe(
       takeUntil(this.destroyed$)).subscribe(
-        e => MapHelper.addMapScript(undefined, e)
+        e => MapHelper.addMapScript(e.city, e)
     );
   }
 
