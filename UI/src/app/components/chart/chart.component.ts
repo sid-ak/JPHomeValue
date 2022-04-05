@@ -104,6 +104,10 @@ export class ChartComponent implements OnInit, OnDestroy {
           break;
           default: return;
         }
+
+        /**
+         * Update branching logic to work with the AddressFilterModel. 
+         */
       } else if (filter instanceof AddressFilterModel && filter.address) {
         this.filter = filter;
         switch (filter.city) {

@@ -6,6 +6,8 @@ import { CityEnum } from "../enums/city-enum";
 export class AddressFilterModel {
     city: CityEnum = CityEnum.None;
     showSurroundings?: boolean = false;
+    showAddressMarkers?: boolean = false;
+    addressMarkers?: google.maps.LatLng[] = [];
     lat?: number;
     lng?: number;
     address?: string;
@@ -21,6 +23,8 @@ export class AddressFilterModel {
     constructor(
         city: CityEnum,
         showSurroundings?: boolean,
+        showAddressMarkers?: boolean,
+        addressMarkers?: google.maps.LatLng[],
         lat?: number,
         lng?: number,
         address?: string,
@@ -31,6 +35,8 @@ export class AddressFilterModel {
     ) {
         this.city = city;
         this.showSurroundings = showSurroundings;
+        this.showAddressMarkers = showAddressMarkers;
+        this.addressMarkers = addressMarkers;
         this.lat = lat ?? 0;
         this.lng = lng ?? 0;
         this.city = city;
