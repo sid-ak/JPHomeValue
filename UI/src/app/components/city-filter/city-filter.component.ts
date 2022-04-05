@@ -31,7 +31,7 @@ export class CityFilterComponent implements OnInit {
 
   public onCityFilterChanged(): void {
     this.cityService.cityFilterChanged$.next(new CityFilterModel(
-      CityHelper.getCityEnum(this.cityFilterGroup.get('city')?.value),
+      CityHelper.getCityFromString(this.cityFilterGroup.get('city')?.value),
       this.cityFilterGroup.get('timeframe')?.value,
       this.cityFilterGroup.get('walkScore')?.value,
       this.cityFilterGroup.get('transitScore')?.value,

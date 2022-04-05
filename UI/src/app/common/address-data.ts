@@ -10,9 +10,9 @@ export class AddressData {
      * @param response 
      * @returns 
      */
-    constructor(response: any) {
-        this.city = CityHelper.getCityEnum(response?.city as string) ?? CityEnum.None;
-        this.addressInfoLists = new AddressInfoLists(response?.addressData);
+    constructor(response?: any) {
+        this.city = CityHelper.getCityFromString(response?.city as string) ?? CityEnum.None;
+        this.addressInfoLists = new AddressInfoLists(response?.addressData) ?? [];
     }
 }
 

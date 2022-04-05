@@ -5,7 +5,7 @@ export class CityHelper {
     /**
      * Gets a City enum from its string representation.
      */
-    public static getCityEnum(city: string): CityEnum {
+    public static getCityFromString(city: string): CityEnum {
         switch (city) {
           case "Tampa": return CityEnum.Tampa;
           case "StPetersburg": return CityEnum.StPetersburg;

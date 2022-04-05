@@ -8,7 +8,7 @@ export class SeasonalityModel {
     readonly timeframe: number;
 
     constructor(response: any) {
-        this.city = CityHelper.getCityEnum(response?.city as string);
+        this.city = CityHelper.getCityFromString(response?.city as string);
         this.shiller = new Shiller(this.city, response?.shiller);
         this.timeframe = response?.timeframe ?? -1;
     }
