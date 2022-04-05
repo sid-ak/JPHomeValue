@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
+import { filter, map, Observable, startWith } from 'rxjs';
 import { AddressFilterModel } from '../../models/address-filter-model';
 import { AddressInfo } from 'src/app/common/address-data';
 import { CityEnum } from 'src/app/enums/city-enum';
@@ -14,7 +14,7 @@ import { AddressService } from 'src/app/services/address-service';
   styleUrls: ['./address-filter.component.scss']
 })
 export class AddressFilterComponent implements OnInit {
-  addressFilter = new FormGroup({
+  readonly addressFilterGroup = new FormGroup({
     address: new FormControl(),
     timeframe: new FormControl(),
     walkScore: new FormControl(),
@@ -24,30 +24,35 @@ export class AddressFilterComponent implements OnInit {
   addressInfoOptions: AddressInfo[] = [];
   filteredAddresses$ = new Observable<AddressInfo[]>();
 
-  @Input()
-  addressVm = new AddressFilterModel();
-
-  private readonly _addressFilterChanged$ = new EventEmitter<AddressFilterModel>();
-  @Output()
-  public readonly addressFilterChanged$: Observable<AddressFilterModel> = this._addressFilterChanged$;
-
   constructor(
     private readonly dbService: FirebaseDbService,
     private readonly addressService: AddressService) { }
 
   async ngOnInit(): Promise<void> {
-    const addressData = await this.dbService.getAddressDataAsync(CityEnum.Tampa);
+    const addressData = await this.dbService.getAddressData(CityEnum.Tampa);
     this.addressInfoOptions = AddressDataHelper.getAddressInfoArray(addressData);
     
     this.setUpAddressFilter();
   }
 
-  public onAddressChanged(address: string): void {
-    this.addressService.addressChanged$.next(address);
+  public onAddressFilterChanged(): void {
+    const filteredAddressInfo = this.addressInfoOptions.find(
+      e => e.address === this.addressFilterGroup.get('address')?.value
+    )
+
+    this.addressService.addressFilterChanged$.next(new AddressFilterModel(
+      filteredAddressInfo?.lat ?? 0,
+      filteredAddressInfo?.lng ?? 0,
+      this.addressFilterGroup.get('address')?.value,
+      this.addressFilterGroup.get('timeframe')?.value,
+      this.addressFilterGroup.get('walkScore')?.value,
+      this.addressFilterGroup.get('transitScore')?.value,
+      this.addressFilterGroup.get('bikeScore')?.value,
+    ));
   }
 
   private setUpAddressFilter(): void {
-    this.filteredAddresses$ = this.addressFilter.get('address')!.valueChanges.pipe(
+    this.filteredAddresses$ = this.addressFilterGroup.get('address')!.valueChanges.pipe(
       startWith(''),
       map(e => this.filterAddress(e))
     );

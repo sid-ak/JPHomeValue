@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Subject } from "rxjs";
+import { AddressFilterModel } from "../models/address-filter-model";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AddressService {
 
-    readonly addressChanged$ = new BehaviorSubject<string>("");
+    public readonly addressFilterChanged$ = new Subject<AddressFilterModel>();
 }
