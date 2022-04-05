@@ -2,8 +2,8 @@ import { CityEnum } from "../enums/city-enum";
 import { CityHelper } from "../helpers/city-helper";
 
 export class AddressData {
-    readonly city: CityEnum = CityEnum.None;
-    readonly addressInfoLists: AddressInfoLists = new AddressInfoLists();
+    readonly city: CityEnum;
+    readonly addressInfoLists: AddressInfoLists;
 
     /**
      * Constructor that maps the address data from the DB.
@@ -17,21 +17,19 @@ export class AddressData {
 }
 
 export class AddressInfoLists {
-    readonly lats: number[] = [];
-    readonly lngs: number[] = [];
-    readonly addresses: string[] = [];
-    readonly walkScores: number[] = [];
-    readonly transitScores: number[] = [];
-    readonly bikeScores: number[] = [];
+    readonly lats: number[];
+    readonly lngs: number[];
+    readonly addresses: string[];
+    readonly walkScores: number[];
+    readonly transitScores: number[];
+    readonly bikeScores: number[];
 
     /**
      * Constructor that maps the address info lists from address data.
      * @param response 
      * @returns 
      */
-    constructor(response: any = null) {
-        if (response === null) return;
-        
+    constructor(response: Array<any>) {        
         this.lats = response?.map((e: { Lat: number; }) => e.Lat as number);
         this.lngs = response?.map((e: { Lng: number; }) => e.Lng as number);
         this.addresses = response?.map((e: { Address: string; }) => e.Address as string);
@@ -42,19 +40,19 @@ export class AddressInfoLists {
 }
 
 export class AddressInfo {
-    readonly lat: number = 0;
-    readonly lng: number = 0;
-    readonly address: string = "";
-    readonly walkScore: number = -1;
-    readonly transitScore: number = -1;
-    readonly bikeScore: number = -1;
+    readonly lat: number;
+    readonly lng: number;
+    readonly address: string;
+    readonly walkScore: number;
+    readonly transitScore: number;
+    readonly bikeScore: number;
 
     /**
      * Constructor that maps the address info from from its zipped lists.
      * 
      * @param zippedAddressItem 
      */
-    constructor (zippedAddressItem: any) {
+    constructor (zippedAddressItem: Array<any>) {
         this.lat = zippedAddressItem[0],
         this.lng = zippedAddressItem[1],
         this.address = zippedAddressItem[2],

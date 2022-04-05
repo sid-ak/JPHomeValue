@@ -24,7 +24,7 @@ export class ChartComponent implements OnInit, OnDestroy {
     private readonly cityService: CityService) { }
 
   ngOnInit(): void {
-    this.cityService.cityChanged$
+    this.cityService.cityFilterChanged$
       .pipe(takeUntil(this.destroyed$)).subscribe(
         async (e: any) => await this.getChartData(e as CityFilterModel)
     );
@@ -41,15 +41,15 @@ export class ChartComponent implements OnInit, OnDestroy {
         // Tampa
         case CityEnum.Tampa:
           if (cityVm.timeframe == 3) {
-            await this.dbService.getModelAsync(CityEnum.Tampa, 3)
+            await this.dbService.getModel(CityEnum.Tampa, 3)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 6) {
-            await this.dbService.getModelAsync(CityEnum.Tampa, 6)
+            await this.dbService.getModel(CityEnum.Tampa, 6)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 12) {
-            await this.dbService.getModelAsync(CityEnum.Tampa, 12)
+            await this.dbService.getModel(CityEnum.Tampa, 12)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           else {
@@ -60,15 +60,15 @@ export class ChartComponent implements OnInit, OnDestroy {
         // St. Pete
         case CityEnum.StPetersburg:
           if (cityVm.timeframe == 3) {
-            await this.dbService.getModelAsync(CityEnum.StPetersburg, 3)
+            await this.dbService.getModel(CityEnum.StPetersburg, 3)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 6) {
-            await this.dbService.getModelAsync(CityEnum.StPetersburg, 6)
+            await this.dbService.getModel(CityEnum.StPetersburg, 6)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 12) {
-            await this.dbService.getModelAsync(CityEnum.StPetersburg, 12)
+            await this.dbService.getModel(CityEnum.StPetersburg, 12)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           else {
@@ -79,15 +79,15 @@ export class ChartComponent implements OnInit, OnDestroy {
         // Clearwater 
         case CityEnum.Clearwater:
           if (cityVm.timeframe == 3) {
-            await this.dbService.getModelAsync(CityEnum.Clearwater, 3)
+            await this.dbService.getModel(CityEnum.Clearwater, 3)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 6) {
-            await this.dbService.getModelAsync(CityEnum.Clearwater, 6)
+            await this.dbService.getModel(CityEnum.Clearwater, 6)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           if (cityVm.timeframe == 12) {
-            await this.dbService.getModelAsync(CityEnum.Clearwater, 12)
+            await this.dbService.getModel(CityEnum.Clearwater, 12)
               .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
           }
           else {

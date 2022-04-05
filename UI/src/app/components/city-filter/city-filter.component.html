@@ -1,7 +1,7 @@
 <div class="container">
     <!-- City Filter -->
     <div id="filter-row">
-        <form [formGroup]="cityFilter" class="row p-1">
+        <form [formGroup]="cityFilterGroup" class="row p-1">
             <div class="w-100"></div>
             <div id="filter" class="row">
                 <h2 class="my-2">City</h2>
@@ -10,7 +10,7 @@
                     <mat-form-field style="width: 75%;" appearance="fill">
                         <mat-label>City</mat-label>
                             <mat-select formControlName="city"
-                                (ngModelChange)="onCityFilterChanged()">
+                                (ngModelChange)="onCityChanged($event)">
                                 <mat-option value="Tampa">Tampa</mat-option>
                                 <mat-option value="StPetersburg">St. Petersburg</mat-option>
                                 <mat-option value="Clearwater">Clearwater</mat-option>
@@ -53,7 +53,6 @@
                 <div class="w-100"></div>
                 <div class="col-12">
                     <button
-                        disabled="true" 
                         type="button filter-button" 
                         class="btn btn-outline-dark w-25" 
                         (click)="onCityFilterChanged()">

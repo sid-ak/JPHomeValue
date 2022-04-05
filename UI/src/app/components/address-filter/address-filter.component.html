@@ -1,7 +1,7 @@
 <div class="container">
     <!-- City Filter -->
     <div id="filter-row">
-        <form [formGroup]="addressFilter" class="row p-1">
+        <form [formGroup]="addressFilterGroup" class="row p-1">
         <div class="w-100"></div>
             <div id="filter" class="row">
                 <h2 class="my-2">Address</h2>
@@ -14,8 +14,7 @@
                                 placeholder="Pick an address"
                                 matInput 
                                 formControlName="address"
-                                [matAutocomplete]="autoAddresses"
-                                (ngModelChange)="onAddressChanged($event)">
+                                [matAutocomplete]="autoAddresses">
                             <mat-autocomplete #autoAddresses="matAutocomplete">
                                 <mat-option *ngFor="let addressInfo of filteredAddresses$ | async" [value]="addressInfo.address">
                                     {{ addressInfo.address }}
@@ -57,7 +56,8 @@
                 </div>
                 <div class="w-100"></div>
                 <div class="col-12">
-                    <button type="button filter-button" class="btn btn-outline-dark w-25">
+                    <button type="button filter-button" class="btn btn-outline-dark w-25"
+                        (click)="onAddressFilterChanged()">
                         Filter
                     </button>
                 </div>
