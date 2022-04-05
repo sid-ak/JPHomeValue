@@ -5,6 +5,7 @@ import { CityEnum } from "../enums/city-enum";
  */
 export class AddressFilterModel {
     city: CityEnum = CityEnum.None;
+    showSurroundings?: boolean = false;
     lat?: number;
     lng?: number;
     address?: string;
@@ -19,6 +20,7 @@ export class AddressFilterModel {
      */
     constructor(
         city: CityEnum,
+        showSurroundings?: boolean,
         lat?: number,
         lng?: number,
         address?: string,
@@ -27,6 +29,8 @@ export class AddressFilterModel {
         transitScore?: number,
         bikeScore?: number
     ) {
+        this.city = city;
+        this.showSurroundings = showSurroundings;
         this.lat = lat ?? 0;
         this.lng = lng ?? 0;
         this.city = city;

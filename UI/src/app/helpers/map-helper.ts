@@ -31,7 +31,9 @@ export class MapHelper {
   /**
    * Initializes the map with the city or lat/lng by accessing the DOM.
    */
-  private static initializeMap(city: CityEnum, addressFilter: AddressFilterModel): void {
+  private static initializeMap(
+    city: CityEnum, 
+    addressFilter: AddressFilterModel): void {
     if (addressFilter.lat === 0 && addressFilter.lat === 0) {
       new google.maps.Map(document.getElementById('map') as HTMLElement, {
         center: this.getLatLngFromCity(city),
@@ -42,9 +44,9 @@ export class MapHelper {
       const addressLatLng = this.getLatLngFromAddressFilter(addressFilter);
       const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
         center: addressLatLng,
-        zoom: 20,
+        zoom: addressFilter.showSurroundings ? 15 : 20,
         streetViewControl: false,
-        mapTypeId: 'satellite'
+        mapTypeId: addressFilter.showSurroundings ? 'roadmap' : 'satellite'
       });
 
       new google.maps.Marker({

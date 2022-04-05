@@ -20,6 +20,7 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
 
   readonly addressFilterGroup = new FormGroup({
     city: new FormControl(),
+    showSurroundings: new FormControl(),
     address: new FormControl(),
     timeframe: new FormControl(),
     walkScore: new FormControl(),
@@ -50,6 +51,12 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
     this.cityService.cityChanged$.next(city);
   }
 
+  public showSurroundings(showSurrounding: any) {
+    this.addressFilterGroup.controls['showSurroundings']
+      .setValue(showSurrounding.target.checked);
+    this.onAddressFilterChanged();
+  }
+
   public onAddressFilterChanged(): void {
     const filteredAddressInfo = this.addressInfoOptions.find(
       e => e.address === this.addressFilterGroup.get('address')?.value ?? ""
@@ -57,13 +64,14 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
 
     this.addressService.addressFilterChanged$.next(new AddressFilterModel(
       CityHelper.getCityFromString(this.addressFilterGroup.get('city')?.value),
+      this.addressFilterGroup.get('showSurroundings')?.value,
       filteredAddressInfo?.lat ?? 0,
       filteredAddressInfo?.lng ?? 0,
       this.addressFilterGroup.get('address')?.value,
       this.addressFilterGroup.get('timeframe')?.value,
       this.addressFilterGroup.get('walkScore')?.value,
       this.addressFilterGroup.get('transitScore')?.value,
-      this.addressFilterGroup.get('bikeScore')?.value,
+      this.addressFilterGroup.get('bikeScore')?.value
     ));
   }
   

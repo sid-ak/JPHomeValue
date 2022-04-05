@@ -67,11 +67,20 @@
                     </mat-form-field>
                 </div>
                 <div class="w-100"></div>
-                <div class="col-12">
-                    <button type="button filter-button" class="btn btn-outline-dark w-25"
+                <div class="col-3">
+                    <button type="button filter-button" class="btn btn-outline-dark w-100"
                         (click)="onAddressFilterChanged()">
                         Filter
                     </button>
+                </div>
+                <div class="col-6 my-auto">
+                    <div class="form-check form-switch my-auto">
+                        <input class="form-check-input" 
+                            type="checkbox" 
+                            (click)="showSurroundings($event)" 
+                            formControlName="showSurroundings"> 
+                        <label class="form-check-label">Show Surrounding Facilities</label>
+                    </div>
                 </div>
             </div>
         </form>
