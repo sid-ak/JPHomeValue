@@ -9,8 +9,7 @@
                 <div id="city" class="col-4">
                     <mat-form-field style="width: 75%;" appearance="fill">
                         <mat-label>City</mat-label>
-                            <mat-select formControlName="city"
-                                required
+                            <mat-select formControlName="city" required
                                 (ngModelChange)="onCityChanged($event)">
                                 <mat-option value="Tampa">Tampa</mat-option>
                                 <mat-option value="StPetersburg">St. Petersburg</mat-option>
@@ -22,7 +21,7 @@
                 <div id="address" class="col-8">
                     <mat-form-field style="width: 75%;" appearance="fill">
                         <mat-label>Address</mat-label>
-                            <input
+                            <input required
                                 type="text"
                                 placeholder="Pick an address"
                                 matInput 
@@ -39,7 +38,7 @@
                 <div id="timeframe" class="col">
                     <mat-form-field appearance="fill">
                         <mat-label>Timeframe</mat-label>
-                            <mat-select formControlName="timeframe">
+                            <mat-select formControlName="timeframe" required>
                                 <mat-option value="3">3 Months</mat-option>
                                 <mat-option value="6">6 Months</mat-option>
                                 <mat-option value="12">12 Months</mat-option>

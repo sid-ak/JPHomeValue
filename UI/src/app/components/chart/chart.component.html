@@ -1,10 +1,10 @@
 <h2>Seasonality Forecast</h2>
 
-<h3 *ngIf="cityVm.timeframe !== 0 
-  && cityVm.city != 'None'; else selectHeader">
+<h3 *ngIf="filter.timeframe !== 0 
+  && filter.city != 'None'; else selectHeader">
   <strong>
-    {{ splitCamelCase(cityVm.city) }}
-  </strong> in <strong>{{cityVm.timeframe}}</strong> Months</h3>
+    {{ splitCamelCase(filter.city) }}
+  </strong> in <strong>{{filter.timeframe}}</strong> Months</h3>
 
 <ng-template #selectHeader>
   <h3>Select a <strong>city</strong> and <strong>timeframe</strong> to view or update the forecast</h3>
