@@ -23,16 +23,14 @@ export class AddressDataHelper {
         return addressInfoArray;
     }
 
-    public static getScores(filteredAddressInfo?: AddressInfo): Scores {
-        let scores = new Scores();
+    public static getDisplayScores(filteredAddressInfo?: AddressInfo): Scores {
+        let scores = new Scores(0, 0, 0);
         
         if (filteredAddressInfo) {
-            scores = {
-                walkScore: filteredAddressInfo.walkScore ?? null,
-                transitScore: filteredAddressInfo.transitScore ?? null,
-                bikeScore: filteredAddressInfo.bikeScore ?? null
+            scores = new Scores(filteredAddressInfo.walkScore, 
+                filteredAddressInfo.transitScore,
+                filteredAddressInfo.bikeScore)
             }
-        }
         
         return scores;
     }

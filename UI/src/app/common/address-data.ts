@@ -63,9 +63,17 @@ export class AddressInfo {
 }
 
 export class Scores {
-    walkScore?: number;
-    transitScore?: number;
-    bikeScore?: number;
+    readonly walkScore?: number;
+    readonly transitScore?: number;
+    readonly bikeScore?: number;
 
-    constructor() { }
+    constructor(
+        walkScore?: number,
+        transitScore?: number,
+        bikeScore?: number
+    ) { 
+        this.walkScore = walkScore ?? -1;
+        this.transitScore = transitScore ?? -1;
+        this.bikeScore = bikeScore ?? -1;
+    }
 }

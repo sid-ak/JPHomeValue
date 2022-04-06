@@ -117,14 +117,14 @@ export class MapHelper {
 
   /**
    * Gets an array of type google.maps.LatLng from an array of AddressInfo.
-   * @param addressInfoOptions is an array of type AddressInfo.
+   * @param addressInfos is an array of type AddressInfo.
    * @returns an array of type google.maps.LatLng
    */
-  public static getLatLngArrayFromAddressInfoOptions(
-    addressInfoOptions: AddressInfo[]): google.maps.LatLng[] {
+  public static getLatLngArrayFromaddressInfos(
+    addressInfos: AddressInfo[]): google.maps.LatLng[] {
       let latLngArray: google.maps.LatLng[] = [];
 
-    addressInfoOptions.map(
+    addressInfos.map(
       e => latLngArray.push(new google.maps.LatLng(e.lat, e.lng))
     );
 

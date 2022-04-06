@@ -29,10 +29,13 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
     transitScore: new FormControl(),
     bikeScore: new FormControl()
   })
-  addressInfoOptions: AddressInfo[] = [];
+  addressInfos: AddressInfo[] = [];
   filteredAddresses$ = new Observable<AddressInfo[]>();
 
   addressData: AddressData = new AddressData();
+
+  isAddressListFiltered: boolean = false;
+  noAddressFound: boolean = false;
 
   constructor(
     private readonly dbService: FirebaseDbService,
@@ -63,7 +66,7 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
     this.addressFilterGroup.controls['showSurroundings'].setValue(null);
     this.addressFilterGroup.controls['showAddressMarkers'].setValue(null);
 
-    this.addressService.scoresChanged$.next(new Scores());
+    this.addressService.displayScoresChanged$.next(new Scores());
   }
 
   /**
@@ -76,35 +79,67 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
    */
   public onAddressFilterChanged(
     latLngArray: google.maps.LatLng[] = []): void {
-    const filteredAddressInfo = this.addressInfoOptions.find(
-      e => e.address === this.addressFilterGroup.get('address')?.value ?? ""
+    
+    const city = CityHelper.getCityFromString(this.addressFilterGroup.get('city')?.value);
+    const showSurroundings = this.addressFilterGroup.get('showSurroundings')?.value;
+    const showAddressMarkers = this.addressFilterGroup.get('showAddressMarkers')?.value;
+    const address = this.addressFilterGroup.get('address')?.value ?? "";
+    const timeframe = this.addressFilterGroup.get('timeframe')?.value;
+    const walkScore = this.addressFilterGroup.get('walkScore')?.value;
+    const transitScore = this.addressFilterGroup.get('transitScore')?.value;
+    const bikeScore = this.addressFilterGroup.get('bikeScore')?.value;
+
+    const filteredAddressInfo = this.addressInfos.find(
+      e => e.address === address
     );
 
     this.addressService.addressFilterChanged$.next(new AddressFilterModel(
-      CityHelper.getCityFromString(this.addressFilterGroup.get('city')?.value),
-      this.addressFilterGroup.get('showSurroundings')?.value,
-      this.addressFilterGroup.get('showAddressMarkers')?.value,
-      latLngArray, // TODO: May be better to pass this around using a different method.
+      city,
+      showSurroundings,
+      showAddressMarkers,
+      latLngArray,
       filteredAddressInfo?.lat ?? 0,
       filteredAddressInfo?.lng ?? 0,
-      this.addressFilterGroup.get('address')?.value,
-      this.addressFilterGroup.get('timeframe')?.value,
-      this.addressFilterGroup.get('walkScore')?.value,
-      this.addressFilterGroup.get('transitScore')?.value,
-      this.addressFilterGroup.get('bikeScore')?.value
+      address,
+      timeframe,
+      walkScore,
+      transitScore,
+      bikeScore
     ));
 
-    const scores = AddressDataHelper.getScores(filteredAddressInfo);
-    this.addressService.scoresChanged$.next(scores);
+    const displayScores = AddressDataHelper.getDisplayScores(filteredAddressInfo);
+    this.addressService.displayScoresChanged$.next(displayScores);
+
+    this.setUpAddressFilter(city, new Scores(walkScore, transitScore, bikeScore));
   }
   
   /**
    * Set up the data for the address autocomplete.
    * @param city 
    */
-  private async setUpAddressFilter(city: CityEnum): Promise<void> {
+  private async setUpAddressFilter(
+      city: CityEnum, scores: Scores = new Scores()): Promise<void> {
     this.addressData = await this.dbService.getAddressData(city);
-    this.addressInfoOptions = AddressDataHelper.getAddressInfoArray(this.addressData);
+
+    if (scores.bikeScore === -1 && scores.transitScore === -1 && scores.walkScore === -1) {
+      this.addressInfos = AddressDataHelper.getAddressInfoArray(this.addressData);
+      this.isAddressListFiltered = false;
+    } else {
+      this.addressInfos = AddressDataHelper.getAddressInfoArray(this.addressData).filter(
+        e => e.bikeScore > this.addressFilterGroup.get('bikeScore')?.value
+          && e.transitScore > this.addressFilterGroup.get('transitScore')?.value
+          && e.walkScore > this.addressFilterGroup.get('walkScore')?.value 
+      );
+      
+      if (this.addressInfos.length !== 0) {
+        this.isAddressListFiltered = true
+        this.noAddressFound = false;
+      } else {
+        this.isAddressListFiltered = false;
+        this.noAddressFound = true;
+        this.addressFilterGroup.controls['address'].setValue('');
+      };
+    }
 
     this.filteredAddresses$ = this.addressFilterGroup.get('address')!.valueChanges.pipe(
       startWith(''),
@@ -120,7 +155,7 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
   private filterAddress(address: string): AddressInfo[] {
     const addressLower = address.toLowerCase();
 
-    return this.addressInfoOptions.filter(e => e.address.toLowerCase()
+    return this.addressInfos.filter(e => e.address.toLowerCase()
       .includes(addressLower));
   }
 
@@ -145,11 +180,24 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
     this.addressFilterGroup.controls['showAddressMarkers']
       .setValue(showAddressMarkers.target.checked);
     
-    if (this.addressInfoOptions.length) {
-      latLngArray = MapHelper.getLatLngArrayFromAddressInfoOptions(
-        this.addressInfoOptions)
+    if (this.addressInfos.length) {
+      latLngArray = MapHelper.getLatLngArrayFromaddressInfos(
+        this.addressInfos)
     }
 
     this.onAddressFilterChanged(latLngArray);
+  }
+
+  public clearFilter() {
+    this.isAddressListFiltered = false;
+    this.noAddressFound = false;
+    this.addressFilterGroup.controls['city'].setValue(null);
+    this.addressFilterGroup.controls['showSurroundings'].setValue(null);
+    this.addressFilterGroup.controls['showAddressMarkers'].setValue(null);
+    this.addressFilterGroup.controls['address'].setValue(null);
+    this.addressFilterGroup.controls['timeframe'].setValue(null);
+    this.addressFilterGroup.controls['walkScore'].setValue(null);
+    this.addressFilterGroup.controls['transitScore'].setValue(null);
+    this.addressFilterGroup.controls['bikeScore'].setValue(null);
   }
 }

@@ -27,14 +27,12 @@ export class ChartComponent implements OnInit, OnDestroy {
     private readonly addressService: AddressService) { }
 
   ngOnInit(): void {
-    this.cityService.cityFilterChanged$
-      .pipe(takeUntil(this.destroyed$)).subscribe(
-        async (e: CityFilterModel) => await this.renderChart(e as CityFilterModel)
+    this.cityService.cityFilterChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
+      async (e: CityFilterModel) => await this.renderChart(e as CityFilterModel)
     );
 
-    this.addressService.addressFilterChanged$
-        .pipe(takeUntil(this.destroyed$)).subscribe(
-          async (e: AddressFilterModel) => await this.renderChart(e as AddressFilterModel) // TODO: Replace with app model.
+    this.addressService.addressFilterChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
+      async (e: AddressFilterModel) => await this.renderChart(e as AddressFilterModel) // TODO: Replace with app model.
     );
   }
 

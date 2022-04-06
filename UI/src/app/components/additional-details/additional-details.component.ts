@@ -16,7 +16,7 @@ export class AdditionalDetailsComponent implements OnInit, OnDestroy {
   constructor(private readonly addressService: AddressService) { }
 
   ngOnInit(): void {
-    this.addressService.scoresChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
+    this.addressService.displayScoresChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
       e => this.scores = e
     )
   }

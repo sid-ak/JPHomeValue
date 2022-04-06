@@ -4,9 +4,19 @@
         <form [formGroup]="addressFilterGroup" class="row p-1">
         <div class="w-100"></div>
             <div id="filter" class="row">
-                <h2 class="my-2">Address</h2>
+                <h2 class="my-2">Address
+                    <span *ngIf="!this.addressFilterGroup.get('city')?.value">
+                        Please select a city to use the filter
+                    </span>
+                    <span style="margin-left: 26.5em; color: green;" *ngIf="isAddressListFiltered">
+                        Addresses filtered by score(s)
+                    </span>
+                    <span style="margin-left: 26.5em; color: red;" *ngIf="noAddressFound">
+                        No address found
+                    </span>
+                </h2>
                 <!-- City Dropdown -->
-                <div id="city" class="col-4">
+                <div id="city" class="col-5">
                     <mat-form-field style="width: 75%;" appearance="fill">
                         <mat-label>City</mat-label>
                             <mat-select formControlName="city" required
@@ -18,7 +28,7 @@
                     </mat-form-field>
                 </div>
                 <!-- Address Input -->
-                <div id="address" class="col-8">
+                <div id="address" class="col-7">
                     <mat-form-field style="width: 75%;" appearance="fill">
                         <mat-label>Address</mat-label>
                             <input required
@@ -39,7 +49,10 @@
                 <div id="timeframe" class="col">
                     <mat-form-field appearance="fill">
                         <mat-label>Timeframe</mat-label>
-                            <mat-select formControlName="timeframe" required>
+                            <mat-select 
+                                [disabled]="!this.addressFilterGroup.get('city')?.value"
+                                formControlName="timeframe" 
+                                required>
                                 <mat-option value="3">3 Months</mat-option>
                                 <mat-option value="6">6 Months</mat-option>
                                 <mat-option value="12">12 Months</mat-option>
@@ -50,21 +63,24 @@
                 <div id="walk-score" class="col">
                     <mat-form-field appearance="fill">
                         <mat-label>Walk Score</mat-label>
-                            <input type="number" matInput formControlName="walkScore" placeholder="0-100">
+                            <input type="number" matInput formControlName="walkScore" placeholder="0-100"
+                                [readonly]="!this.addressFilterGroup.get('city')?.value">
                     </mat-form-field>
                 </div>
                 <!-- Transit Score -->
                 <div id="transit-score" class="col">
                     <mat-form-field appearance="fill">
                         <mat-label>Transit Score</mat-label>
-                            <input type="number" matInput formControlName="transitScore" placeholder="0-100">
+                            <input type="number" matInput formControlName="transitScore" placeholder="0-100"
+                                [readonly]="!this.addressFilterGroup.get('city')?.value">
                     </mat-form-field>
                 </div>
                 <!-- Bike Score -->
                 <div id="timeframe" class="col">
                     <mat-form-field appearance="fill">
                         <mat-label>Bike Score</mat-label>
-                            <input type="number" matInput formControlName="bikeScore" placeholder="0-100">
+                            <input type="number" matInput formControlName="bikeScore" placeholder="0-100"
+                                [readonly]="!this.addressFilterGroup.get('city')?.value">
                     </mat-form-field>
                 </div>
                 <div class="w-100"></div>
@@ -91,6 +107,12 @@
                             formControlName="showAddressMarkers"> 
                         <label class="form-check-label">Show Address Clusters</label>
                     </div>
+                </div>
+                <div class="col">
+                    <button type="button filter-button" class="btn btn-outline-dark w-100"
+                        (click)="clearFilter()">
+                        Clear Filter
+                    </button>
                 </div>
             </div>
         </form>

@@ -9,5 +9,5 @@ import { AddressFilterModel } from "../models/address-filter-model";
 export class AddressService {
 
     public readonly addressFilterChanged$ = new Subject<AddressFilterModel>();
-    public readonly scoresChanged$ = new Subject<Scores>();
+    public readonly displayScoresChanged$ = new Subject<Scores>();
 }

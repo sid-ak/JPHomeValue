@@ -8,6 +8,6 @@ import { CityFilterModel } from "../models/city-filter-model";
 })
 export class CityService {
 
-    readonly cityChanged$ = new BehaviorSubject<CityEnum>(CityEnum.None);
+    readonly cityChanged$ = new Subject<CityEnum>();
     readonly cityFilterChanged$ = new Subject<CityFilterModel>();
 }

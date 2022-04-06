@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import { Database, DatabaseReference, getDatabase, ref } from 'firebase/database';
 import { map } from 'rxjs';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AddressData } from '../common/address-data';
 import { SeasonalityModel } from '../common/seasonality-model';
