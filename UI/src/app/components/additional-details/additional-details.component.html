@@ -1,14 +1,21 @@
 <div id="additional-details" class="mt-4">
-    <h2>Additional Details</h2>
+    <h2>Additional Details
+        <span *ngIf="
+            !scores.transitScore 
+            && !scores.walkScore
+            && !scores.bikeScore">
+            <strong>Select an address</strong> to view its scores
+        </span>
+    </h2>
     <table class="table">
         <tbody>
             <tr>
                 <th scope="row">Transit Score</th>
-                <td>0</td>
+                <td>{{ scores.transitScore }}</td>
                 <th scope="row">Walk Score</th>
-                <td>0</td>
+                <td>{{ scores.walkScore }}</td>
                 <th scope="row">Bike Score</th>
-                <td>0</td>
+                <td>{{ scores.bikeScore }}</td>
             </tr>
         </tbody>
     </table>

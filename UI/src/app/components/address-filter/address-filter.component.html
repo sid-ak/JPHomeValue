@@ -22,8 +22,9 @@
                     <mat-form-field style="width: 75%;" appearance="fill">
                         <mat-label>Address</mat-label>
                             <input required
+                                [readonly]="!this.addressFilterGroup.get('city')?.value"
                                 type="text"
-                                placeholder="Pick an address"
+                                placeholder="Please pick a city if you have not"
                                 matInput 
                                 formControlName="address"
                                 [matAutocomplete]="autoAddresses">

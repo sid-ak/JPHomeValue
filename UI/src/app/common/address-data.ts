@@ -61,3 +61,11 @@ export class AddressInfo {
         this.bikeScore = zippedAddressItem[5]
     }
 }
+
+export class Scores {
+    walkScore?: number;
+    transitScore?: number;
+    bikeScore?: number;
+
+    constructor() { }
+}

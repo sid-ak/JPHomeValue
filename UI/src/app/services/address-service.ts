@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
+import { Scores } from "../common/address-data";
 import { AddressFilterModel } from "../models/address-filter-model";
 
 @Injectable({
@@ -8,4 +9,5 @@ import { AddressFilterModel } from "../models/address-filter-model";
 export class AddressService {
 
     public readonly addressFilterChanged$ = new Subject<AddressFilterModel>();
+    public readonly scoresChanged$ = new Subject<Scores>();
 }

@@ -1,4 +1,4 @@
-import { AddressData, AddressInfo } from "../common/address-data";
+import { AddressData, AddressInfo, Scores } from "../common/address-data";
 import { CommonHelper } from "./common-helper";
 
 export class AddressDataHelper {
@@ -21,5 +21,19 @@ export class AddressDataHelper {
         zippedAddressData.forEach(e => addressInfoArray.push(new AddressInfo(e)));
 
         return addressInfoArray;
+    }
+
+    public static getScores(filteredAddressInfo?: AddressInfo): Scores {
+        let scores = new Scores();
+        
+        if (filteredAddressInfo) {
+            scores = {
+                walkScore: filteredAddressInfo.walkScore ?? null,
+                transitScore: filteredAddressInfo.transitScore ?? null,
+                bikeScore: filteredAddressInfo.bikeScore ?? null
+            }
+        }
+        
+        return scores;
     }
 }

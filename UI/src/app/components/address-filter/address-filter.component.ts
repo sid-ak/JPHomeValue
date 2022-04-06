@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { map, Observable, startWith, takeUntil } from 'rxjs';
 import { AddressFilterModel } from '../../models/address-filter-model';
-import { AddressData, AddressInfo } from 'src/app/common/address-data';
+import { AddressData, AddressInfo, Scores } from 'src/app/common/address-data';
 import { CityEnum } from 'src/app/enums/city-enum';
 import { AddressDataHelper } from 'src/app/helpers/address-data-helper';
 import { FirebaseDbService } from 'src/app/services/firebase-db.service';
@@ -62,6 +62,8 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
     this.addressFilterGroup.controls['address'].setValue(null);
     this.addressFilterGroup.controls['showSurroundings'].setValue(null);
     this.addressFilterGroup.controls['showAddressMarkers'].setValue(null);
+
+    this.addressService.scoresChanged$.next(new Scores());
   }
 
   /**
@@ -91,6 +93,9 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
       this.addressFilterGroup.get('transitScore')?.value,
       this.addressFilterGroup.get('bikeScore')?.value
     ));
+
+    const scores = AddressDataHelper.getScores(filteredAddressInfo);
+    this.addressService.scoresChanged$.next(scores);
   }
   
   /**
