@@ -11,11 +11,11 @@
         <tbody>
             <tr>
                 <th scope="row">Walk Score</th>
-                <td>{{ scores.walkScore }}</td>
+                <td>{{ scores.walkScore === -1 ? '' : scores.walkScore }}</td>
                 <th scope="row">Transit Score</th>
-                <td>{{ scores.transitScore }}</td>
+                <td>{{ scores.transitScore === -1 ? '' : scores.transitScore }}</td>
                 <th scope="row">Bike Score</th>
-                <td>{{ scores.bikeScore }}</td>
+                <td>{{ scores.bikeScore === -1 ? '' : scores.bikeScore }}</td>
             </tr>
         </tbody>
     </table>
