@@ -70,7 +70,8 @@ export class MapHelper {
         });
 
         // Initialization for when address markers do need to be shown.
-      } else if (addressFilter.showAddressMarkers) {
+      } else if (addressFilter.showAddressMarkers 
+          || (addressFilter.showAddressMarkers && addressFilter.showSurroundings)) {
         const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
           center: this.getLatLngFromCity(city),
           zoom: 11,
@@ -120,7 +121,7 @@ export class MapHelper {
    * @param addressInfos is an array of type AddressInfo.
    * @returns an array of type google.maps.LatLng
    */
-  public static getLatLngArrayFromaddressInfos(
+  public static getLatLngArrayFromAddressInfos(
     addressInfos: AddressInfo[]): google.maps.LatLng[] {
       let latLngArray: google.maps.LatLng[] = [];
 

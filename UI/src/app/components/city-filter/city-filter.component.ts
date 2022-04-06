@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CityHelper } from 'src/app/helpers/city-helper';
-import { CityService } from 'src/app/services/city-service';
+import { FilterEventService } from 'src/app/services/filter-event.service';
 import { CityEnum } from '../../enums/city-enum';
 import { CityFilterModel } from '../../models/city-filter-model';
 
@@ -14,28 +14,22 @@ export class CityFilterComponent implements OnInit {
   readonly cityFilterGroup = new FormGroup({
     city: new FormControl(),
     timeframe: new FormControl(),
-    walkScore: new FormControl(),
-    transitScore: new FormControl(),
-    bikeScore: new FormControl()
   });
 
-  constructor(private readonly cityService: CityService) { }
+  constructor(private readonly filterEventService: FilterEventService) { }
 
   ngOnInit(): void {
   }
 
   public onCityChanged(city: CityEnum): void {
-    this.cityService.cityChanged$.next(city);
+    this.filterEventService.cityChanged$.next(city);
     this.onCityFilterChanged();
   }
 
   public onCityFilterChanged(): void {
-    this.cityService.cityFilterChanged$.next(new CityFilterModel(
+    this.filterEventService.cityFilterChanged$.next(new CityFilterModel(
       CityHelper.getCityFromString(this.cityFilterGroup.get('city')?.value),
       this.cityFilterGroup.get('timeframe')?.value,
-      this.cityFilterGroup.get('walkScore')?.value,
-      this.cityFilterGroup.get('transitScore')?.value,
-      this.cityFilterGroup.get('bikeScore')?.value
     ));
   }
 }

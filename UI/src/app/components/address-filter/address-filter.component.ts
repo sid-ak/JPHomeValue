@@ -6,8 +6,7 @@ import { AddressData, AddressInfo, Scores } from 'src/app/common/address-data';
 import { CityEnum } from 'src/app/enums/city-enum';
 import { AddressDataHelper } from 'src/app/helpers/address-data-helper';
 import { FirebaseDbService } from 'src/app/services/firebase-db.service';
-import { AddressService } from 'src/app/services/address-service';
-import { CityService } from 'src/app/services/city-service';
+import { FilterEventService } from 'src/app/services/filter-event.service';
 import { CityHelper } from 'src/app/helpers/city-helper';
 import { MapHelper } from 'src/app/helpers/map-helper';
 
@@ -34,19 +33,22 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
 
   addressData: AddressData = new AddressData();
 
+  cityExists: boolean = false;
   isAddressListFiltered: boolean = false;
   noAddressFound: boolean = false;
 
+  latLngArray: google.maps.LatLng[] = [];
+
   constructor(
     private readonly dbService: FirebaseDbService,
-    private readonly addressService: AddressService,
-    private readonly cityService: CityService) { }
+    private readonly filterEventService: FilterEventService,
+  ) { }
 
   /**
    * Set up the autocomplete on initialization.
    */
   async ngOnInit(): Promise<void> {
-    this.cityService.cityChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
+    this.filterEventService.cityChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
       async e => await this.setUpAddressFilter(e)
     );
   }
@@ -60,25 +62,27 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
    * @param city 
    */
   public onCityChanged(city: CityEnum): void {
-    this.cityService.cityChanged$.next(city);
+    this.filterEventService.cityChanged$.next(city);
     
     this.addressFilterGroup.controls['address'].setValue(null);
+    this.addressFilterGroup.controls['timeframe'].setValue(null);
     this.addressFilterGroup.controls['showSurroundings'].setValue(null);
     this.addressFilterGroup.controls['showAddressMarkers'].setValue(null);
 
-    this.addressService.displayScoresChanged$.next(new Scores());
+    this.filterEventService.displayScoresChanged$.next(new Scores());
+    
+    this.cityExists = true;
   }
 
   /**
    * A way to reinitialize the map and chart if the address filter button is clicked.
-   * @param latLngArray An optional parameter to show clustered address markers using
+   * @param latLngArray is optional and is to display clustered address markers using
    * an array of type google.maps.LatLng
    * 
    * TODO: Handle a special case for when just the timeframe is changed, and nothing else.
    * Similar to how city change is handled. The map does not need to re render on timeframe change.
    */
-  public onAddressFilterChanged(
-    latLngArray: google.maps.LatLng[] = []): void {
+  public onAddressFilterChanged(): void {
     
     const city = CityHelper.getCityFromString(this.addressFilterGroup.get('city')?.value);
     const showSurroundings = this.addressFilterGroup.get('showSurroundings')?.value;
@@ -93,11 +97,11 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
       e => e.address === address
     );
 
-    this.addressService.addressFilterChanged$.next(new AddressFilterModel(
+    this.filterEventService.addressFilterChanged$.next(new AddressFilterModel(
       city,
       showSurroundings,
       showAddressMarkers,
-      latLngArray,
+      this.latLngArray,
       filteredAddressInfo?.lat ?? 0,
       filteredAddressInfo?.lng ?? 0,
       address,
@@ -108,7 +112,7 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
     ));
 
     const displayScores = AddressDataHelper.getDisplayScores(filteredAddressInfo);
-    this.addressService.displayScoresChanged$.next(displayScores);
+    this.filterEventService.displayScoresChanged$.next(displayScores);
 
     this.setUpAddressFilter(city, new Scores(walkScore, transitScore, bikeScore));
   }
@@ -126,19 +130,12 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
       this.isAddressListFiltered = false;
     } else {
       this.addressInfos = AddressDataHelper.getAddressInfoArray(this.addressData).filter(
-        e => e.bikeScore > this.addressFilterGroup.get('bikeScore')?.value
-          && e.transitScore > this.addressFilterGroup.get('transitScore')?.value
-          && e.walkScore > this.addressFilterGroup.get('walkScore')?.value 
+        e => e.bikeScore >= this.addressFilterGroup.get('bikeScore')?.value
+          && e.transitScore >= this.addressFilterGroup.get('transitScore')?.value
+          && e.walkScore >= this.addressFilterGroup.get('walkScore')?.value 
       );
       
-      if (this.addressInfos.length !== 0) {
-        this.isAddressListFiltered = true
-        this.noAddressFound = false;
-      } else {
-        this.isAddressListFiltered = false;
-        this.noAddressFound = true;
-        this.addressFilterGroup.controls['address'].setValue('');
-      };
+      this.toggleAddressFilterMessage();
     }
 
     this.filteredAddresses$ = this.addressFilterGroup.get('address')!.valueChanges.pipe(
@@ -161,43 +158,63 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
 
   /**
    * Show surrounding facilities.
-   * @param showSurroundings is the checkbox input type and represents the toggle.
+   * @param showSurroundings is the toggle event.
    */
   public showSurroundings(showSurroundings: any) {
+    this.addressFilterGroup.controls['showAddressMarkers'].setValue(false);
+    
     this.addressFilterGroup.controls['showSurroundings']
       .setValue(showSurroundings.target.checked);
-    
-    this.onAddressFilterChanged();
+
+      this.onAddressFilterChanged();
   }
 
   /**
    * Show address clusters.
-   * @param showAddressMarkers is the checkbox input type and represents the toggle.
+   * @param showAddressMarkers is the toggle event.
    */
-  public showAddressMarkers(showAddressMarkers: any) {
-    let latLngArray: google.maps.LatLng[] = [];
+  public showAddressMarkers(showAddressMarkersEvent: any) {
+    const showAddressMarkers: boolean = showAddressMarkersEvent.target.checked;
+    
+    this.addressFilterGroup.controls['showSurroundings'].setValue(false);
 
     this.addressFilterGroup.controls['showAddressMarkers']
-      .setValue(showAddressMarkers.target.checked);
+      .setValue(showAddressMarkers);
     
     if (this.addressInfos.length) {
-      latLngArray = MapHelper.getLatLngArrayFromaddressInfos(
+      this.latLngArray = MapHelper.getLatLngArrayFromAddressInfos(
         this.addressInfos)
     }
 
-    this.onAddressFilterChanged(latLngArray);
+    this.onAddressFilterChanged();
+  }
+
+  private toggleAddressFilterMessage() {
+    if (this.addressInfos.length !== 0 
+      && (this.addressFilterGroup.get('walkScore')?.value
+      || this.addressFilterGroup.get('transitScore')?.value
+      || this.addressFilterGroup.get('bikeScore')?.value)) {
+      this.isAddressListFiltered = true
+      this.noAddressFound = false;
+    } else if (this.addressInfos.length == 0) {
+      this.isAddressListFiltered = false;
+      this.noAddressFound = true;
+
+      this.addressFilterGroup.controls['address'].setValue('');
+    };
   }
 
   public clearFilter() {
+    this.cityExists = false;
     this.isAddressListFiltered = false;
     this.noAddressFound = false;
-    this.addressFilterGroup.controls['city'].setValue(null);
-    this.addressFilterGroup.controls['showSurroundings'].setValue(null);
-    this.addressFilterGroup.controls['showAddressMarkers'].setValue(null);
-    this.addressFilterGroup.controls['address'].setValue(null);
-    this.addressFilterGroup.controls['timeframe'].setValue(null);
-    this.addressFilterGroup.controls['walkScore'].setValue(null);
-    this.addressFilterGroup.controls['transitScore'].setValue(null);
-    this.addressFilterGroup.controls['bikeScore'].setValue(null);
+    this.addressFilterGroup.controls['city'].setValue('');
+    this.addressFilterGroup.controls['showSurroundings'].setValue(false);
+    this.addressFilterGroup.controls['showAddressMarkers'].setValue(false);
+    this.addressFilterGroup.controls['address'].setValue('');
+    this.addressFilterGroup.controls['timeframe'].setValue('');
+    this.addressFilterGroup.controls['walkScore'].setValue('');
+    this.addressFilterGroup.controls['transitScore'].setValue('');
+    this.addressFilterGroup.controls['bikeScore'].setValue('');
   }
 }

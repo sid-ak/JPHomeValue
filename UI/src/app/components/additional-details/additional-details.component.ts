@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs';
 import { Scores } from 'src/app/common/address-data';
-import { AddressService } from 'src/app/services/address-service';
+import { FilterEventService } from 'src/app/services/filter-event.service';
 
 @Component({
   selector: 'app-additional-details',
@@ -13,10 +13,10 @@ export class AdditionalDetailsComponent implements OnInit, OnDestroy {
 
   public scores: Scores = new Scores();
 
-  constructor(private readonly addressService: AddressService) { }
+  constructor(private readonly filterEventService: FilterEventService) { }
 
   ngOnInit(): void {
-    this.addressService.displayScoresChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
+    this.filterEventService.displayScoresChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
       e => this.scores = e
     )
   }

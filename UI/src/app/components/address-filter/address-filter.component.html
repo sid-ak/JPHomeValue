@@ -5,9 +5,6 @@
         <div class="w-100"></div>
             <div id="filter" class="row">
                 <h2 class="my-2">Address
-                    <span *ngIf="!this.addressFilterGroup.get('city')?.value">
-                        Please select a city to use the filter
-                    </span>
                     <span style="margin-left: 26.5em; color: green;" *ngIf="isAddressListFiltered">
                         Addresses filtered by score(s)
                     </span>
@@ -32,9 +29,8 @@
                     <mat-form-field style="width: 75%;" appearance="fill">
                         <mat-label>Address</mat-label>
                             <input required
-                                [readonly]="!this.addressFilterGroup.get('city')?.value"
+                                [readonly]="!cityExists"
                                 type="text"
-                                placeholder="Please pick a city if you have not"
                                 matInput 
                                 formControlName="address"
                                 [matAutocomplete]="autoAddresses">
@@ -50,7 +46,7 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Timeframe</mat-label>
                             <mat-select 
-                                [disabled]="!this.addressFilterGroup.get('city')?.value"
+                                [disabled]="!cityExists"
                                 formControlName="timeframe" 
                                 required>
                                 <mat-option value="3">3 Months</mat-option>
@@ -64,7 +60,7 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Walk Score</mat-label>
                             <input type="number" matInput formControlName="walkScore" placeholder="0-100"
-                                [readonly]="!this.addressFilterGroup.get('city')?.value">
+                                [readonly]="!cityExists">
                     </mat-form-field>
                 </div>
                 <!-- Transit Score -->
@@ -72,7 +68,7 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Transit Score</mat-label>
                             <input type="number" matInput formControlName="transitScore" placeholder="0-100"
-                                [readonly]="!this.addressFilterGroup.get('city')?.value">
+                                [readonly]="!cityExists">
                     </mat-form-field>
                 </div>
                 <!-- Bike Score -->
@@ -80,39 +76,45 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Bike Score</mat-label>
                             <input type="number" matInput formControlName="bikeScore" placeholder="0-100"
-                                [readonly]="!this.addressFilterGroup.get('city')?.value">
+                                [readonly]="!cityExists">
                     </mat-form-field>
                 </div>
                 <div class="w-100"></div>
-                <div class="col">
+                <div class="col-3">
                     <button type="button filter-button" class="btn btn-outline-dark w-100"
                         (click)="onAddressFilterChanged()">
                         Filter
                     </button>
                 </div>
-                <div class="col my-auto">
+                <div class="col-3">
+                    <button type="button filter-button" class="btn btn-outline-dark w-100"
+                        (click)="clearFilter()">
+                        Clear Filter
+                    </button>
+                </div>
+                <div [hidden]="!this.addressFilterGroup.get('address')?.value" 
+                    class="col my-auto">
                     <div class="form-check form-switch my-auto">
-                        <input class="form-check-input" 
+                        <input class="form-check-input"
                             type="checkbox" 
                             (click)="showSurroundings($event)" 
                             formControlName="showSurroundings"> 
                         <label class="form-check-label">Show Surrounding Facilities</label>
                     </div>
                 </div>
-                <div class="col my-auto">
+                <div [hidden]="!this.addressFilterGroup.get('address')?.value"
+                    class="col my-auto">
                     <div class="form-check form-switch my-auto">
-                        <input class="form-check-input" 
+                        <input class="form-check-input"
                             type="checkbox" 
                             (click)="showAddressMarkers($event)" 
                             formControlName="showAddressMarkers"> 
                         <label class="form-check-label">Show Address Clusters</label>
                     </div>
                 </div>
-                <div class="col">
-                    <button type="button filter-button" class="btn btn-outline-dark w-100"
-                        (click)="clearFilter()">
-                        Clear Filter
-                    </button>
+                <div [hidden]="this.addressFilterGroup.get('address')?.value"
+                    class="col my-auto">
+                    Select a city and address to toggle surrounding facilities and address cluster views
                 </div>
             </div>
         </form>

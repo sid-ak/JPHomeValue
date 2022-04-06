@@ -29,36 +29,7 @@
                             </mat-select>
                     </mat-form-field>
                 </div>
-                <!-- Walk Score -->
-                <div id="walk-score" class="col">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Walk Score</mat-label>
-                            <input type="number" matInput formControlName="walkScore" placeholder="0-100">
-                    </mat-form-field>
-                </div>
-                <!-- Transit Score -->
-                <div id="transit-score" class="col">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Transit Score</mat-label>
-                            <input type="number" matInput formControlName="transitScore" placeholder="0-100">
-                    </mat-form-field>
-                </div>
-                <!-- Bike Score -->
-                <div id="timeframe" class="col">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Bike Score</mat-label>
-                            <input type="number" matInput formControlName="bikeScore" placeholder="0-100">
-                    </mat-form-field>
-                </div>
                 <div class="w-100"></div>
-                <div class="col-12">
-                    <button
-                        type="button filter-button" 
-                        class="btn btn-outline-dark w-25" 
-                        (click)="onCityFilterChanged()">
-                        Filter
-                    </button>
-                </div>
             </div>
         </form>
     </div>

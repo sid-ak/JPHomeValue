@@ -1,8 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs';
 import { MapHelper } from 'src/app/helpers/map-helper';
-import { AddressService } from 'src/app/services/address-service';
-import { CityService } from 'src/app/services/city-service';
+import { FilterEventService } from 'src/app/services/filter-event.service';
 
 @Component({
   selector: 'app-map',
@@ -13,17 +12,15 @@ export class MapComponent implements OnInit, OnDestroy {
 
   private readonly destroyed$ = new EventEmitter<boolean>(false);
 
-  constructor (
-    private readonly addressService: AddressService,
-    private readonly cityService: CityService) { }
+  constructor (private readonly filterEventService: FilterEventService) { }
 
   ngOnInit(): void {
-    this.cityService.cityChanged$.pipe(
+    this.filterEventService.cityChanged$.pipe(
       takeUntil(this.destroyed$)).subscribe(
       e => MapHelper.addMapScript(e)
     );
     
-    this.addressService.addressFilterChanged$.pipe(
+    this.filterEventService.addressFilterChanged$.pipe(
       takeUntil(this.destroyed$)).subscribe(
         e => MapHelper.addMapScript(e.city, e)
     );
