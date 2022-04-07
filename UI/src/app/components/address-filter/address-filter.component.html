@@ -60,6 +60,8 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Walk Score</mat-label>
                             <input type="number" matInput formControlName="walkScore" placeholder="0-100"
+                                min="0"
+                                max="100"
                                 [readonly]="!cityExists">
                     </mat-form-field>
                 </div>
@@ -68,6 +70,8 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Transit Score</mat-label>
                             <input type="number" matInput formControlName="transitScore" placeholder="0-100"
+                                min="0"
+                                max="100"
                                 [readonly]="!cityExists">
                     </mat-form-field>
                 </div>
@@ -76,6 +80,8 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Bike Score</mat-label>
                             <input type="number" matInput formControlName="bikeScore" placeholder="0-100"
+                                min="0"
+                                max="100"
                                 [readonly]="!cityExists">
                     </mat-form-field>
                 </div>
@@ -113,8 +119,8 @@
                     </div>
                 </div>
                 <div [hidden]="this.addressFilterGroup.get('address')?.value"
-                    class="col my-auto">
-                    Select a city and address to toggle surrounding facilities and address cluster views
+                    class="col my-auto" style="color: blue;">
+                    Select a <strong>city</strong> and <strong>address</strong> to toggle surrounding facilities and cluster addresses
                 </div>
             </div>
         </form>

@@ -59,31 +59,32 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
 
   /**
    * Handle change to the city dropdown.
-   * @param city 
+   * @param city
    */
   public onCityChanged(city: CityEnum): void {
     this.filterEventService.cityChanged$.next(city);
-    
+
     this.addressFilterGroup.controls['address'].setValue(null);
     this.addressFilterGroup.controls['timeframe'].setValue(null);
     this.addressFilterGroup.controls['showSurroundings'].setValue(null);
     this.addressFilterGroup.controls['showAddressMarkers'].setValue(null);
 
     this.filterEventService.displayScoresChanged$.next(new Scores());
-    
+
     this.cityExists = true;
+    this.noAddressFound = false;
   }
 
   /**
    * A way to reinitialize the map and chart if the address filter button is clicked.
    * @param latLngArray is optional and is to display clustered address markers using
    * an array of type google.maps.LatLng
-   * 
+   *
    * TODO: Handle a special case for when just the timeframe is changed, and nothing else.
    * Similar to how city change is handled. The map does not need to re render on timeframe change.
    */
   public onAddressFilterChanged(): void {
-    
+
     const city = CityHelper.getCityFromString(this.addressFilterGroup.get('city')?.value);
     const showSurroundings = this.addressFilterGroup.get('showSurroundings')?.value;
     const showAddressMarkers = this.addressFilterGroup.get('showAddressMarkers')?.value;
@@ -116,10 +117,10 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
 
     this.setUpAddressFilter(city, new Scores(walkScore, transitScore, bikeScore));
   }
-  
+
   /**
    * Set up the data for the address autocomplete.
-   * @param city 
+   * @param city
    */
   private async setUpAddressFilter(
       city: CityEnum, scores: Scores = new Scores()): Promise<void> {
@@ -132,9 +133,9 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
       this.addressInfos = AddressDataHelper.getAddressInfoArray(this.addressData).filter(
         e => e.bikeScore >= this.addressFilterGroup.get('bikeScore')?.value
           && e.transitScore >= this.addressFilterGroup.get('transitScore')?.value
-          && e.walkScore >= this.addressFilterGroup.get('walkScore')?.value 
+          && e.walkScore >= this.addressFilterGroup.get('walkScore')?.value
       );
-      
+
       this.toggleAddressFilterMessage();
     }
 
@@ -146,7 +147,7 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
 
   /**
    * Filter address for the autocomplete.
-   * @param address 
+   * @param address
    * @returns An array of type AddressInfo.
    */
   private filterAddress(address: string): AddressInfo[] {
@@ -162,7 +163,7 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
    */
   public showSurroundings(showSurroundings: any) {
     this.addressFilterGroup.controls['showAddressMarkers'].setValue(false);
-    
+
     this.addressFilterGroup.controls['showSurroundings']
       .setValue(showSurroundings.target.checked);
 
@@ -175,12 +176,12 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
    */
   public showAddressMarkers(showAddressMarkersEvent: any) {
     const showAddressMarkers: boolean = showAddressMarkersEvent.target.checked;
-    
+
     this.addressFilterGroup.controls['showSurroundings'].setValue(false);
 
     this.addressFilterGroup.controls['showAddressMarkers']
       .setValue(showAddressMarkers);
-    
+
     if (this.addressInfos.length) {
       this.latLngArray = MapHelper.getLatLngArrayFromAddressInfos(
         this.addressInfos)
@@ -190,7 +191,7 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
   }
 
   private toggleAddressFilterMessage() {
-    if (this.addressInfos.length !== 0 
+    if (this.addressInfos.length !== 0
       && (this.addressFilterGroup.get('walkScore')?.value
       || this.addressFilterGroup.get('transitScore')?.value
       || this.addressFilterGroup.get('bikeScore')?.value)) {
@@ -208,11 +209,11 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
     this.cityExists = false;
     this.isAddressListFiltered = false;
     this.noAddressFound = false;
-    this.addressFilterGroup.controls['city'].setValue('');
+    this.addressFilterGroup.controls['city'].setValue(null);
     this.addressFilterGroup.controls['showSurroundings'].setValue(false);
     this.addressFilterGroup.controls['showAddressMarkers'].setValue(false);
     this.addressFilterGroup.controls['address'].setValue('');
-    this.addressFilterGroup.controls['timeframe'].setValue('');
+    this.addressFilterGroup.controls['timeframe'].setValue(null);
     this.addressFilterGroup.controls['walkScore'].setValue('');
     this.addressFilterGroup.controls['transitScore'].setValue('');
     this.addressFilterGroup.controls['bikeScore'].setValue('');
