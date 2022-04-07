@@ -3,6 +3,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 h2 {
     color: rgb(83, 47, 25);
+    span {
+        font-weight: normal;
+        margin-left: 2em;
+        color: black;
+        font-size: smaller;
+    }
 }
 
 .navbar-light .navbar-nav .nav-link {

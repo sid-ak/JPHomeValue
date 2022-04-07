@@ -1,11 +1,11 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
-import { Shiller } from 'src/app/common/shiller';
 import { FirebaseDbService } from 'src/app/services/firebase-db.service';
 import * as Highcharts from 'highcharts';
-import { ChartService } from 'src/app/services/chart-service';
+import { FilterEventService } from 'src/app/services/filter-event.service';
 import { CityFilterModel } from 'src/app/models/city-filter-model';
 import { CityEnum } from 'src/app/enums/city-enum';
 import { takeUntil } from 'rxjs';
+import { AddressFilterModel } from 'src/app/models/address-filter-model';
 
 @Component({
   selector: 'app-chart',
@@ -13,22 +13,24 @@ import { takeUntil } from 'rxjs';
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit, OnDestroy {
-  private destroyed$ = new EventEmitter<void>();
+  private readonly destroyed$ = new EventEmitter<void>();
 
-  tampaShiller: Shiller = new Shiller(null, CityEnum.None);
-  public cityVm = new CityFilterModel();
+  public filter: CityFilterModel | AddressFilterModel = new CityFilterModel();
 
   public Highcharts: typeof Highcharts = Highcharts;
   chartOptions!: Highcharts.Options;
 
   constructor (
     private readonly dbService: FirebaseDbService,
-    private readonly chartService: ChartService) { }
+    private readonly filterEventService: FilterEventService) { }
 
   ngOnInit(): void {
-    this.chartService.cityChanged$
-      .pipe(takeUntil(this.destroyed$)).subscribe(
-        async (e: any) => await this.getChartData(e as CityFilterModel)
+    this.filterEventService.cityFilterChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
+      async (e: CityFilterModel) => await this.renderChart(e as CityFilterModel)
+    );
+
+    this.filterEventService.addressFilterChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
+      async (e: AddressFilterModel) => await this.renderChart(e as AddressFilterModel) // TODO: Replace with app model.
     );
   }
 
@@ -36,68 +38,75 @@ export class ChartComponent implements OnInit, OnDestroy {
     this.destroyed$.next();
   }
 
-  private async getChartData(
-    cityVm: CityFilterModel): Promise<void> {
-      this.cityVm = cityVm;
-      switch (cityVm.city) {
-        // Tampa
-        case CityEnum.Tampa:
-          if (cityVm.timeframe == 3) {
-            await this.dbService.getTampaThreeMonthsAsync()
-              .then(e => this.createChartOptions([e.dates, e.indices]));
-          }
-          if (cityVm.timeframe == 6) {
-            await this.dbService.getTampaSixMonthsAsync()
-              .then(e => this.createChartOptions([e.dates, e.indices]));
-          }
-          if (cityVm.timeframe == 12) {
-            await this.dbService.getTampaTwelveMonthsAsync()
-              .then(e => this.createChartOptions([e.dates, e.indices]));
-          }
-          else {
-            return;
-          }
-        break;
+  private async renderChart(filter: CityFilterModel | AddressFilterModel): Promise<void> {
+      if (filter instanceof CityFilterModel) {
+        this.filter = filter;
+        switch (filter.city) {
+          // Tampa
+          case CityEnum.Tampa:
+            if (filter.timeframe == 3) {
+              await this.dbService.getModel(CityEnum.Tampa, 3)
+                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+            }
+            if (filter.timeframe == 6) {
+              await this.dbService.getModel(CityEnum.Tampa, 6)
+                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+            }
+            if (filter.timeframe == 12) {
+              await this.dbService.getModel(CityEnum.Tampa, 12)
+                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+            }
+            else {
+              return;
+            }
+          break;
 
-        // St. Pete
-        case CityEnum.StPetersburg:
-          if (cityVm.timeframe == 3) {
-            await this.dbService.getStPeteThreeMonthsAsync()
-              .then(e => this.createChartOptions([e.dates, e.indices]));
-          }
-          if (cityVm.timeframe == 6) {
-            await this.dbService.getStPeteSixMonthsAsync()
-              .then(e => this.createChartOptions([e.dates, e.indices]));
-          }
-          if (cityVm.timeframe == 12) {
-            await this.dbService.getStPeteTwelveMonthsAsync()
-              .then(e => this.createChartOptions([e.dates, e.indices]));
-          }
-          else {
-            return;
-          }
-        break;
+          // St. Pete
+          case CityEnum.StPetersburg:
+            if (filter.timeframe == 3) {
+              await this.dbService.getModel(CityEnum.StPetersburg, 3)
+                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+            }
+            if (filter.timeframe == 6) {
+              await this.dbService.getModel(CityEnum.StPetersburg, 6)
+                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+            }
+            if (filter.timeframe == 12) {
+              await this.dbService.getModel(CityEnum.StPetersburg, 12)
+                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+            }
+            else {
+              return;
+            }
+          break;
 
-        // Clearwater 
-        case CityEnum.Clearwater:
-          if (cityVm.timeframe == 3) {
-            await this.dbService.getClearwaterThreeMonthsAsync()
-              .then(e => this.createChartOptions([e.dates, e.indices]));
-          }
-          if (cityVm.timeframe == 6) {
-            await this.dbService.getClearwaterSixMonthsAsync()
-              .then(e => this.createChartOptions([e.dates, e.indices]));
-          }
-          if (cityVm.timeframe == 12) {
-            await this.dbService.getClearwaterTwelveMonthsAsync()
-              .then(e => this.createChartOptions([e.dates, e.indices]));
-          }
-          else {
-            return;
-          }
-        break;
-        default: return;
-      }
+          // Clearwater 
+          case CityEnum.Clearwater:
+            if (filter.timeframe == 3) {
+              await this.dbService.getModel(CityEnum.Clearwater, 3)
+                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+            }
+            if (filter.timeframe == 6) {
+              await this.dbService.getModel(CityEnum.Clearwater, 6)
+                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+            }
+            if (filter.timeframe == 12) {
+              await this.dbService.getModel(CityEnum.Clearwater, 12)
+                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+            }
+            else {
+              return;
+            }
+          break;
+          default: return;
+        }
+
+        /**
+         * TODO: Update branching logic to work with the AddressFilterModel. 
+         */
+      } else if (filter instanceof AddressFilterModel && filter.address) {
+        this.filter = new AddressFilterModel(CityEnum.None);
+    }
   }
 
   private createChartOptions(data: [string[], number[]]) {
@@ -116,5 +125,10 @@ export class ChartComponent implements OnInit, OnDestroy {
         visible: false // Hidden until I can figure out adding dates to the x axis.
       },
     };
+  }
+
+  public splitCamelCase(city?: string): string {
+    if (city) return city.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
+    return "";
   }
 }
