@@ -111,19 +111,38 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   private createChartOptions(data: [string[], number[]]) {
     this.chartOptions = {
+      rangeSelector: {
+        selected: 1
+      },
       title: {
-        text: ""
+        text: "Forecast"
       },
       credits: {
         enabled: false
       },
-      series: [{
-        type: "line",
-        data: data[1]
-      }],
       xAxis: {
-        visible: false // Hidden until I can figure out adding dates to the x axis.
+        title: {
+          text: "Date"
+        },
+        type: "datetime",
       },
+      yAxis: {
+        title: {
+          text: "Index Values"
+        }
+      },
+
+      // Set Up Data
+      series: [{
+        name: "Price",
+        type: "line",
+        data: data[1],
+        pointStart: Date.UTC(2002, 0, 1),
+        pointIntervalUnit: 'month',
+        tooltip: {
+          valueDecimals: 2
+        }
+      }],
     };
   }
 
