@@ -46,9 +46,8 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Timeframe</mat-label>
                             <mat-select 
-                                [disabled]="!cityExists"
-                                formControlName="timeframe" 
-                                required>
+                                [disabled]="true"
+                                formControlName="timeframe">
                                 <mat-option value="3">3 Months</mat-option>
                                 <mat-option value="6">6 Months</mat-option>
                                 <mat-option value="12">12 Months</mat-option>

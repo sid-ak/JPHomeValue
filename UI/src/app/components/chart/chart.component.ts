@@ -24,13 +24,13 @@ export class ChartComponent implements OnInit, OnDestroy {
     private readonly dbService: FirebaseDbService,
     private readonly filterEventService: FilterEventService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.filterEventService.cityFilterChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
       async (e: CityFilterModel) => await this.renderChart(e as CityFilterModel)
     );
 
     this.filterEventService.addressFilterChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
-      async (e: AddressFilterModel) => await this.renderChart(e as AddressFilterModel) // TODO: Replace with app model.
+      async (e: AddressFilterModel) => await this.renderChart(e as AddressFilterModel)
     );
   }
 
@@ -101,11 +101,11 @@ export class ChartComponent implements OnInit, OnDestroy {
           default: return;
         }
 
-        /**
-         * TODO: Update branching logic to work with the AddressFilterModel. 
-         */
       } else if (filter instanceof AddressFilterModel && filter.address) {
-        this.filter = new AddressFilterModel(CityEnum.None);
+        (this.filter as AddressFilterModel) = filter;
+        const predictions = (await this.dbService.getPredictionData(filter.city)).predictedAddresses
+          .filter(e => e.address === filter.address).map(e => e.predictions);
+        console.log(predictions);
     }
   }
 

@@ -9,8 +9,10 @@ export class Constants {
 
     static readonly tampaLatLng = [27.964157, -82.452606];
 
-    static readonly getTampaAddressDataUrl: string  = `https://jphomevalue-default-rtdb.firebaseio.com/AddressData/TampaAddressData.json?print=pretty`
+    static readonly getTampaAddressDataUrl: string  = `https://jphomevalue-default-rtdb.firebaseio.com/AddressData/TampaAddressData.json?print=pretty`;
     
+    static readonly getTampaPredictionDataUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/Predictions/TampaPredictions.json?print=pretty`;
+
     // St. Pete
     static readonly getStPeteThreeMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/Model/StPeteThreeMonths.json?print=pretty`;
     static readonly getStPeteSixMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/Model/StPeteSixMonths.json?print=pretty`;
@@ -20,6 +22,8 @@ export class Constants {
 
     static readonly getStPeteAddressDataUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/AddressData/StPeteAddressData.json?print=pretty`;
     
+    static readonly getStPetePredictionDataUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/Predictions/StPetePredictions.json?print=pretty`;
+
     // Clearwater
     static readonly getClearwaterThreeMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/Model/ClearwaterThreeMonths.json?print=pretty`;
     static readonly getClearwaterSixMonthsUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/Model/ClearwaterSixMonths.json?print=pretty`;
@@ -28,4 +32,6 @@ export class Constants {
     static readonly clearwaterLatLng = [27.972572, -82.796745];
 
     static readonly getClearwaterAddressDataUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/AddressData/ClearwaterAddressData.json?print=pretty`;
+
+    static readonly getClearwaterPredictionDataUrl: string = `https://jphomevalue-default-rtdb.firebaseio.com/Predictions/ClearwaterPredictions.json?print=pretty`;
 }

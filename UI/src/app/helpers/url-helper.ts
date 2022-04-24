@@ -40,4 +40,18 @@ export class UrlHelper {
             [CityEnum.Clearwater, Constants.getClearwaterAddressDataUrl]
         ]).get(city) ?? "";
     }
+
+    /**
+     * Gets the DB URL for prediction data from the city.
+     * Returns an empty string if no match is found.
+     * @param city 
+     * @returns 
+     */
+         public static getPredictionDataUrl(city: CityEnum): string {
+            return new Map<CityEnum, string>([
+                [CityEnum.Tampa, Constants.getTampaPredictionDataUrl],
+                [CityEnum.StPetersburg, Constants.getStPetePredictionDataUrl],
+                [CityEnum.Clearwater, Constants.getClearwaterPredictionDataUrl]
+            ]).get(city) ?? "";
+        }
 }

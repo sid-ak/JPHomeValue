@@ -153,7 +153,7 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
   private filterAddress(address: string): AddressInfo[] {
     const addressLower = address.toLowerCase();
 
-    return this.addressInfos.filter(e => e.address.toLowerCase()
+    return this.addressInfos.filter(async e => e.address.toLowerCase()
       .includes(addressLower));
   }
 

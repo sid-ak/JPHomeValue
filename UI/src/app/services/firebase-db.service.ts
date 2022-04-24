@@ -6,6 +6,7 @@ import { map } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AddressData } from '../common/address-data';
+import { PredictionData } from '../common/prediction-data';
 import { SeasonalityModel } from '../common/seasonality-model';
 import { CityEnum } from '../enums/city-enum';
 import { UrlHelper } from '../helpers/url-helper';
@@ -45,5 +46,16 @@ export class FirebaseDbService {
     return firstValueFrom(this.http.get(
       UrlHelper.getAddressDataUrl(city)).pipe(
         map(e => new AddressData(e as Array<any>))));
+  }
+
+  /**
+   * Gets prediction data based on the city.
+   * @param city 
+   * @returns 
+   */
+  getPredictionData(city: CityEnum): Promise<PredictionData> {
+    return firstValueFrom(this.http.get(
+      UrlHelper.getPredictionDataUrl(city)).pipe(
+        map(e => new PredictionData(city, e as Array<any>))));
   }
 }

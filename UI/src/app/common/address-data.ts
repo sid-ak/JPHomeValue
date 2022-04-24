@@ -19,7 +19,7 @@ export class AddressData {
 export class AddressInfoLists {
     readonly lats: number[];
     readonly lngs: number[];
-    readonly addresses: string[];
+    addresses: string[];
     readonly walkScores: number[];
     readonly transitScores: number[];
     readonly bikeScores: number[];
