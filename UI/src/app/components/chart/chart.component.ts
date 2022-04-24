@@ -20,6 +20,8 @@ export class ChartComponent implements OnInit, OnDestroy {
   public Highcharts: typeof Highcharts = Highcharts;
   chartOptions!: Highcharts.Options;
 
+  public isCityDashboard = true;
+
   constructor (
     private readonly dbService: FirebaseDbService,
     private readonly filterEventService: FilterEventService) { }
@@ -32,6 +34,10 @@ export class ChartComponent implements OnInit, OnDestroy {
     this.filterEventService.addressFilterChanged$.pipe(takeUntil(this.destroyed$)).subscribe(
       async (e: AddressFilterModel) => await this.renderChart(e as AddressFilterModel)
     );
+
+    this.filterEventService.isCityDashboard$.pipe(takeUntil(this.destroyed$)).subscribe(
+      e => this.isCityDashboard = e
+    )
   }
 
   ngOnDestroy(): void {

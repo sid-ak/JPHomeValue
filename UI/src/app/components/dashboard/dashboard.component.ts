@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, noop, takeUntil } from 'rxjs';
+import { FilterEventService } from 'src/app/services/filter-event.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,9 +11,11 @@ import { BehaviorSubject, noop, takeUntil } from 'rxjs';
 export class DashboardComponent implements OnInit, OnDestroy {
   private destroyed$ = new EventEmitter<void>();
 
-  public isCityDashboard$ = new BehaviorSubject<boolean>(false)
-  
-  constructor(private readonly router: Router) { }
+  public isCityDashboard = true;
+
+  constructor(
+    private readonly router: Router,
+    private readonly filterService: FilterEventService) { }
 
   ngOnInit(): void {
     this.checkNavigation();
@@ -23,16 +26,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private checkNavigation(): void {
-    this.isCityDashboard(this.router.url);
+    this.onCityDashboard(this.router.url);
     this.router.events.pipe(takeUntil(this.destroyed$)).subscribe(
       e => e instanceof NavigationEnd
-        ? this.isCityDashboard(e.url)
+        ? this.onCityDashboard(e.url)
         : noop()
     )
   }
 
-  public isCityDashboard(url: string): void {
-    if (url == '/city-dashboard') this.isCityDashboard$.next(true);
-    else this.isCityDashboard$.next(false);
+  public onCityDashboard(url: string): void {
+    if (url == '/city-dashboard') { 
+      this.filterService.isCityDashboard$.next(true);
+      this.isCityDashboard = true;
+    }
+    else { 
+      this.filterService.isCityDashboard$.next(false);
+      this.isCityDashboard = false;
+    }
   }
 }

@@ -1,6 +1,7 @@
 <h2>Seasonality Forecast</h2>
 
-<div *ngIf="filter.city != 'None'; else selectHeader">
+<div *ngIf="filter.city != 'None'
+  && ((isCityDashboard && filter.timeframe !== 0) || (!isCityDashboard)); else selectHeader">
   <h3>
     <strong>
       {{ splitCamelCase(filter.city) }}
