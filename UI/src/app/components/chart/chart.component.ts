@@ -104,8 +104,11 @@ export class ChartComponent implements OnInit, OnDestroy {
       } else if (filter instanceof AddressFilterModel && filter.address) {
         (this.filter as AddressFilterModel) = filter;
         const predictions = (await this.dbService.getPredictionData(filter.city)).predictedAddresses
-          .filter(e => e.address === filter.address).map(e => e.predictions);
-        console.log(predictions);
+          .filter(e => e.address === filter.address)
+          .map(e => e.predictions)[0];
+        const dates = predictions.map(e => e.date);
+        const prices = predictions.map(e => e.price);
+        this.createChartOptions([dates, prices])
     }
   }
 

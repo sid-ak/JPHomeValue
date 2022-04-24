@@ -125,12 +125,19 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
   private async setUpAddressFilter(
       city: CityEnum, scores: Scores = new Scores()): Promise<void> {
     this.addressData = await this.dbService.getAddressData(city);
+    const predictedAddresses = (await this.dbService.getPredictionData(city)).predictedAddresses
+      .map(e => e.address);
+    
+    // Filter out addresses without prediction data.
+    this.addressInfos = AddressDataHelper.getAddressInfoArray(this.addressData).filter(
+      e => predictedAddresses.includes(e.address)
+    );
 
     if (scores.bikeScore === -1 && scores.transitScore === -1 && scores.walkScore === -1) {
-      this.addressInfos = AddressDataHelper.getAddressInfoArray(this.addressData);
+      this.addressInfos = this.addressInfos;
       this.isAddressListFiltered = false;
     } else {
-      this.addressInfos = AddressDataHelper.getAddressInfoArray(this.addressData).filter(
+      this.addressInfos = this.addressInfos.filter(
         e => e.bikeScore >= this.addressFilterGroup.get('bikeScore')?.value
           && e.transitScore >= this.addressFilterGroup.get('transitScore')?.value
           && e.walkScore >= this.addressFilterGroup.get('walkScore')?.value
@@ -153,7 +160,7 @@ export class AddressFilterComponent implements OnInit, OnDestroy {
   private filterAddress(address: string): AddressInfo[] {
     const addressLower = address.toLowerCase();
 
-    return this.addressInfos.filter(async e => e.address.toLowerCase()
+    return this.addressInfos.filter(e => e.address.toLowerCase()
       .includes(addressLower));
   }
 
