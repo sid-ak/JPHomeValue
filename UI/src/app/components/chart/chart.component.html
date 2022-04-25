@@ -7,9 +7,13 @@
       {{ splitCamelCase(filter.city) }}
     </strong> in <strong>{{filter.timeframe}}</strong> Months</h3>
 
-  <highcharts-chart id="chart" 
+  <highcharts-chart id="container" 
     [Highcharts]="Highcharts"
+    [constructorType]="chartConstructor"
     [options]="chartOptions"
+    [callbackFunction]="chartCallback"
+    [(update)]="chartUpdateFlag"
+    [oneToOne]="true"
 
     style="width: 100%; height: 400px; display: block;"
   ></highcharts-chart>

@@ -17,8 +17,14 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   public filter: CityFilterModel | AddressFilterModel = new CityFilterModel();
 
-  public Highcharts: typeof Highcharts = Highcharts;
+  chart: any;
+  chartUpdateFlag = false;
+  Highcharts = Highcharts;
+  chartConstructor = "chart";
+  chartCallback: any;
   chartOptions!: Highcharts.Options;
+
+  data!: [string[], number[]];
 
   public isCityDashboard = true;
 
@@ -38,35 +44,34 @@ export class ChartComponent implements OnInit, OnDestroy {
     this.filterEventService.isCityDashboard$.pipe(takeUntil(this.destroyed$)).subscribe(
       e => this.isCityDashboard = e
     );
-
-    const intervalData = await this.dbService.getIntervalData(CityEnum.Tampa);
-    console.log(intervalData);
   }
 
   ngOnDestroy(): void {
     this.destroyed$.next();
   }
 
+  // TODO: Branching logic has too many branches. Fix it.
   private async renderChart(filter: CityFilterModel | AddressFilterModel): Promise<void> {
-      if (filter instanceof CityFilterModel) {
-        this.filter = filter;
-        switch (filter.city) {
+    if (filter instanceof CityFilterModel) {
+      if (filter.timeframe) {
+        this.filter = filter; // Need this on the DOM for chart.
+        switch (filter.city) {          
           // Tampa
           case CityEnum.Tampa:
             if (filter.timeframe == 3) {
               await this.dbService.getModel(CityEnum.Tampa, 3)
-                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
+              this.createChartOptions(this.data);
             }
             if (filter.timeframe == 6) {
               await this.dbService.getModel(CityEnum.Tampa, 6)
-                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
+              this.createChartOptions(this.data);
             }
             if (filter.timeframe == 12) {
               await this.dbService.getModel(CityEnum.Tampa, 12)
-                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
-            }
-            else {
-              return;
+                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
+              this.createChartOptions(this.data);
             }
           break;
 
@@ -74,18 +79,18 @@ export class ChartComponent implements OnInit, OnDestroy {
           case CityEnum.StPetersburg:
             if (filter.timeframe == 3) {
               await this.dbService.getModel(CityEnum.StPetersburg, 3)
-                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
+              this.createChartOptions(this.data)
             }
             if (filter.timeframe == 6) {
               await this.dbService.getModel(CityEnum.StPetersburg, 6)
-                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
+              this.createChartOptions(this.data)
             }
             if (filter.timeframe == 12) {
               await this.dbService.getModel(CityEnum.StPetersburg, 12)
-                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
-            }
-            else {
-              return;
+                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
+              this.createChartOptions(this.data)
             }
           break;
 
@@ -93,24 +98,32 @@ export class ChartComponent implements OnInit, OnDestroy {
           case CityEnum.Clearwater:
             if (filter.timeframe == 3) {
               await this.dbService.getModel(CityEnum.Clearwater, 3)
-                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
+              this.createChartOptions(this.data)
             }
             if (filter.timeframe == 6) {
               await this.dbService.getModel(CityEnum.Clearwater, 6)
-                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
+                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
+              this.createChartOptions(this.data)
             }
             if (filter.timeframe == 12) {
               await this.dbService.getModel(CityEnum.Clearwater, 12)
-                .then(e => this.createChartOptions([e.shiller.dates, e.shiller.indices]));
-            }
-            else {
-              return;
+                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
+              this.createChartOptions(this.data)
             }
           break;
-          default: return;
         }
+        if (filter.interval) {
+          const intervalShiller = await this.dbService.getIntervalData(filter.city!);
+          const predictedShiller = intervalShiller.intervals.find(
+            e => e.trainingInterval === filter.interval)!.shiller;
+  
+          this.updateChartOptions([predictedShiller.dates, predictedShiller.indices]);
+        }
+      }
+    }
 
-      } else if (filter instanceof AddressFilterModel && filter.address) {
+    else if (filter instanceof AddressFilterModel && filter.address) {
         (this.filter as AddressFilterModel) = filter;
         const predictions = (await this.dbService.getPredictionData(filter.city)).predictedAddresses
           .filter(e => e.address === filter.address)
@@ -146,7 +159,8 @@ export class ChartComponent implements OnInit, OnDestroy {
 
       // Set Up Data
       series: [{
-        name: "Price",
+        name: "Index",
+        color: "blue",
         type: "line",
         data: data[1],
         pointStart: Date.UTC(2002, 0, 1),
@@ -156,6 +170,37 @@ export class ChartComponent implements OnInit, OnDestroy {
         }
       }],
     };
+  }
+
+  private updateChartOptions(newData: [string[], number[]]) {
+    const originalData = this.data;
+
+    this.chartOptions.series = [
+      {
+        name: "Index",
+        color: "blue",
+        type: "line",
+        data: originalData[1],
+        pointStart: Date.UTC(2002, 0, 1),
+        pointIntervalUnit: 'month',
+        tooltip: {
+          valueDecimals: 2
+        }
+      },
+      {
+        name: "Predicted Index",
+        color: "green",
+        type: "line",
+        data: newData[1],
+        pointStart: Date.UTC(2002, 0, 1),
+        pointIntervalUnit: 'month',
+        tooltip: {
+          valueDecimals: 2
+        }
+      },
+    ];
+    
+    this.chartUpdateFlag = true;
   }
 
   public splitCamelCase(city?: string): string {

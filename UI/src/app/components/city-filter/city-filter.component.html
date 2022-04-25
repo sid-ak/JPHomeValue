@@ -18,7 +18,8 @@
                     </mat-form-field>
                 </div>
                 <!-- Timeframe Dropdown -->
-                <div id="timeframe" class="col">
+                <div id="timeframe" class="col-3">
+                    <h3>Prediction Timeframe:</h3>
                     <mat-form-field appearance="fill">
                         <mat-label>Timeframe</mat-label>
                             <mat-select formControlName="timeframe" required
@@ -26,6 +27,25 @@
                                 <mat-option value="3">3 Months</mat-option>
                                 <mat-option value="6">6 Months</mat-option>
                                 <mat-option value="12">12 Months</mat-option>
+                            </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- Interval Dropdown -->
+                <div id="interval" class="col-6">
+                    <h3>Model Insights:
+                        <p style="display: contents;" 
+                            *ngIf="!this.cityFilterGroup.get('timeframe')?.value">
+                                (Select <strong>timeframe</strong> to enable)</p>
+                    </h3>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Training Interval</mat-label>
+                            <mat-select formControlName="interval"
+                                (ngModelChange)="onCityFilterChanged()"
+                                [disabled]="!this.cityFilterGroup.get('timeframe')?.value">
+                                <mat-option 
+                                    *ngFor="let interval of this.intervals" 
+                                    [value]="interval">{{ interval }}
+                                </mat-option>
                             </mat-select>
                     </mat-form-field>
                 </div>
