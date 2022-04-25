@@ -46,9 +46,8 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Timeframe</mat-label>
                             <mat-select 
-                                [disabled]="!cityExists"
-                                formControlName="timeframe" 
-                                required>
+                                [disabled]="true"
+                                formControlName="timeframe">
                                 <mat-option value="3">3 Months</mat-option>
                                 <mat-option value="6">6 Months</mat-option>
                                 <mat-option value="12">12 Months</mat-option>
@@ -120,7 +119,7 @@
                 </div>
                 <div [hidden]="this.addressFilterGroup.get('address')?.value"
                     class="col my-auto" style="color: blue;">
-                    Select a <strong>city</strong> and <strong>address</strong> to toggle surrounding facilities and cluster addresses
+                    Please select a <strong>city</strong> and <strong>address</strong>
                 </div>
             </div>
         </form>

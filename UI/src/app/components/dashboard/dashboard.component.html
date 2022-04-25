@@ -1,6 +1,6 @@
 <div id="dashboard" class="container p-4 shadow">
     <!-- City Filter -->
-    <app-city-filter *ngIf="isCityDashboard$ | async; 
+    <app-city-filter *ngIf="isCityDashboard; 
         else addressFilter"></app-city-filter>
     <!-- Address Filter -->
     <ng-template #addressFilter>
