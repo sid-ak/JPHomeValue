@@ -47,11 +47,25 @@ export class UrlHelper {
      * @param city 
      * @returns 
      */
-         public static getPredictionDataUrl(city: CityEnum): string {
-            return new Map<CityEnum, string>([
-                [CityEnum.Tampa, Constants.getTampaPredictionDataUrl],
-                [CityEnum.StPetersburg, Constants.getStPetePredictionDataUrl],
-                [CityEnum.Clearwater, Constants.getClearwaterPredictionDataUrl]
-            ]).get(city) ?? "";
-        }
-}
+    public static getPredictionDataUrl(city: CityEnum): string {
+        return new Map<CityEnum, string>([
+            [CityEnum.Tampa, Constants.getTampaPredictionDataUrl],
+            [CityEnum.StPetersburg, Constants.getStPetePredictionDataUrl],
+            [CityEnum.Clearwater, Constants.getClearwaterPredictionDataUrl]
+        ]).get(city) ?? "";
+    }
+
+    /**
+     * Gets the DB URL for interval data from the city.
+     * Returns an empty string if no match is found.
+     * @param city 
+     * @returns 
+     */
+     public static getIntervalDataUrl(city: CityEnum): string {
+        return new Map<CityEnum, string>([
+            [CityEnum.Tampa, Constants.getTampaIntervalDataUrl],
+            [CityEnum.StPetersburg, Constants.getStPeteIntervalDataUrl],
+            [CityEnum.Clearwater, Constants.getClearwaterIntervalDataUrl]
+        ]).get(city) ?? "";
+    }
+}   

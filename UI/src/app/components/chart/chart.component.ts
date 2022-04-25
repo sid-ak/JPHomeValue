@@ -37,7 +37,10 @@ export class ChartComponent implements OnInit, OnDestroy {
 
     this.filterEventService.isCityDashboard$.pipe(takeUntil(this.destroyed$)).subscribe(
       e => this.isCityDashboard = e
-    )
+    );
+
+    const intervalData = await this.dbService.getIntervalData(CityEnum.Tampa);
+    console.log(intervalData);
   }
 
   ngOnDestroy(): void {

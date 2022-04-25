@@ -44,7 +44,7 @@ class PredictedAddress {
 class Prediction {
     readonly date: string;
     readonly price: number;
-    readonly index: number
+    readonly index: number;
 
     constructor(zippedPrediction: any) {
         this.date = zippedPrediction[0];

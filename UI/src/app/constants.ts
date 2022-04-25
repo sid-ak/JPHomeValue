@@ -31,4 +31,9 @@ export class Constants {
     static readonly getTampaPredictionDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Predictions/TampaPredictions.json?print=pretty";
     static readonly getStPetePredictionDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Predictions/StPetePredictions.json?print=pretty";
     static readonly getClearwaterPredictionDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Predictions/ClearwaterPredictions.json?print=pretty";
+
+    // Interval Data
+    static readonly getTampaIntervalDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Model/IntervalData/TampaIntervalData.json?print=pretty";
+    static readonly getStPeteIntervalDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Model/IntervalData/StPeteIntervalData.json?print=pretty";
+    static readonly getClearwaterIntervalDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Model/IntervalData/ClearwaterIntervalData.json?print=pretty";
 }
