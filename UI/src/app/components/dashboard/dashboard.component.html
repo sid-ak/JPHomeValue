@@ -15,7 +15,7 @@
             </div>
             <div class="col-12 col-sm-12 col-lg-6">
                 <app-chart></app-chart>
-                <app-additional-details></app-additional-details>
+                <app-additional-details *ngIf="!isCityDashboard"></app-additional-details>
             </div>
         </div>
     </div>

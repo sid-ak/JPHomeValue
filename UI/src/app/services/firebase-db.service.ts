@@ -20,7 +20,7 @@ export class FirebaseDbService {
   readonly database: Database;
   readonly databaseReference: DatabaseReference;
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.app = initializeApp(environment.firebaseConfig);
     this.database = getDatabase(this.app);
     this.databaseReference = ref(getDatabase(this.app));
@@ -30,7 +30,7 @@ export class FirebaseDbService {
    * Gets the seasonality forecast model if provided the city and timeframe.
    * @param city is the CityEnum for the desired model.
    * @param timeframe can be 3, 6 or 12 for the desired model.
-   * @returns an Promise of type SeasonalityModel.
+   * @returns a Promise of type SeasonalityModel.
    */
   getModel(city: CityEnum, timeframe: number): Promise<SeasonalityModel> {
     return firstValueFrom(this.http.get(

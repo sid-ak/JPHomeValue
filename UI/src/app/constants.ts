@@ -7,6 +7,8 @@ export class Constants {
     static readonly stPeteLatLng = [27.773056, -82.639999];
     static readonly clearwaterLatLng = [27.972572, -82.796745];
 
+    // TODO: Build URLs programmatically and get rid of redundant constants.
+
     // TimeframeData: Tampa
     static readonly getTampaThreeMonthsUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Model/TimeframeData/TampaThreeMonths.json?print=pretty";
     static readonly getTampaSixMonthsUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Model/TimeframeData/TampaSixMonths.json?print=pretty";
@@ -32,7 +34,7 @@ export class Constants {
     static readonly getStPetePredictionDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Predictions/StPetePredictions.json?print=pretty";
     static readonly getClearwaterPredictionDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Predictions/ClearwaterPredictions.json?print=pretty";
 
-    // Interval Data
+    // IntervalData
     static readonly getTampaIntervalDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Model/IntervalData/TampaIntervalData.json?print=pretty";
     static readonly getStPeteIntervalDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Model/IntervalData/StPeteIntervalData.json?print=pretty";
     static readonly getClearwaterIntervalDataUrl = "https://jphomevalue-default-rtdb.firebaseio.com/Model/IntervalData/ClearwaterIntervalData.json?print=pretty";
