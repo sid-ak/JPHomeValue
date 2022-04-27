@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
 import { Scores } from "../common/address-data";
+import { PredictionResult } from "../common/interval-data";
 import { CityEnum } from "../enums/city-enum";
 import { AddressFilterModel } from "../models/address-filter-model";
 import { CityFilterModel } from "../models/city-filter-model";
@@ -18,5 +19,7 @@ export class FilterEventService {
     public readonly displayScoresChanged$ = new Subject<Scores>();
 
     public readonly isCityDashboard$ = new BehaviorSubject<boolean>(true);
+
+    public readonly predictionResultChanged$ = new Subject<PredictionResult>();
 
 }

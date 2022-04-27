@@ -1,13 +1,6 @@
-<div id="additional-details" class="mt-4">
-    <h2>Additional Details
-        <span *ngIf="
-            !scores.transitScore 
-            && !scores.walkScore
-            && !scores.bikeScore;">
-            <strong>Select an address</strong> to view its scores
-        </span>
-    </h2>
-    <table class="table">
+<div id="additional-details">
+    <h2>Additional Details</h2>
+    <table *ngIf="!isCityDashboard else modelInsights" class="table">
         <tbody>
             <tr>
                 <th scope="row">Walk Score</th>
@@ -19,4 +12,21 @@
             </tr>
         </tbody>
     </table>
+    <ng-template #modelInsights>
+        <div class="my-4">Results with respect to the <strong>training interval</strong></div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">Best Prediction</th>
+                    <th scope="row">Worst Prediction</th>
+                    <th scope="row">RMSPE</th>
+                </tr>
+                <tr>
+                    <td scope="row" style="color: green;">{{ predictionResult.bestPrediction }}</td>
+                    <td scope="row" style="color: red;">{{ predictionResult.worstPrediction }}</td>
+                    <td scope="row" style="color: blue;">{{ predictionResult.rmspe }}%</td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-template>
 </div>
