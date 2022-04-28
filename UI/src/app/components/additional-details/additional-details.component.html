@@ -13,17 +13,43 @@
         </tbody>
     </table>
     <ng-template #modelInsights>
-        <div class="my-4">Results with respect to the <strong>training interval</strong></div>
-        <table class="table">
+        <div>What is <strong>RMSPE</strong>?</div>
+        The <u>root mean square percentage error</u> describes a percentage representation 
+        of the error metric:&nbsp;<strong>RMSE
+            <i class="fa fa-circle-question"
+                matTooltip="Root Mean Squared Error"
+                [matTooltipPosition]="'right'">
+            </i>
+        </strong>. 
+        It gives a more understandable <strong>model performance metric.</strong>
+        <table class="table mt-3 w-100">
             <tbody>
                 <tr>
-                    <th scope="row">Best Prediction</th>
-                    <th scope="row">Worst Prediction</th>
-                    <th scope="row">RMSPE</th>
+                    <th scope="row">RMSPE Lower Bound
+                        <i class="fa-solid fa-circle-info"
+                            matTooltip="RMSPE% Lower Bound represents the smallest % error that the model 
+                            made on a prediction compared to the corresponding historical data point."
+                            [matTooltipPosition]="'right'">
+                        </i>
+                    </th>
+                    <th scope="row">RMSPE Upper Bound
+                        <i class="fa-solid fa-circle-info"
+                            matTooltip="RMSPE% Upper Bound represents the highest % error that the model 
+                            made on a prediction compared to the corresponding historical data point."
+                            [matTooltipPosition]="'right'">
+                        </i>
+                    </th>
+                    <th scope="row">RMSPE Average Bound
+                        <i class="fa-solid fa-circle-info"
+                            matTooltip="RMSPE% Average Bound represents the average % error that the model 
+                            made on the corresponding prediction interval."
+                            [matTooltipPosition]="'right'">
+                        </i>
+                    </th>
                 </tr>
                 <tr>
-                    <td scope="row" style="color: green;">{{ predictionResult.bestPrediction }}</td>
-                    <td scope="row" style="color: red;">{{ predictionResult.worstPrediction }}</td>
+                    <td scope="row" style="color: green;">{{ predictionResult.bestPrediction }}%</td>
+                    <td scope="row" style="color: red;">{{ predictionResult.worstPrediction }}%</td>
                     <td scope="row" style="color: blue;">{{ predictionResult.rmspe }}%</td>
                 </tr>
             </tbody>
