@@ -5,10 +5,10 @@
         <div class="w-100"></div>
             <div id="filter" class="row">
                 <h2 class="my-2">Address
-                    <span style="margin-left: 26.5em; color: green;" *ngIf="isAddressListFiltered">
+                    <span style="color: green;" *ngIf="isAddressListFiltered">
                         Addresses filtered by score(s)
                     </span>
-                    <span style="margin-left: 26.5em; color: red;" *ngIf="noAddressFound">
+                    <span style="color: red;" *ngIf="noAddressFound">
                         No address found
                     </span>
                 </h2>
@@ -39,19 +39,6 @@
                                     {{ addressInfo.address }}
                                 </mat-option>
                             </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-                <!-- Timeframe Dropdown -->
-                <div id="timeframe" class="col">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Timeframe</mat-label>
-                            <mat-select 
-                                [disabled]="true"
-                                formControlName="timeframe">
-                                <mat-option value="3">3 Months</mat-option>
-                                <mat-option value="6">6 Months</mat-option>
-                                <mat-option value="12">12 Months</mat-option>
-                            </mat-select>
                     </mat-form-field>
                 </div>
                 <!-- Walk Score -->
@@ -119,7 +106,7 @@
                 </div>
                 <div [hidden]="this.addressFilterGroup.get('address')?.value"
                     class="col my-auto" style="color: blue;">
-                    Please select a <strong>city</strong> and <strong>address</strong>
+                    Please select a <strong>city</strong> and <strong>address</strong> and click <strong>Filter</strong> to view the forecast
                 </div>
             </div>
         </form>

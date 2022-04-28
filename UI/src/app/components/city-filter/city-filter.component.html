@@ -21,10 +21,17 @@
                         </div>
                         <!-- Timeframe Dropdown -->
                         <div id="timeframe" class="col">
-                            <h3>Prediction Timeframe:</h3>
+                            <h3>Look Ahead:
+                                <i class="fa-solid fa-circle-info"
+                                    matTooltip="Number of months to predict from December 2021.
+                                    A city must be selected to enable this."
+                                    [matTooltipPosition]="'right'">
+                                </i>
+                            </h3>
                             <mat-form-field appearance="fill">
                                 <mat-label>Timeframe</mat-label>
-                                    <mat-select formControlName="timeframe" required
+                                    <mat-select [disabled]="!this.cityFilterGroup.get('city')?.value"
+                                        formControlName="timeframe" required
                                         (ngModelChange)="onCityFilterChanged()">
                                         <mat-option value="3">3 Months</mat-option>
                                         <mat-option value="6">6 Months</mat-option>
@@ -33,25 +40,33 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <!-- Interval Dropdown -->
-                    <div id="interval" class="col">
-                        <h3>Model Training Interval:
-                            <p style="display: contents;" 
-                                *ngIf="!this.cityFilterGroup.get('timeframe')?.value">
-                                    (Select <strong>timeframe</strong> to enable)</p>
-                        </h3>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Training Interval</mat-label>
-                                <mat-select formControlName="interval"
-                                    (ngModelChange)="onIntervalChanged()"
-                                    [disabled]="!this.cityFilterGroup.get('timeframe')?.value">
-                                    <mat-option 
-                                        *ngFor="let interval of this.intervals" 
-                                        [value]="interval">{{ interval }}
-                                    </mat-option>
-                                </mat-select>
-                        </mat-form-field>
-                    <span class="m-4">Prediction Interval: <strong>{{ predictionInterval }}</strong></span>
+                    <div class="row">
+                        <!-- Interval Dropdown -->
+                        <div id="interval" class="col">
+                            <h3>Training Interval: 
+                                <i class="fa-solid fa-circle-info"
+                                    matTooltip="The period in months that the model was trained based on Shiller data.
+                                    A timeframe must be selected to enable this."
+                                    [matTooltipPosition]="'right'">
+                                </i>
+                            </h3>
+                            <mat-form-field appearance="fill">
+                                <mat-label>Training Interval</mat-label>
+                                    <mat-select formControlName="interval"
+                                        (ngModelChange)="onIntervalChanged()"
+                                        [disabled]="!this.cityFilterGroup.get('timeframe')?.value">
+                                        <mat-option 
+                                            *ngFor="let interval of this.intervals" 
+                                            [value]="interval">{{ interval }}
+                                        </mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                        <!-- <span class="m-4">Prediction Interval:</span><br><strong>{{ predictionInterval }}</strong> -->
+                        </div>
+                        <div [hidden]="!this.cityFilterGroup.get('interval')?.value" id="predictionInterval" class="col">
+                            <h3>Predicted Interval:<br><br>
+                                <strong>{{ predictionInterval }}</strong></h3>
+                        </div>
                     </div>
                     <div class="w-100"></div>
                 </div>

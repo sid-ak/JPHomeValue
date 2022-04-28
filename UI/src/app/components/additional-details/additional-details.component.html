@@ -13,15 +13,14 @@
         </tbody>
     </table>
     <ng-template #modelInsights>
-        <div>What is <strong>RMSPE</strong>?</div>
-        The <u>root mean square percentage error</u> describes a percentage representation 
-        of the error metric:&nbsp;<strong>RMSE
-            <i class="fa fa-circle-question"
+        <div>What is <u>RMSPE</u>?</div>
+        The root mean square percentage error describes a percentage representation 
+        of the error metric:&nbsp;<u>RMSE</u>
+            <i class="px-1 fa fa-circle-question"
                 matTooltip="Root Mean Squared Error"
                 [matTooltipPosition]="'right'">
             </i>
-        </strong>. 
-        It gives a more understandable <strong>model performance metric.</strong>
+        It gives a more understandable <u>model performance metric.</u>
         <table class="table mt-3 w-100">
             <tbody>
                 <tr>
@@ -48,9 +47,16 @@
                     </th>
                 </tr>
                 <tr>
-                    <td scope="row" style="color: green;">{{ predictionResult.bestPrediction }}%</td>
-                    <td scope="row" style="color: red;">{{ predictionResult.worstPrediction }}%</td>
-                    <td scope="row" style="color: blue;">{{ predictionResult.rmspe }}%</td>
+                    <div class="position-absolute" *ngIf="predictionResult.bestPrediction === 0
+                        && predictionResult.worstPrediction === 0
+                        && predictionResult.rmspe === 0 else predictionResults">
+                        Please select a <u>training interval</u> to view bounds.
+                    </div>
+                    <ng-template #predictionResults>
+                        <td scope="row" style="color: green;">{{ predictionResult.bestPrediction }}%</td>
+                        <td scope="row" style="color: red;">{{ predictionResult.worstPrediction }}%</td>
+                        <td scope="row" style="color: blue;">{{ predictionResult.rmspe }}%</td>
+                    </ng-template>
                 </tr>
             </tbody>
         </table>

@@ -130,11 +130,12 @@ export class ChartComponent implements OnInit, OnDestroy {
         .map(e => e.predictions)[0];
       const dates = predictions.map(e => e.date);
       const prices = predictions.map(e => e.price);
-      this.createChartOptions([dates, prices])
+      this.createChartOptions([dates, prices], true)
     }
   }
 
-  private createChartOptions(data: [string[], number[]]) {
+  private createChartOptions(data: [string[], number[]], isAddressData?: boolean) {
+
     this.chartOptions = {
       rangeSelector: {
         selected: 1
@@ -153,19 +154,20 @@ export class ChartComponent implements OnInit, OnDestroy {
       },
       yAxis: {
         title: {
-          text: "Index Values"
+          text: isAddressData ? "Price" : "Index Values"
         }
       },
 
       // Set Up Data
       series: [{
-        name: "Index",
+        name: isAddressData ? "Price" : "Index",
         color: "blue",
         type: "line",
         data: data[1],
         pointStart: Date.UTC(2002, 0, 1),
         pointIntervalUnit: 'month',
         tooltip: {
+          valuePrefix: isAddressData ? "$": "",
           valueDecimals: 2
         }
       }],
