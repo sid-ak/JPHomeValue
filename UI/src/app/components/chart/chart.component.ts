@@ -177,35 +177,42 @@ export class ChartComponent implements OnInit, OnDestroy {
   private updateChartOptions(filterInterval: string, newData: [string[], number[]]) {
     const originalData = this.data;
 
-    this.chartOptions.series = [
-      {
-        name: "Index",
-        color: "blue",
-        type: "line",
-        data: originalData[1],
-        pointStart: Date.UTC(2002, 0, 1),
-        pointIntervalUnit: 'month',
-        tooltip: {
-          valueDecimals: 2
-        }
+    this.chartOptions = {
+      xAxis: {
+        plotLines: [{
+          value: this.getDateFromInterval(filterInterval)
+        }]
       },
-      {
-        name: "Resulting Index",
-        color: "green",
-        type: "line",
-        data: newData[1],
-        pointStart: Date.UTC(2002, 0, 1),
-        pointIntervalUnit: "month",
-        zoneAxis: "x",
-        zones: [{
-          value: this.getDateFromInterval(filterInterval),
-          color: "orange",
-        }],
-        tooltip: {
-          valueDecimals: 2,
-        }
-      },
-    ];
+      series: [{
+          name: "Index",
+          color: "blue",
+          type: "line",
+          data: originalData[1],
+          pointStart: Date.UTC(2002, 0, 1),
+          pointIntervalUnit: 'month',
+          tooltip: {
+            valueDecimals: 2
+          }
+        },
+
+        // New data
+        {
+          name: "Resulting Index",
+          color: "green",
+          type: "line",
+          data: newData[1],
+          pointStart: Date.UTC(2002, 0, 1),
+          pointIntervalUnit: "month",
+          zoneAxis: "x",
+          zones: [{
+            value: this.getDateFromInterval(filterInterval),
+            color: "orange",
+          }],
+          tooltip: {
+            valueDecimals: 2,
+          }
+        },
+    ]};
     
     this.chartUpdateFlag = true;
   }
