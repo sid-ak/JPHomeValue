@@ -118,7 +118,7 @@ export class ChartComponent implements OnInit, OnDestroy {
           const predictedShiller = intervalShiller.intervals.find(
             e => e.trainingInterval === filter.interval)!.shiller;
   
-          this.updateChartOptions([predictedShiller.dates, predictedShiller.indices]);
+          this.updateChartOptions(filter.interval, [predictedShiller.dates, predictedShiller.indices]);
         }
       }
     }
@@ -174,7 +174,7 @@ export class ChartComponent implements OnInit, OnDestroy {
     };
   }
 
-  private updateChartOptions(newData: [string[], number[]]) {
+  private updateChartOptions(filterInterval: string, newData: [string[], number[]]) {
     const originalData = this.data;
 
     this.chartOptions.series = [
@@ -190,14 +190,19 @@ export class ChartComponent implements OnInit, OnDestroy {
         }
       },
       {
-        name: "Predicted Index",
+        name: "Resulting Index",
         color: "green",
         type: "line",
         data: newData[1],
         pointStart: Date.UTC(2002, 0, 1),
-        pointIntervalUnit: 'month',
+        pointIntervalUnit: "month",
+        zoneAxis: "x",
+        zones: [{
+          value: this.getDateFromInterval(filterInterval),
+          color: "orange",
+        }],
         tooltip: {
-          valueDecimals: 2
+          valueDecimals: 2,
         }
       },
     ];
@@ -208,5 +213,22 @@ export class ChartComponent implements OnInit, OnDestroy {
   public splitCamelCase(city?: string): string {
     if (city) return city.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
     return "";
+  }
+
+  /**
+   * Poor function that returns milliseconds in UTC for chart zoning
+   * as per the selected training interval.
+   * TODO: Get rid of this and do something more sophisticated.
+   * @param filterInterval 
+   */
+  private getDateFromInterval(filterInterval: string): number {
+    return new Map<string, number>([
+      ["1/2002 - 12/2011", Date.UTC(2011, 11, 1)],
+      ["1/2002 - 12/2013", Date.UTC(2013, 11, 1)],
+      ["1/2002 - 11/2015", Date.UTC(2015, 10, 1)],
+      ["1/2002 - 11/2009", Date.UTC(2009, 10, 1)],
+      ["1/2002 - 11/2011", Date.UTC(2011, 10, 1)],
+      ["1/2002 - 11/2015", Date.UTC(2015, 10, 1)]
+    ]).get(filterInterval) ?? -1;
   }
 }
