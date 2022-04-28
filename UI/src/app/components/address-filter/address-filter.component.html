@@ -29,6 +29,7 @@
                     <mat-form-field style="width: 75%;" appearance="fill">
                         <mat-label>Address</mat-label>
                             <input required
+                                placeholder="Please select a city"
                                 [readonly]="!cityExists"
                                 type="text"
                                 matInput 
@@ -106,7 +107,7 @@
                 </div>
                 <div [hidden]="this.addressFilterGroup.get('address')?.value"
                     class="col my-auto" style="color: blue;">
-                    Please select a <strong>city</strong> and <strong>address</strong> and click <strong>Filter</strong> to view the forecast
+                    Please select a <strong>city</strong> and <strong>address</strong> to filter by scores and more
                 </div>
             </div>
         </form>
