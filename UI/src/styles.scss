@@ -41,7 +41,7 @@ h2 {
 
 #map {
     height: 500px;
-    width: 800px;
+    width: 500px;
 }
 
 #chart {
@@ -53,10 +53,14 @@ h2 {
     width: 75%;
 }
 
+.mat-tooltip {
+    font-size: small !important;
+}
+
 @media (max-width: 1660px) {
     #map {
         height: 500px;
-        width: 600px;
+        width: 400px;
     }
     
     #chart {

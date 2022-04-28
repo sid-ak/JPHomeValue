@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { FilterEventService } from './services/filter-event.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     CityFilterComponent,
     AddressFilterComponent,
     MapComponent,
-    AdditionalDetailsComponent
+    AdditionalDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +40,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatInputModule,
     HttpClientModule,
     HighchartsChartModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTooltipModule
   ],
   providers: [FirebaseDbService, FilterEventService],
   bootstrap: [AppComponent]
