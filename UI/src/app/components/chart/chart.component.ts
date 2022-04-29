@@ -6,6 +6,7 @@ import { CityFilterModel } from 'src/app/models/city-filter-model';
 import { CityEnum } from 'src/app/enums/city-enum';
 import { takeUntil } from 'rxjs';
 import { AddressFilterModel } from 'src/app/models/address-filter-model';
+import { CityHelper } from 'src/app/helpers/city-helper';
 
 @Component({
   selector: 'app-chart',
@@ -52,90 +53,48 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   // TODO: Branching logic has too many branches. Fix it.
   private async renderChart(filter: CityFilterModel | AddressFilterModel): Promise<void> {
-    if (filter instanceof CityFilterModel) {
-      if (filter.timeframe) {
-        this.filter = filter; // Need this on the DOM for chart.
-        switch (filter.city) {          
-          // Tampa
-          case CityEnum.Tampa:
-            if (filter.timeframe == 3) {
-              await this.dbService.getModel(CityEnum.Tampa, 3)
-                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
-              this.createChartOptions(this.data);
-            }
-            if (filter.timeframe == 6) {
-              await this.dbService.getModel(CityEnum.Tampa, 6)
-                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
-              this.createChartOptions(this.data);
-            }
-            if (filter.timeframe == 12) {
-              await this.dbService.getModel(CityEnum.Tampa, 12)
-                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
-              this.createChartOptions(this.data);
-            }
-          break;
+    if (filter instanceof CityFilterModel && filter.timeframe) {
+      this.filter = filter; // Need this on the DOM for chart.
+      
+      await this.dbService.getModel(
+        CityHelper.getCityFromString(filter.city!), filter.timeframe)
+          .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
+      
+      this.createChartOptions(this.data);
+      
+      if (filter.interval) {
+        const intervalShiller = await this.dbService.getIntervalData(filter.city!);
+        const predictedShiller = intervalShiller.intervals.find(
+          e => e.trainingInterval === filter.interval)!.shiller;
 
-          // St. Pete
-          case CityEnum.StPetersburg:
-            if (filter.timeframe == 3) {
-              await this.dbService.getModel(CityEnum.StPetersburg, 3)
-                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
-              this.createChartOptions(this.data)
-            }
-            if (filter.timeframe == 6) {
-              await this.dbService.getModel(CityEnum.StPetersburg, 6)
-                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
-              this.createChartOptions(this.data)
-            }
-            if (filter.timeframe == 12) {
-              await this.dbService.getModel(CityEnum.StPetersburg, 12)
-                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
-              this.createChartOptions(this.data)
-            }
-          break;
-
-          // Clearwater 
-          case CityEnum.Clearwater:
-            if (filter.timeframe == 3) {
-              await this.dbService.getModel(CityEnum.Clearwater, 3)
-                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
-              this.createChartOptions(this.data)
-            }
-            if (filter.timeframe == 6) {
-              await this.dbService.getModel(CityEnum.Clearwater, 6)
-                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
-              this.createChartOptions(this.data)
-            }
-            if (filter.timeframe == 12) {
-              await this.dbService.getModel(CityEnum.Clearwater, 12)
-                .then(e => this.data = [e.shiller.dates, e.shiller.indices]);
-              this.createChartOptions(this.data)
-            }
-          break;
-        }
-        if (filter.interval) {
-          const intervalShiller = await this.dbService.getIntervalData(filter.city!);
-          const predictedShiller = intervalShiller.intervals.find(
-            e => e.trainingInterval === filter.interval)!.shiller;
-  
-          this.updateChartOptions(filter.interval, [predictedShiller.dates, predictedShiller.indices]);
-        }
+        this.updateChartOptions(
+          filter.interval, 
+          [predictedShiller.dates, predictedShiller.indices]);
       }
     }
 
     else if (filter instanceof AddressFilterModel && filter.address) {
       (this.filter as AddressFilterModel) = filter;
+      
       const predictions = (await this.dbService.getPredictionData(filter.city)).predictedAddresses
         .filter(e => e.address === filter.address)
         .map(e => e.predictions)[0];
       const dates = predictions.map(e => e.date);
       const prices = predictions.map(e => e.price);
+
       this.createChartOptions([dates, prices], true)
     }
   }
 
   private createChartOptions(data: [string[], number[]], isAddressData: boolean = false) {
     this.chartOptions = {
+      legend: {
+        floating: true,
+        align: "left",
+        verticalAlign: "top",
+        x: 90,
+        y: 45,
+      },
       rangeSelector: {
         selected: 1
       },
@@ -150,6 +109,16 @@ export class ChartComponent implements OnInit, OnDestroy {
           text: "Date"
         },
         type: "datetime",
+        plotLines: [{
+          id: "lastHistoricalLine",
+          value: this.getLastHistoricalDataPointFromCity(
+            CityHelper.getCityFromString(this.filter.city!)),
+          color: "red",
+          width: 2,
+          label: {
+            text: "Last Historical Data Point",
+          }
+        }],
       },
       yAxis: {
         title: {
@@ -177,10 +146,41 @@ export class ChartComponent implements OnInit, OnDestroy {
     const originalData = this.data;
 
     this.chartOptions = {
+      legend: {
+        layout: 'vertical',
+        floating: true,
+        align: "left",
+        verticalAlign: "top",
+        x: 90,
+        y: 45,
+        labelFormatter: function() {
+          if(this.name === "Resulting Index" && this.visible) {
+            return `${this.name} <div
+              style="color: orange;">|<div style="color: black;"> Training Interval</div></div>`
+          }
+          return this.name;
+        }
+      },
       xAxis: {
         plotLines: [{
-          value: this.getDateFromInterval(filterInterval)
-        }]
+          id: "lastHistoricalLine",
+          value: this.getLastHistoricalDataPointFromCity(
+            CityHelper.getCityFromString(this.filter.city!)),
+          color: "red",
+          width: 2,
+          label: {
+            text: "Last Historical Data Point",
+          }
+        },
+        {
+          id: "intervalLine",
+          dashStyle: 'LongDash',
+          value: this.getDateFromInterval(filterInterval),
+          color: "orange",
+          label: {
+            text: "Training Interval Ends",
+          }
+        }],
       },
       series: [{
           name: "Index",
@@ -222,9 +222,8 @@ export class ChartComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Poor function that returns milliseconds in UTC for chart zoning
+   * Function that returns milliseconds in UTC for chart zoning
    * as per the selected training interval.
-   * TODO: Get rid of this and do something more sophisticated.
    * @param filterInterval 
    */
   private getDateFromInterval(filterInterval: string): number {
@@ -237,4 +236,17 @@ export class ChartComponent implements OnInit, OnDestroy {
       ["1/2002 - 11/2015", Date.UTC(2015, 10, 1)]
     ]).get(filterInterval) ?? -1;
   }
+
+    /**
+   * Function that returns milliseconds in UTC for chart zoning
+   * as per the selected training interval.
+   * @param filterInterval 
+   */
+     private getLastHistoricalDataPointFromCity(city: CityEnum): number {
+      return new Map<string, number>([
+        [CityEnum.Tampa, Date.UTC(2021, 11, 1)],
+        [CityEnum.StPetersburg, Date.UTC(2021, 9, 1)],
+        [CityEnum.Clearwater, Date.UTC(2021, 9, 1)]
+      ]).get(city) ?? -1;
+    }
 }
