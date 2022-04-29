@@ -51,7 +51,6 @@ export class ChartComponent implements OnInit, OnDestroy {
     this.destroyed$.next();
   }
 
-  // TODO: Branching logic has too many branches. Fix it.
   private async renderChart(filter: CityFilterModel | AddressFilterModel): Promise<void> {
     if (filter instanceof CityFilterModel && filter.timeframe) {
       this.filter = filter; // Need this on the DOM for chart.
@@ -116,7 +115,7 @@ export class ChartComponent implements OnInit, OnDestroy {
           color: "red",
           width: 2,
           label: {
-            text: "Last Historical Data Point",
+            text: "Historical Data Ends",
           }
         }],
       },
@@ -142,6 +141,7 @@ export class ChartComponent implements OnInit, OnDestroy {
     };
   }
 
+  // TODO: Reuse existing objects for chartOptions.
   private updateChartOptions(filterInterval: string, newData: [string[], number[]]) {
     const originalData = this.data;
 
@@ -169,7 +169,7 @@ export class ChartComponent implements OnInit, OnDestroy {
           color: "red",
           width: 2,
           label: {
-            text: "Last Historical Data Point",
+            text: "Historical Data Ends",
           }
         },
         {
