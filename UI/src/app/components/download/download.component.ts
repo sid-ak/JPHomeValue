@@ -35,7 +35,7 @@ export class DownloadComponent implements OnInit, OnDestroy {
           e.bestPrediction,
           e.worstPrediction,
           e.rmspe
-        ));
+    ));
   }
 
   ngOnDestroy(): void {
