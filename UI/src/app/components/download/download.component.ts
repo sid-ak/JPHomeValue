@@ -2,10 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core
 import { FormGroup } from '@angular/forms';
 import { filter, takeUntil, toArray, zip } from 'rxjs';
 import { PredictionResult } from 'src/app/common/interval-data';
-import { Shiller } from 'src/app/common/shiller';
-import { CityEnum } from 'src/app/enums/city-enum';
 import { CityHelper } from 'src/app/helpers/city-helper';
-import { CommonHelper } from 'src/app/helpers/common-helper';
 import { DataExportHelper } from 'src/app/helpers/data-export-helper';
 import { ExcelService } from 'src/app/services/excel.service';
 import { FilterEventService } from 'src/app/services/filter-event.service';
