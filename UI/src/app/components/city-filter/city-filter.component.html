@@ -72,6 +72,11 @@
                 <div class="col-6">
                     <app-additional-details></app-additional-details>
                 </div>
+                <div class="col-6"></div>
+                <div [hidden]="!this.cityFilterGroup.get('interval')?.value" class="col-6">
+                    <app-download
+                        [cityFilterGroup]="cityFilterGroup"></app-download>
+                </div>
             </div>
         </form>
     </div>

@@ -134,8 +134,7 @@ export class ChartComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createChartOptions(data: [string[], number[]], isAddressData?: boolean) {
-
+  private createChartOptions(data: [string[], number[]], isAddressData: boolean = false) {
     this.chartOptions = {
       rangeSelector: {
         selected: 1
