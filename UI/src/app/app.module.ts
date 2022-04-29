@@ -18,7 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { FilterEventService } from './services/filter-event.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DownloadComponent } from './components/download/download.component'
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
     AddressFilterComponent,
     MapComponent,
     AdditionalDetailsComponent,
+    DownloadComponent,
   ],
   imports: [
     BrowserModule,
