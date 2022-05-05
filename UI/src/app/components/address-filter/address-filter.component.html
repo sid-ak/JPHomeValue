@@ -1,0 +1,115 @@
+<div class="container">
+    <!-- City Filter -->
+    <div id="filter-row">
+        <form [formGroup]="addressFilterGroup">
+        <div class="w-100"></div>
+            <div id="filter" class="row">
+                <h2 class="my-2">Address
+                    <span style="color: green;" *ngIf="isAddressListFiltered">
+                        Addresses filtered by score(s)
+                    </span>
+                    <span style="color: red;" *ngIf="noAddressFound">
+                        No address found
+                    </span>
+                </h2>
+                <!-- City Dropdown -->
+                <div id="city" class="col-5">
+                    <mat-form-field style="width: 75%;" appearance="fill">
+                        <mat-label>City</mat-label>
+                            <mat-select formControlName="city" required
+                                (ngModelChange)="onCityChanged($event)">
+                                <mat-option value="Tampa">Tampa</mat-option>
+                                <mat-option value="StPetersburg">St. Petersburg</mat-option>
+                                <mat-option value="Clearwater">Clearwater</mat-option>
+                            </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- Address Input -->
+                <div id="address" class="col-7">
+                    <mat-form-field style="width: 75%;" appearance="fill">
+                        <mat-label>Address</mat-label>
+                            <input required
+                                placeholder="Please select a city"
+                                [readonly]="!cityExists"
+                                type="text"
+                                matInput 
+                                formControlName="address"
+                                [matAutocomplete]="autoAddresses">
+                            <mat-autocomplete #autoAddresses="matAutocomplete">
+                                <mat-option *ngFor="let addressInfo of filteredAddresses$ | async" [value]="addressInfo.address">
+                                    {{ addressInfo.address }}
+                                </mat-option>
+                            </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <!-- Walk Score -->
+                <div id="walk-score" class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Walk Score</mat-label>
+                            <input type="number" matInput formControlName="walkScore" placeholder="0-100"
+                                min="0"
+                                max="100"
+                                [readonly]="!cityExists">
+                    </mat-form-field>
+                </div>
+                <!-- Transit Score -->
+                <div id="transit-score" class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Transit Score</mat-label>
+                            <input type="number" matInput formControlName="transitScore" placeholder="0-100"
+                                min="0"
+                                max="100"
+                                [readonly]="!cityExists">
+                    </mat-form-field>
+                </div>
+                <!-- Bike Score -->
+                <div id="timeframe" class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Bike Score</mat-label>
+                            <input type="number" matInput formControlName="bikeScore" placeholder="0-100"
+                                min="0"
+                                max="100"
+                                [readonly]="!cityExists">
+                    </mat-form-field>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-3">
+                    <button type="button filter-button" class="btn btn-outline-dark w-100"
+                        (click)="onAddressFilterChanged()">
+                        Filter
+                    </button>
+                </div>
+                <div class="col-3">
+                    <button type="button filter-button" class="btn btn-outline-dark w-100"
+                        (click)="clearFilter()">
+                        Clear Filter
+                    </button>
+                </div>
+                <div [hidden]="!this.addressFilterGroup.get('address')?.value" 
+                    class="col my-auto">
+                    <div class="form-check form-switch my-auto">
+                        <input class="form-check-input"
+                            type="checkbox" 
+                            (click)="showSurroundings($event)" 
+                            formControlName="showSurroundings"> 
+                        <label class="form-check-label">Show Surrounding Facilities</label>
+                    </div>
+                </div>
+                <div [hidden]="!this.addressFilterGroup.get('address')?.value"
+                    class="col my-auto">
+                    <div class="form-check form-switch my-auto">
+                        <input class="form-check-input"
+                            type="checkbox" 
+                            (click)="showAddressMarkers($event)" 
+                            formControlName="showAddressMarkers"> 
+                        <label class="form-check-label">Show Address Clusters</label>
+                    </div>
+                </div>
+                <div [hidden]="this.addressFilterGroup.get('address')?.value"
+                    class="col my-auto" style="color: blue;">
+                    Please select a <strong>city</strong> and <strong>address</strong> to filter by scores and more
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

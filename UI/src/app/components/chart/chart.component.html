@@ -1,0 +1,44 @@
+<h2>Seasonality Forecast</h2>
+
+<div *ngIf="isCityDashboard else addressDashboard">
+  <div *ngIf="!filter.timeframe else displayChart">
+    <h3>Select a <strong>city</strong> and <strong>timeframe</strong> to view or update the forecast</h3>
+  </div>
+  <ng-template #displayChart>
+    <h3>
+      The line chart below represents results from a model that was trained based on the:<br>
+      <!-- TODO: Include source https://www.investopedia.com/articles/mortgages-real-estate/10/understanding-case-shiller-index.asp#:~:text=The%20Case%2DShiller%20Index%20is%20made%20up%20of%20several%20indexes,to%20evaluate%20condos%E2%80%94do%20exist. -->
+        <strong>S&P/Case-Shiller U.S. National Home Price Index </strong><i class="fa-solid fa-circle-info"
+            matTooltip="The Case-Shiller Index is made up of several indexes that track the value of single-family 
+            detached residences using the arms-length and repeat-sales methods.
+            The Case-Shiller Index is a widely used and respected barometer of the U.S. housing market and the broader economy."
+            [matTooltipPosition]="'right'"></i>
+        <br><br>
+    </h3>
+
+    <highcharts-chart id="container" 
+      [Highcharts]="Highcharts"
+      [constructorType]="chartConstructor"
+      [options]="chartOptions"
+      [callbackFunction]="chartCallback"
+      [(update)]="chartUpdateFlag"
+      [oneToOne]="true"
+
+      style="width: 100%; height: 400px; display: block;"
+    ></highcharts-chart>
+  </ng-template>
+</div>
+
+<ng-template #addressDashboard>
+  <h3>Select a <strong>city</strong> and <strong>address</strong> and click <strong>Filter</strong> to view or update the forecast</h3>
+  <highcharts-chart id="container" 
+    [Highcharts]="Highcharts"
+    [constructorType]="chartConstructor"
+    [options]="chartOptions"
+    [callbackFunction]="chartCallback"
+    [(update)]="chartUpdateFlag"
+    [oneToOne]="true"
+
+    style="width: 100%; height: 400px; display: block;"
+  ></highcharts-chart>
+</ng-template>
