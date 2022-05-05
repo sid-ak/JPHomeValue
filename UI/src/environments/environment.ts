@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  // This is Sid's API key.
+  // Enter your own API key.
   firebaseConfig: {
-    apiKey: "AIzaSyANNa-xhR6vDLbWU85xNc9o5BKED1hfNDQ",
+    apiKey: "",
     authDomain: "jphomevalue.firebaseapp.com",
     databaseURL: "https://jphomevalue-default-rtdb.firebaseio.com",
     projectId: "jphomevalue",
