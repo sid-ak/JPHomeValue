@@ -1,5 +1,6 @@
 export class Constants {
-    static readonly googleMapsUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyClCtv5n_qk-u3ZdDUomolWQixIw0sxQ8E&libraries=places";
+    // Key has been removed and must be added in place of <key>
+    // static readonly googleMapsUrl = "https://maps.googleapis.com/maps/api/js?key=<key>&libraries=places";
     static readonly mapQuerySelector = `[src="${Constants.googleMapsUrl}"]`;
 
     // LatLngs
