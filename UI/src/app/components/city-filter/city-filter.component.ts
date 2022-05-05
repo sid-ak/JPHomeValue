@@ -1,7 +1,9 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Interval, IntervalData, PredictionResult } from 'src/app/common/interval-data';
 import { CityHelper } from 'src/app/helpers/city-helper';
-import { ChartService } from 'src/app/services/chart-service';
+import { FilterEventService } from 'src/app/services/filter-event.service';
+import { FirebaseDbService } from 'src/app/services/firebase-db.service';
 import { CityEnum } from '../../enums/city-enum';
 import { CityFilterModel } from '../../models/city-filter-model';
 
@@ -11,35 +13,63 @@ import { CityFilterModel } from '../../models/city-filter-model';
   styleUrls: ['./city-filter.component.scss']
 })
 export class CityFilterComponent implements OnInit {
-  cityVm = new CityFilterModel()
-  
-  cityFilter = new FormGroup({
+  readonly cityFilterGroup = new FormGroup({
     city: new FormControl(),
     timeframe: new FormControl(),
-    walkScore: new FormControl(),
-    transitScore: new FormControl(),
-    bikeScore: new FormControl()
-  })
+    interval: new FormControl(),
+  });
 
-  constructor(private readonly chartService: ChartService) { }
+  intervalData!: IntervalData;
+  intervals = [""];
+  predictionResult: PredictionResult = new PredictionResult(0, 0, 0);
+
+  predictionInterval = "";
+
+  constructor(
+    private readonly filterEventService: FilterEventService,
+    private readonly dbService: FirebaseDbService) { }
 
   ngOnInit(): void {
   }
 
-  public onCityFilterChanged(): void {
-    this.cityVm = this.constructCityVm(this.cityFilter);
-    this.chartService.cityChanged$.next(this.cityVm);
+  public async onCityChanged(city: CityEnum): Promise<void> {
+    this.filterEventService.cityChanged$.next(city);
+    
+    this.intervalData = await this.dbService.getIntervalData(city);
+    this.intervals = this.intervalData.intervals.map(
+      e => e.trainingInterval
+    );
+    this.cityFilterGroup.get('interval')?.setValue(null);
+    this.onCityFilterChanged();
   }
 
-  private constructCityVm(cityFilter: FormGroup): CityFilterModel {
-    if (cityFilter === (null || undefined)) return new CityFilterModel();
+  public onCityFilterChanged(): void {
+    if (!this.cityFilterGroup.get('interval')?.value) {
+      this.filterEventService.predictionResultChanged$.next(
+        new PredictionResult(0, 0, 0));
+    }
     
-    this.cityVm.city = CityHelper.getCityEnum(cityFilter.get('city')?.value)
-      ?? CityEnum.None;
-    this.cityVm.timeframe = cityFilter.get('timeframe')?.value as number ?? 0;
-    this.cityVm.walkScore = cityFilter.get('walkScore')?.value as number ?? -1;
-    this.cityVm.transitScore = cityFilter.get('transitScore')?.value as number ?? -1;
-    this.cityVm.bikeScore = cityFilter.get('bikeScore')?.value as number ?? -1;
-    return this.cityVm;
+    this.filterEventService.cityFilterChanged$.next(new CityFilterModel(
+      CityHelper.getCityFromString(this.cityFilterGroup.get('city')?.value),
+      this.cityFilterGroup.get('timeframe')?.value,
+      this.cityFilterGroup.get('interval')?.value
+    ));
+  }
+
+  public onIntervalChanged() {
+    const trainingInterval = this.cityFilterGroup.get('interval')?.value;
+    const interval = this.intervalData.intervals.find(
+      (e: Interval) => e.trainingInterval === trainingInterval
+    );
+
+    this.predictionInterval = interval?.predictionInterval!;
+
+    this.predictionResult = this.intervalData.intervals.find(
+      (e: Interval) => e.trainingInterval === trainingInterval
+    )?.predictionResult!;
+  
+    this.filterEventService.predictionResultChanged$.next(this.predictionResult);
+
+    this.onCityFilterChanged();
   }
 }

@@ -1,111 +1,73 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
-import { Database, DatabaseReference, getDatabase, ref, get, child } from 'firebase/database';
-import { map } from 'rxjs';
-import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import { Database, DatabaseReference, getDatabase, ref } from 'firebase/database';
+import { first, map } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Shiller } from '../common/shiller';
-import { Constants } from '../constants';
+import { AddressData } from '../common/address-data';
+import { IntervalData } from '../common/interval-data';
+import { PredictionData } from '../common/prediction-data';
+import { SeasonalityModel } from '../common/seasonality-model';
 import { CityEnum } from '../enums/city-enum';
+import { UrlHelper } from '../helpers/url-helper';
 
 @Injectable({
   providedIn: 'root'
 })
-// TODO: Must refactor this class once data is more structured.
 export class FirebaseDbService {
-  test$ = new BehaviorSubject<boolean>(false);
-  app: FirebaseApp;
-  database: Database;
-  databaseReference: DatabaseReference;
+  readonly app: FirebaseApp;
+  readonly database: Database;
+  readonly databaseReference: DatabaseReference;
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.app = initializeApp(environment.firebaseConfig);
     this.database = getDatabase(this.app);
     this.databaseReference = ref(getDatabase(this.app));
-   }
+  }
   
-  // Tampa
-  getTampaThreeMonths(): Observable<Shiller> {
-    return this.http.get(
-      Constants.getTampaThreeMonthsUrl).pipe(
-        map(e => new Shiller(e as any, CityEnum.Tampa)));
-   }
-   async getTampaThreeMonthsAsync(): Promise<Shiller> {
-     return firstValueFrom(this.getTampaThreeMonths());
+  /**
+   * Gets the seasonality forecast model if provided the city and timeframe.
+   * @param city is the CityEnum for the desired model.
+   * @param timeframe can be 3, 6 or 12 for the desired model.
+   * @returns a Promise of type SeasonalityModel.
+   */
+  getModel(city: CityEnum, timeframe: number): Promise<SeasonalityModel> {
+    return firstValueFrom(this.http.get(
+      UrlHelper.getModelUrl(city, timeframe)).pipe(
+        map(e => new SeasonalityModel(e as Array<any>))));
   }
 
-  getTampaSixMonths(): Observable<Shiller> {
-    return this.http.get(
-      Constants.getTampaSixMonthsUrl).pipe(
-        map(e => new Shiller(e as any, CityEnum.Tampa)));
-   }
-   async getTampaSixMonthsAsync(): Promise<Shiller> {
-     return firstValueFrom(this.getTampaSixMonths());
+  /**
+   * Gets the address data based on the city.
+   * @param city is the CityEnum for the desired address data.
+   * @returns a Promise of type AddressData.
+   */
+  getAddressData(city: CityEnum): Promise<AddressData> {
+    return firstValueFrom(this.http.get(
+      UrlHelper.getAddressDataUrl(city)).pipe(
+        map(e => new AddressData(e as Array<any>))));
   }
 
-  getTampaTwelveMonths(): Observable<Shiller> {
-    return this.http.get(
-      Constants.getTampaTwelveMonthsUrl).pipe(
-        map(e => new Shiller(e as any, CityEnum.Tampa)));
-   }
-   async getTampaTwelveMonthsAsync(): Promise<Shiller> {
-     return firstValueFrom(this.getTampaTwelveMonths());
+  /**
+   * Gets prediction data based on the city.
+   * @param city 
+   * @returns 
+   */
+  getPredictionData(city: CityEnum): Promise<PredictionData> {
+    return firstValueFrom(this.http.get(
+      UrlHelper.getPredictionDataUrl(city)).pipe(
+        map(e => new PredictionData(city, e as Array<any>))));
   }
 
-    // StPete
-    getStPeteThreeMonths(): Observable<Shiller> {
-      return this.http.get(
-        Constants.getStPeteThreeMonthsUrl).pipe(
-          map(e => new Shiller(e as any, CityEnum.StPetersburg)));
-     }
-     async getStPeteThreeMonthsAsync(): Promise<Shiller> {
-       return firstValueFrom(this.getStPeteThreeMonths());
-    }
-  
-    getStPeteSixMonths(): Observable<Shiller> {
-      return this.http.get(
-        Constants.getStPeteSixMonthsUrl).pipe(
-          map(e => new Shiller(e as any, CityEnum.StPetersburg)));
-     }
-     async getStPeteSixMonthsAsync(): Promise<Shiller> {
-       return firstValueFrom(this.getStPeteSixMonths());
-    }
-  
-    getStPeteTwelveMonths(): Observable<Shiller> {
-      return this.http.get(
-        Constants.getStPeteTwelveMonthsUrl).pipe(
-          map(e => new Shiller(e as any, CityEnum.StPetersburg)));
-     }
-     async getStPeteTwelveMonthsAsync(): Promise<Shiller> {
-       return firstValueFrom(this.getStPeteTwelveMonths());
-    }
-
-    // Clearwater
-    getClearwaterThreeMonths(): Observable<Shiller> {
-      return this.http.get(
-        Constants.getClearwaterThreeMonthsUrl).pipe(
-          map(e => new Shiller(e as any, CityEnum.Clearwater)));
-      }
-      async getClearwaterThreeMonthsAsync(): Promise<Shiller> {
-        return firstValueFrom(this.getClearwaterThreeMonths());
-    }
-  
-    getClearwaterSixMonths(): Observable<Shiller> {
-      return this.http.get(
-        Constants.getClearwaterSixMonthsUrl).pipe(
-          map(e => new Shiller(e as any, CityEnum.Clearwater)));
-      }
-      async getClearwaterSixMonthsAsync(): Promise<Shiller> {
-        return firstValueFrom(this.getClearwaterSixMonths());
-    }
-  
-    getClearwaterTwelveMonths(): Observable<Shiller> {
-      return this.http.get(
-        Constants.getClearwaterTwelveMonthsUrl).pipe(
-          map(e => new Shiller(e as any, CityEnum.Clearwater)));
-      }
-      async getClearwaterTwelveMonthsAsync(): Promise<Shiller> {
-        return firstValueFrom(this.getClearwaterTwelveMonths());
-    }
+  /**
+   * Gets interval data based on city.
+   * @param city 
+   * @returns 
+   */
+  getIntervalData(city: CityEnum): Promise<IntervalData> {
+    return firstValueFrom(this.http.get(
+      UrlHelper.getIntervalDataUrl(city)).pipe(
+        map(e => new IntervalData(city, e as Array<any>))));
+  }
 }

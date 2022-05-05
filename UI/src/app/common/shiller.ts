@@ -1,17 +1,15 @@
 import { CityEnum } from "../enums/city-enum";
 
+/**
+ * The Shiller index.
+ * CSUSHPINSA: https://fred.stlouisfed.org/series/CSUSHPINSA
+ * TPXRSA: https://fred.stlouisfed.org/series/TPXRSA
+ */
 export class Shiller {
-    dates: string[];
-    indices: number[];
+    readonly dates: string[];
+    readonly indices: number[];
 
-    constructor(response: Array<any> | null, city: CityEnum) {
-        if (response === (null || undefined)) {
-            this.dates = [];
-            this.indices = [];
-            console.log("Response was null or undefined.")
-            return;
-        }
-        // Map index based on city.
+    constructor(city: CityEnum, response: Array<any> | null = null) {
         this.dates = response?.map(e => e.DATE as string) ?? [];
         switch (city) {
             case CityEnum.Tampa:

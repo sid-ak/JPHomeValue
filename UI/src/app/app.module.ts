@@ -16,7 +16,10 @@ import { MapComponent } from './components/map/map.component';
 import { AdditionalDetailsComponent } from './components/additional-details/additional-details.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { ChartService } from './services/chart-service';
+import { FilterEventService } from './services/filter-event.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DownloadComponent } from './components/download/download.component'
 
 @NgModule({
   declarations: [
@@ -26,7 +29,8 @@ import { ChartService } from './services/chart-service';
     CityFilterComponent,
     AddressFilterComponent,
     MapComponent,
-    AdditionalDetailsComponent
+    AdditionalDetailsComponent,
+    DownloadComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,9 +41,11 @@ import { ChartService } from './services/chart-service';
     MatSelectModule,
     MatInputModule,
     HttpClientModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    MatAutocompleteModule,
+    MatTooltipModule
   ],
-  providers: [FirebaseDbService, ChartService],
+  providers: [FirebaseDbService, FilterEventService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

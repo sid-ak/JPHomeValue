@@ -1,15 +1,64 @@
-<div id="additional-details" class="mt-4">
+<div id="additional-details">
     <h2>Additional Details</h2>
-    <table class="table">
+    <table *ngIf="!isCityDashboard else modelInsights" class="table">
         <tbody>
             <tr>
-                <th scope="row">Transit Score</th>
-                <td>0</td>
                 <th scope="row">Walk Score</th>
-                <td>0</td>
+                <td>{{ scores.walkScore === -1 ? '' : scores.walkScore }}</td>
+                <th scope="row">Transit Score</th>
+                <td>{{ scores.transitScore === -1 ? '' : scores.transitScore }}</td>
                 <th scope="row">Bike Score</th>
-                <td>0</td>
+                <td>{{ scores.bikeScore === -1 ? '' : scores.bikeScore }}</td>
             </tr>
         </tbody>
     </table>
+    <ng-template #modelInsights>
+        <div>What is <u>RMSPE</u>?</div>
+        The root mean square percentage error describes a percentage representation 
+        of the error metric:&nbsp;<u>RMSE</u>
+            <i class="px-1 fa fa-circle-question"
+                matTooltip="Root Mean Squared Error"
+                [matTooltipPosition]="'right'">
+            </i>
+        It gives a more understandable <u>model performance metric.</u>
+        <table class="table mt-3 w-100">
+            <tbody>
+                <tr>
+                    <th scope="row">RMSPE Lower Bound
+                        <i class="fa-solid fa-circle-info"
+                            matTooltip="RMSPE% Lower Bound represents the smallest % error that the model 
+                            made on a prediction compared to the corresponding historical data point."
+                            [matTooltipPosition]="'right'">
+                        </i>
+                    </th>
+                    <th scope="row">RMSPE Upper Bound
+                        <i class="fa-solid fa-circle-info"
+                            matTooltip="RMSPE% Upper Bound represents the highest % error that the model 
+                            made on a prediction compared to the corresponding historical data point."
+                            [matTooltipPosition]="'right'">
+                        </i>
+                    </th>
+                    <th scope="row">RMSPE Average Bound
+                        <i class="fa-solid fa-circle-info"
+                            matTooltip="RMSPE% Average Bound represents the average % error that the model 
+                            made on the corresponding prediction interval."
+                            [matTooltipPosition]="'right'">
+                        </i>
+                    </th>
+                </tr>
+                <tr>
+                    <div class="position-absolute" *ngIf="predictionResult.bestPrediction === 0
+                        && predictionResult.worstPrediction === 0
+                        && predictionResult.rmspe === 0 else predictionResults">
+                        Please select a <u>training interval</u> to view bounds.
+                    </div>
+                    <ng-template #predictionResults>
+                        <td scope="row" style="color: green;">{{ predictionResult.bestPrediction }}%</td>
+                        <td scope="row" style="color: red;">{{ predictionResult.worstPrediction }}%</td>
+                        <td scope="row" style="color: blue;">{{ predictionResult.rmspe }}%</td>
+                    </ng-template>
+                </tr>
+            </tbody>
+        </table>
+    </ng-template>
 </div>

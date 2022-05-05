@@ -3,6 +3,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 h2 {
     color: rgb(83, 47, 25);
+    span {
+        font-weight: normal;
+        margin-left: 2em;
+        color: black;
+        font-size: smaller;
+    }
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -35,7 +41,7 @@ h2 {
 
 #map {
     height: 500px;
-    width: 800px;
+    width: 500px;
 }
 
 #chart {
@@ -47,10 +53,14 @@ h2 {
     width: 75%;
 }
 
+.mat-tooltip {
+    font-size: small !important;
+}
+
 @media (max-width: 1660px) {
     #map {
         height: 500px;
-        width: 600px;
+        width: 400px;
     }
     
     #chart {
