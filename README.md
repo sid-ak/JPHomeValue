@@ -11,7 +11,7 @@ A project provided by [J.P. Morgan](https://www.jpmorgan.com/global) and [Univer
 
 https://user-images.githubusercontent.com/83884673/167028156-cc474d14-9a54-4400-9479-94167d7d1c72.mp4
 
-## The team:
+## Team:
 - Sidharth Anandkumar: sidharthak25@gmail.com
   - Wrote the entire web application (Angular + Firebase).
   - My work can be found under the `UI` directory.
