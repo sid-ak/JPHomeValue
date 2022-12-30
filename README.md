@@ -1,6 +1,7 @@
 # JPHomeValue
 Evaluates home value in the South Florida region.  
-A project provided by [J.P. Morgan](https://www.jpmorgan.com/global) and [University of South Florida](https://www.usf.edu/).
+A project provided by [J.P. Morgan](https://www.jpmorgan.com/global) and [University of South Florida](https://www.usf.edu/).  
+Most of my (sid-ak) Angular contribution can be found under [UI](https://github.com/sid-ak/JPHomeValue/tree/main/UI/src/app).
 
 ## Stack
 - Angular
