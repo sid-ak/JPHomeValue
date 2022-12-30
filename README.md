@@ -1,5 +1,6 @@
-# jphomevalue
-Home Value Prediction via ML project provided by JP Morgan for USF. 
+# JPHomeValue
+Evaluates home value in the South Florida region.  
+A project provided by [J.P. Morgan](https://www.jpmorgan.com/global) and [University of South Florida](https://www.usf.edu/).
 
 ### Stack
 - Angular
